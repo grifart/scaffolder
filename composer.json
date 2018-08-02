@@ -1,0 +1,51 @@
+{
+  "name": "grifart/class-scaffolder",
+  "license": "proprietary",
+  "description": "Application that provides API for autonomous generation of tax documents.",
+  "homepage": "http://www.grifart.cz",
+  "type": "library",
+  "authors": [
+	{
+	  "name": "Jiří Pudil",
+	  "homepage": "http://www.grifart.cz"
+	},
+	{
+	  "name": "Jan Kuchař",
+	  "homepage": "http://www.grifart.cz"
+	}
+  ],
+  "require": {
+	"php": ">= 7.1.0",
+	"kdyby/console": "^2.0.0",
+    "webmozart/path-util": "^2.3"
+  },
+
+  "autoload": {
+	"psr-4": {
+	  "Grifart\\ClassScaffolder\\": "src"
+	},
+	"files": [
+	  "src/Definition/Types/functions.php"
+	]
+  },
+  "require-dev": {
+	"grifart/stateful": "^0.1.1"
+  },
+  "suggests": {
+	"grifart/stateful": "Install grifart/stateful for use of StatefulDecorator."
+  },
+  "repositories": [
+	{
+	  "type": "vcs",
+	  "url": "git@gitlab.grifart.local:grifart-internal/stateful.git"
+	},
+	{
+	  "type": "vcs",
+	  "url": "git@gitlab.grifart.local:grifart-internal/equalable-utils.git"
+	},
+	{
+	  "type": "vcs",
+	  "url": "git@gitlab.grifart.local:grifart-internal/comparable-polyfill.git"
+	}
+  ]
+}
