@@ -22,7 +22,8 @@ final class GenerateClassCommand extends Command
 		$this->setName('grifart:scaffolder:generateClass')
 			->setDescription('Generate a class from given definition.')
 			->addArgument('definition', InputArgument::REQUIRED, 'Definition file')
-			->addOption('dry-run', NULL, InputOption::VALUE_NONE, 'Only print the generated file to output instead of saving it');
+			->addOption('dry-run', NULL, InputOption::VALUE_NONE, 'Only print the generated file to output instead of saving it')
+			->setAliases(['doklady:scaffolder:generate' /* API used before extracted from doklady.io/invoicing-app */]);
 	}
 
 
