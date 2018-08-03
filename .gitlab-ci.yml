@@ -1,0 +1,44 @@
+stages:
+  - build
+  - test
+
+build.composer:
+  stage: build
+  tags: [grifart/php7.1-with-gulp-and-all-php-modules]
+
+  script:
+    - composer install --ansi --no-interaction --prefer-dist
+
+  artifacts:
+    expire_in: 2 days
+    paths:
+      - vendor
+
+
+test.tests:
+  stage: test
+  tags: [grifart/php7.1-with-gulp-and-all-php-modules]
+
+  dependencies: [build.composer]
+  script:
+    - vendor/bin/tester tests
+
+
+test.phpstan:
+  stage: test
+  tags: [grifart/php7.1-with-gulp-and-all-php-modules]
+
+  dependencies: [build.composer]
+  script:
+    - vendor/bin/phpstan analyze --ansi --no-progress --no-interaction --level 6 src
+
+
+test.linter:
+  stage: test
+  tags: [grifart/php7.1-with-gulp-and-all-php-modules]
+
+  dependencies: [build.composer]
+  before_script:
+    - composer global require jakub-onderka/php-parallel-lint jakub-onderka/php-console-highlighter
+  script:
+    - parallel-lint src tests
