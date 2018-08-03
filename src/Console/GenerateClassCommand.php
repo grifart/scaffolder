@@ -6,6 +6,7 @@ namespace Grifart\ClassScaffolder\Console;
 
 use Grifart\ClassScaffolder\ClassGenerator;
 use Grifart\ClassScaffolder\Definition\ClassDefinition;
+use Nette\Utils\Finder;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -21,7 +22,8 @@ final class GenerateClassCommand extends Command
 	{
 		$this->setName('grifart:scaffolder:generateClass')
 			->setDescription('Generate a class from given definition.')
-			->addArgument('definition', InputArgument::REQUIRED, 'Definition file')
+			->addArgument('definition', InputArgument::REQUIRED, 'Definition file or directory containing definitions')
+			->addOption('search-pattern', NULL, InputArgument::OPTIONAL, '(for directories) Search pattern for your definitions', '*.definition.php')
 			->addOption('dry-run', NULL, InputOption::VALUE_NONE, 'Only print the generated file to output instead of saving it')
 			->setAliases(['doklady:scaffolder:generate' /* API used before extracted from doklady.io/invoicing-app */]);
 	}
@@ -29,8 +31,27 @@ final class GenerateClassCommand extends Command
 
 	protected function execute(InputInterface $input, OutputInterface $output)
 	{
-		$definitionFile = $input->getArgument('definition');
+		$definitionPath = $input->getArgument('definition');
 
+		if(is_dir($definitionPath)) {
+			foreach(Finder::find('*.definition.php')->from($definitionPath) as $definitionFile) {
+				$this->doGeneration($definitionFile);
+			}
+			return 0;
+
+		}
+
+		if (is_file($definitionPath)) {
+			$this->doGeneration($definitionPath);
+			return 0;
+
+		}
+
+		$output->writeln('<error>Given path is nor a file or directory.</error>');
+		return 1;
+	}
+
+	private function doGeneration(string $definitionFile, InputInterface $input, OutputInterface $output) {
 		try {
 			$definition = $this->processDefinition($definitionFile);
 
@@ -70,8 +91,6 @@ final class GenerateClassCommand extends Command
 				$code
 			);
 		}
-
-		return 0;
 	}
 
 
