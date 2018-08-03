@@ -19,7 +19,7 @@ final class GenerateClassCommand extends Command
 
 	protected function configure()
 	{
-		$this->setName('doklady:scaffolder:generate')
+		$this->setName('grifart:scaffolder:generateClass')
 			->setDescription('Generate a class from given definition.')
 			->addArgument('definition', InputArgument::REQUIRED, 'Definition file')
 			->addOption('dry-run', NULL, InputOption::VALUE_NONE, 'Only print the generated file to output instead of saving it');
