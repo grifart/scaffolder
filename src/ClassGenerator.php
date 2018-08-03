@@ -2,11 +2,11 @@
 
 declare(strict_types = 1);
 
-namespace Doklady\Scaffolder;
+namespace Grifart\ClassScaffolder;
 
-use Doklady\Scaffolder\Definition\ClassDefinition;
-use Doklady\Scaffolder\Definition\Types\ClassType;
-use Doklady\Scaffolder\Definition\Types\CompositeType;
+use Grifart\ClassScaffolder\Definition\ClassDefinition;
+use Grifart\ClassScaffolder\Definition\Types\ClassType;
+use Grifart\ClassScaffolder\Definition\Types\CompositeType;
 use Nette\PhpGenerator as Code;
 
 

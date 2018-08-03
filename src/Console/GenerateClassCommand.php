@@ -2,10 +2,10 @@
 
 declare(strict_types = 1);
 
-namespace Doklady\Scaffolder\Console;
+namespace Grifart\ClassScaffolder\Console;
 
-use Doklady\Scaffolder\ClassGenerator;
-use Doklady\Scaffolder\Definition\ClassDefinition;
+use Grifart\ClassScaffolder\ClassGenerator;
+use Grifart\ClassScaffolder\Definition\ClassDefinition;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;

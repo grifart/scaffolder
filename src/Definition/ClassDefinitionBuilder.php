@@ -2,10 +2,10 @@
 
 declare(strict_types = 1);
 
-namespace Doklady\Scaffolder\Definition;
+namespace Grifart\ClassScaffolder\Definition;
 
-use Doklady\Scaffolder\Decorators\ClassDecorator;
-use Doklady\Scaffolder\Definition\Types;
+use Grifart\ClassScaffolder\Decorators\ClassDecorator;
+use Grifart\ClassScaffolder\Definition\Types;
 
 
 final class ClassDefinitionBuilder

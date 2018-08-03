@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace Doklady\Scaffolder\Definition\Types;
+namespace Grifart\ClassScaffolder\Definition\Types;
 
 
 use Nette\PhpGenerator\PhpNamespace;

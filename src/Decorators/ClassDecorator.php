@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace Doklady\Scaffolder\Decorators;
+namespace Grifart\ClassScaffolder\Decorators;
 
 use Nette\PhpGenerator\ClassType;
 
