@@ -29,7 +29,9 @@
 	]
   },
   "require-dev": {
-	"grifart/stateful": "^0.1.1"
+	"grifart/stateful": "^0.1.1",
+    "nette/tester": "^2.0.0",
+    "phpstan/phpstan": "^0.10.2"
   },
   "suggests": {
 	"grifart/stateful": "Install grifart/stateful for use of StatefulDecorator."
