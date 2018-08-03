@@ -35,14 +35,14 @@ final class GenerateClassCommand extends Command
 
 		if(is_dir($definitionPath)) {
 			foreach(Finder::find('*.definition.php')->from($definitionPath) as $definitionFile) {
-				$this->doGeneration($definitionFile);
+				$this->doGeneration($definitionFile, $input, $output);
 			}
 			return 0;
 
 		}
 
 		if (is_file($definitionPath)) {
-			$this->doGeneration($definitionPath);
+			$this->doGeneration($definitionPath, $input, $output);
 			return 0;
 
 		}
