@@ -34,7 +34,7 @@ final class GenerateClassCommand extends Command
 		$definitionPath = $input->getArgument('definition');
 
 		if(is_dir($definitionPath)) {
-			foreach(Finder::find('*.definition.php')->from($definitionPath) as $definitionFile) {
+			foreach(Finder::find($input->getArgument('search-pattern'))->from($definitionPath) as $definitionFile) {
 				$this->doGeneration((string) $definitionFile, $input, $output);
 			}
 			return 0;
