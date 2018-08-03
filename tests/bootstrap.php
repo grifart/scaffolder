@@ -1,0 +1,9 @@
+<?php declare(strict_types=1);
+
+
+require_once __DIR__ . '/../vendor/autoload.php';
+Tester\Environment::setup();
+
+function test(callable $fn) {
+	$fn();
+}
