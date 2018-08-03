@@ -16,8 +16,8 @@
   ],
   "require": {
 	"php": ">= 7.1.0",
-	"kdyby/console": "^2.0.0",
-    "webmozart/path-util": "^2.3"
+    "webmozart/path-util": "^2.3",
+    "symfony/console": "~2.3 || ^3.0 || ^4.0"
   },
 
   "autoload": {
