@@ -68,12 +68,10 @@ final class GenerateClassCommand extends Command
 			. \sprintf(
 				\implode("\n", [
 					'/**',
-					' * This file was generated from %s on %s',
-					' * Do not change this file or definition, create a new version instead.',
+					' * Do not edit. This is generated file. Modify definition "%s" instead.',
 					' */',
 				]),
-				\pathinfo($definitionFile, \PATHINFO_BASENAME),
-				(new \DateTimeImmutable())->format(\DATE_ATOM)
+				\pathinfo($definitionFile, \PATHINFO_BASENAME)
 			)
 			. "\n\n"
 			. $generatedClass;
