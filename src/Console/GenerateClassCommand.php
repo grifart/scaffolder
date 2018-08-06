@@ -29,37 +29,43 @@ final class GenerateClassCommand extends Command
 	}
 
 
-	protected function execute(InputInterface $input, OutputInterface $output)
+	protected function execute(InputInterface $input, OutputInterface $output): int
 	{
 		$definitionPath = $input->getArgument('definition');
 
-		if(is_dir($definitionPath)) {
-			foreach(Finder::find($input->getOption('search-pattern'))->from($definitionPath) as $definitionFile) {
-				$this->doGeneration((string) $definitionFile, $input, $output);
-			}
-			return 0;
-
-		}
-
-		if (is_file($definitionPath)) {
-			$this->doGeneration($definitionPath, $input, $output);
-			return 0;
-
-		}
-
-		$output->writeln('<error>Given path is nor a file or directory.</error>');
-		return 1;
-	}
-
-	private function doGeneration(string $definitionFile, InputInterface $input, OutputInterface $output) {
 		try {
-			$definition = $this->processDefinition($definitionFile);
+			if(is_dir($definitionPath)) {
+				foreach(Finder::find($input->getOption('search-pattern'))->from($definitionPath) as $definitionFile) {
+					$this->doGeneration(
+						$this->processDefinition((string) $definitionFile),
+						(string) $definitionFile,
+						$input,
+						$output
+					);
+				}
+				return 0;
+
+			}
+
+			if (is_file($definitionPath)) {
+				$this->doGeneration($this->processDefinition($definitionPath), (string) $definitionPath, $input, $output);
+				return 0;
+
+			}
+
+			// else error, see bellow
 
 		} catch (\InvalidArgumentException $e) {
 			$output->writeln(\sprintf('<error>%s</error>', $e->getMessage()));
-			return 1;
+			throw $e;
 		}
 
+		$output->writeln('<error>Given path is nor a file nor a directory.</error>');
+		return 1;
+	}
+
+	private function doGeneration(ClassDefinition $definition, string $definitionFile, InputInterface $input, OutputInterface $output): void
+	{
 		$classGenerator = new ClassGenerator();
 		$generatedClass = $classGenerator->generateClass($definition);
 
@@ -76,18 +82,16 @@ final class GenerateClassCommand extends Command
 			. "\n\n"
 			. $generatedClass;
 
+		$targetPath = Path::join(
+			Path::getDirectory($definitionFile),
+			$definition->getClassName() . '.php'
+		);
 		if ($input->getOption('dry-run')) {
-			echo $code;
+			echo ' ---- ' . $targetPath . " ---- \n";
+			echo $code . "\n\n";
 
 		} else {
-			$directory = Path::getDirectory($definitionFile);
-			\file_put_contents(
-				Path::join(
-					$directory,
-					$definition->getClassName() . '.php'
-				),
-				$code
-			);
+			\file_put_contents($targetPath, $code);
 		}
 	}
 
