@@ -28,15 +28,10 @@ final class ClassGenerator
 		}
 
 
-		// constructor
-
-		$constructor = $classType->addMethod('__construct');
-		$constructor->setVisibility('public');
-
-
 		// fields
 
 		foreach ($definition->getFields() as $fieldName => $type) {
+
 			// add use
 			$addUse = function (array $types) use ($namespace, &$addUse): void {
 				/** @var Definition\Types\Type[] $types */
@@ -63,52 +58,13 @@ final class ClassGenerator
 				));
 
 
-			// add constructor assignment
-			$parameter = $constructor->addParameter($fieldName);
-			$parameter->setTypeHint($type->getTypeHint());
-			$parameter->setNullable($type->isNullable());
-
-			$constructor->addBody('$this->? = ?;', [
-				$fieldName,
-				new Code\PhpLiteral('$' . $fieldName),
-			]);
-
-
-			// add getter
-			$getter = $classType->addMethod('get' . \ucfirst($fieldName))
-				->setVisibility('public')
-				->addBody('return $this->?;', [
-					$fieldName,
-				]);
-
-			$getter->setReturnType($type->getTypeHint());
-			$getter->setReturnNullable($type->isNullable());
-
-
-			// add phpDoc type hints if necessary
-			if ($type->requiresDocComment()) {
-				$docCommentType = $type->getDocCommentType($namespace);
-
-				$constructor->addComment(\sprintf(
-					'@param %s $%s%s',
-					$docCommentType,
-					$fieldName,
-					$type->hasComment() ? ' ' . $type->getComment($namespace) : ''
-				));
-
-				$getter->addComment(\sprintf(
-					'@return %s%s',
-					$docCommentType,
-					$type->hasComment() ? ' ' . $type->getComment($namespace) : ''
-				));
-			}
 		}
 
 
 		// decorators
 
 		foreach ($definition->getDecorators() as $decorator) {
-			$decorator->decorate($classType);
+			$decorator->decorate($classType, $definition);
 		}
 
 

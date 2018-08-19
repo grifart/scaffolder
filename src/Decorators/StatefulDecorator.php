@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace Grifart\ClassScaffolder\Decorators;
 
+use Grifart\ClassScaffolder\Definition\ClassDefinition;
 use Grifart\Stateful\State;
 use Grifart\Stateful\StateBuilder;
 use Nette\PhpGenerator as Code;
@@ -12,7 +13,7 @@ use Nette\PhpGenerator as Code;
 final class StatefulDecorator implements ClassDecorator
 {
 
-	public function decorate(Code\ClassType $classType): void
+	public function decorate(Code\ClassType $classType, ClassDefinition $definition): void
 	{
 		$classType->getNamespace()->addUse(StateBuilder::class);
 		$classType->getNamespace()->addUse(State::class);
