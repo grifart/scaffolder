@@ -54,6 +54,10 @@ require_once __DIR__ . '/bootstrap.php';
 				'classGenerator.6-with-complex-collection.phps',
 				new ClassDefinition('NS', 'CLS', [], ['field'=>Types\collection(SplObjectStorage::class,ClassDefinition::class, SplFixedArray::class)], $this->getDecorators())
 			],
+			[
+				'classGenerator.7-setters.phps',
+				new ClassDefinition('NS', 'CLS', [], ['poem'=>Types\resolve('string')], [new \Grifart\ClassScaffolder\Decorators\SettersDecorator()])
+			]
 		];
 	}
 
