@@ -26,7 +26,9 @@ final class SettersDecorator implements ClassDecorator
 					new PhpLiteral('$' . $fieldName),
 				])
 				->setParameters([
-					(new Parameter($fieldName))->setTypeHint($type->getTypeHint())
+					(new Parameter($fieldName))
+						->setTypeHint($type->getTypeHint())
+						->setNullable($type->isNullable())
 				]);
 			$getter->setReturnType('void');
 

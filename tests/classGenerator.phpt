@@ -5,6 +5,7 @@
 
 use Grifart\ClassScaffolder\Definition\ClassDefinition;
 use \Grifart\ClassScaffolder\Definition\Types;
+use function Grifart\ClassScaffolder\Definition\Types\nullable;
 
 require_once __DIR__ . '/bootstrap.php';
 
@@ -57,7 +58,7 @@ require_once __DIR__ . '/bootstrap.php';
 			],
 			[
 				'classGenerator.7-setters.phps',
-				new ClassDefinition('NS', 'CLS', [], ['poem'=>Types\resolve('string')], [new \Grifart\ClassScaffolder\Decorators\PropertiesDecorator(), new \Grifart\ClassScaffolder\Decorators\SettersDecorator()])
+				new ClassDefinition('NS', 'CLS', [], ['poem'=>nullable(Types\resolve('string'))], [new \Grifart\ClassScaffolder\Decorators\PropertiesDecorator(), new \Grifart\ClassScaffolder\Decorators\SettersDecorator()])
 			]
 		];
 	}

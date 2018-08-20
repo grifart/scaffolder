@@ -2,11 +2,11 @@ namespace NS;
 
 final class CLS
 {
-	/** @var string */
+	/** @var string|null */
 	private $poem;
 
 
-	public function setPoem(string $poem): void
+	public function setPoem(?string $poem): void
 	{
 		$this->poem = $poem;
 	}
