@@ -21,32 +21,44 @@ require_once __DIR__ . '/bootstrap.php';
 		$this->generator = new \Grifart\ClassScaffolder\ClassGenerator();
 	}
 
+	private function getDecorators(): array {
+		return [
+			new \Grifart\ClassScaffolder\Decorators\PropertiesDecorator(),
+			new \Grifart\ClassScaffolder\Decorators\InitializingConstructorDecorator(),
+			new \Grifart\ClassScaffolder\Decorators\GettersDecorator(),
+		];
+	}
+
 	public function dataProvider_generator():array {
 		return [
 			[
 				'classGenerator.1-simple.phps',
-				new ClassDefinition('NS', 'CLS', [], [], [])
+				new ClassDefinition('NS', 'CLS', [], [], $this->getDecorators())
 			],
 			[
 				'classGenerator.2-with-iterator.phps',
-				new ClassDefinition('NS', 'CLS', [Iterator::class], [], [])
+				new ClassDefinition('NS', 'CLS', [Iterator::class], [], $this->getDecorators())
 			],
 			[
 				'classGenerator.3-with-field.phps',
-				new ClassDefinition('NS', 'CLS', [], ['field'=>Types\resolve('string')], [])
+				new ClassDefinition('NS', 'CLS', [], ['field'=>Types\resolve('string')], $this->getDecorators())
 			],
 			[
 				'classGenerator.4-with-field-nullable.phps',
-				new ClassDefinition('NS', 'CLS', [], ['field'=>Types\nullable(Types\resolve('string'))], [])
+				new ClassDefinition('NS', 'CLS', [], ['field'=>Types\nullable(Types\resolve('string'))], $this->getDecorators())
 			],
 			[
 				'classGenerator.5-with-list.phps',
-				new ClassDefinition('NS', 'CLS', [], ['field'=>Types\listOf('string')], [])
+				new ClassDefinition('NS', 'CLS', [], ['field'=>Types\listOf('string')], $this->getDecorators())
 			],
 			[
 				'classGenerator.6-with-complex-collection.phps',
-				new ClassDefinition('NS', 'CLS', [], ['field'=>Types\collection(SplObjectStorage::class,ClassDefinition::class, SplFixedArray::class)], [])
+				new ClassDefinition('NS', 'CLS', [], ['field'=>Types\collection(SplObjectStorage::class,ClassDefinition::class, SplFixedArray::class)], $this->getDecorators())
 			],
+			[
+				'classGenerator.7-setters.phps',
+				new ClassDefinition('NS', 'CLS', [], ['poem'=>Types\resolve('string')], [new \Grifart\ClassScaffolder\Decorators\PropertiesDecorator(), new \Grifart\ClassScaffolder\Decorators\SettersDecorator()])
+			]
 		];
 	}
 
