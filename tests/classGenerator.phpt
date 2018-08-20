@@ -72,4 +72,26 @@ require_once __DIR__ . '/bootstrap.php';
 	}
 
 
+
+	public function dataProvider_decoratorsSafety(): array {
+		$classWithDecorator = function (array $decorators): ClassDefinition {
+			return new ClassDefinition('NS', 'CLS', [], ['field'=>Types\resolve('string')], $decorators);
+		};
+
+		return [
+			[$classWithDecorator([new \Grifart\ClassScaffolder\Decorators\InitializingConstructorDecorator()])],
+			[$classWithDecorator([new \Grifart\ClassScaffolder\Decorators\GettersDecorator()])],
+			[$classWithDecorator([new \Grifart\ClassScaffolder\Decorators\SettersDecorator()])],
+			[$classWithDecorator([new \Grifart\ClassScaffolder\Decorators\StatefulDecorator()])],
+		];
+	}
+
+	/** @dataProvider dataProvider_decoratorsSafety */
+	public function testDecoratorsSafety(ClassDefinition $definition) {
+		\Tester\Assert::exception(function() use ($definition) {
+			$this->generator->generateClass($definition);
+		}, InvalidArgumentException::class, 'Used decorator requires you to have all fields specified in class specification already declared in generated class. Maybe you want to use PropertiesDecorator before this one?');
+	}
+
+
 })->run();
