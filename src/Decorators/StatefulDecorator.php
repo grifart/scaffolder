@@ -15,8 +15,11 @@ final class StatefulDecorator implements ClassDecorator
 
 	public function decorate(Code\ClassType $classType, ClassDefinition $definition): void
 	{
-		$classType->getNamespace()->addUse(StateBuilder::class);
-		$classType->getNamespace()->addUse(State::class);
+		$namespace = DecoratorTools::extractNamespace($classType);
+		DecoratorTools::checkIfAllFieldsArePresent($definition, $classType);
+
+		$namespace->addUse(StateBuilder::class);
+		$namespace->addUse(State::class);
 
 		$getState = $classType->addMethod('_getState');
 		$getState->setVisibility('public');

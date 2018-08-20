@@ -14,8 +14,8 @@ final class SettersDecorator implements ClassDecorator
 
 	public function decorate(ClassType $classType, ClassDefinition $definition): void
 	{
-		$namespace = $classType->getNamespace();
-		\assert($namespace !== NULL, 'Class Generator always generate class in namespace.');
+		$namespace = DecoratorTools::extractNamespace($classType);
+		DecoratorTools::checkIfAllFieldsArePresent($definition, $classType);
 
 		foreach ($definition->getFields() as $fieldName => $type) {
 			// add getter
