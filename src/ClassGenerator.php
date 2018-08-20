@@ -28,7 +28,7 @@ final class ClassGenerator
 		}
 
 
-		// fields
+		// uses
 
 		foreach ($definition->getFields() as $fieldName => $type) {
 
@@ -46,17 +46,6 @@ final class ClassGenerator
 			};
 
 			$addUse([$type]);
-
-
-			// add property
-			$classType->addProperty($fieldName)
-				->setVisibility('private')
-				->addComment(\sprintf(
-					'@var %s%s',
-					$type->getDocCommentType($namespace),
-					$type->hasComment() ? ' ' . $type->getComment($namespace) : ''
-				));
-
 
 		}
 

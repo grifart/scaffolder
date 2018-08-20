@@ -23,6 +23,7 @@ require_once __DIR__ . '/bootstrap.php';
 
 	private function getDecorators(): array {
 		return [
+			new \Grifart\ClassScaffolder\Decorators\PropertiesDecorator(),
 			new \Grifart\ClassScaffolder\Decorators\InitializingConstructorDecorator(),
 			new \Grifart\ClassScaffolder\Decorators\GettersDecorator(),
 		];
@@ -56,7 +57,7 @@ require_once __DIR__ . '/bootstrap.php';
 			],
 			[
 				'classGenerator.7-setters.phps',
-				new ClassDefinition('NS', 'CLS', [], ['poem'=>Types\resolve('string')], [new \Grifart\ClassScaffolder\Decorators\SettersDecorator()])
+				new ClassDefinition('NS', 'CLS', [], ['poem'=>Types\resolve('string')], [new \Grifart\ClassScaffolder\Decorators\PropertiesDecorator(), new \Grifart\ClassScaffolder\Decorators\SettersDecorator()])
 			]
 		];
 	}
