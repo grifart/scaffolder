@@ -33,39 +33,51 @@ final class GenerateClassCommand extends Command
 	{
 		$definitionPath = $input->getArgument('definition');
 
-		try {
-			if(is_dir($definitionPath)) {
-				foreach(Finder::find($input->getOption('search-pattern'))->from($definitionPath) as $definitionFile) {
-					$this->doGeneration(
-						$this->processDefinition((string) $definitionFile),
-						(string) $definitionFile,
-						$input,
-						$output
-					);
-				}
-				return 0;
-
+		// 1. find files to process
+		$filesToProcess = [];
+		if(is_dir($definitionPath)) {
+			foreach(Finder::find($input->getOption('search-pattern'))->from($definitionPath) as $definitionFile) {
+				$filesToProcess[] = (string) $definitionFile;
 			}
-
-			if (is_file($definitionPath)) {
-				$this->doGeneration($this->processDefinition($definitionPath), (string) $definitionPath, $input, $output);
-				return 0;
-
-			}
-
-			// else error, see bellow
-
-		} catch (\InvalidArgumentException $e) {
-			$output->writeln(\sprintf('<error>%s</error>', $e->getMessage()));
-			throw $e;
+		} elseif (is_file($definitionPath)) {
+			$filesToProcess[] = (string) $definitionPath;
+		} else {
+			$output->writeln('<error>Given path is nor a file or directory.</error>');
+			return 1;
 		}
 
-		$output->writeln('<error>Given path is nor a file nor a directory.</error>');
-		return 1;
+		// 2. process them
+		$hasError = FALSE;
+		$processedFiles = 0;
+		$total = count($filesToProcess);
+		foreach($filesToProcess as $filesToProcess) {
+			$processedFiles++;
+			$output->write("Processing $processedFiles / $total\r");
+			try {
+				$this->processFile($filesToProcess, $input, $output);
+			} catch (\Throwable $e) {
+				$hasError = TRUE;
+				$output->writeln(\sprintf("\n<error>%s</error>", $e->getMessage()));
+			}
+		}
+		$output->writeln("<info>$processedFiles processed files.</info>");
+		if ($hasError) {
+			$output->writeln('<error>Some files wasn\'t processed correctly. See above.</error>');
+			return 1;
+		}
+		return 0;
 	}
 
-	private function doGeneration(ClassDefinition $definition, string $definitionFile, InputInterface $input, OutputInterface $output): void
-	{
+	private function processFile(string $definitionFile, InputInterface $input, OutputInterface $output): void {
+		foreach($this->loadDefinitions($definitionFile) as $definition) {
+			if (!$definition instanceof ClassDefinition) {
+				throw new \InvalidArgumentException('Definition file must contain class definition.');
+			}
+			$this->doGeneration($definition, $definitionFile, $input, $output);
+		}
+	}
+
+	private function doGeneration(ClassDefinition $definition, string $definitionFile, InputInterface $input, OutputInterface $output): void {
 		$classGenerator = new ClassGenerator();
 		$generatedClass = $classGenerator->generateClass($definition);
 
@@ -96,7 +108,7 @@ final class GenerateClassCommand extends Command
 	}
 
 
-	private function processDefinition(?string $definitionFile): ClassDefinition
+	private function loadDefinitions(?string $definitionFile): array
 	{
 		$definitionFile = Path::canonicalize($definitionFile);
 		if ( ! \file_exists($definitionFile)) {
@@ -106,15 +118,20 @@ final class GenerateClassCommand extends Command
 			));
 		}
 
-		$definition = require $definitionFile;
-		if ( ! ($definition instanceof ClassDefinition)) {
-			throw new \InvalidArgumentException(\sprintf(
-				'<error>Definition file must return instanceof ClassDefinition, %s received.</error>',
-				\is_object($definition) ? \get_class($definition) : \gettype($definition)
-			));
+		$definitions = require $definitionFile;
+		if (!\is_array($definitions)) {
+			$definitions = [$definitions];
+		}
+		foreach($definitions as $definition) {
+			if ( ! ($definition instanceof ClassDefinition)) {
+				throw new \InvalidArgumentException(\sprintf(
+					'<error>Definition file must return instanceof ClassDefinition, %s received.</error>',
+					\is_object($definition) ? \get_class($definition) : \gettype($definition)
+				));
+			}
 		}
 
-		return $definition;
+		return $definitions;
 	}
 
 }
