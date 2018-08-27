@@ -52,9 +52,9 @@ final class GenerateClassCommand extends Command
 		$total = count($filesToProcess);
 		foreach($filesToProcess as $filesToProcess) {
 			$processedFiles++;
-			$output->write("Processing $processedFiles / $total\r");
 			try {
 				$this->processFile($filesToProcess, $input, $output);
+				$output->write("Processed $processedFiles / $total\r");
 			} catch (\Throwable $e) {
 				$hasError = TRUE;
 				$output->writeln(\sprintf("\n<error>%s</error>", $e->getMessage()));
