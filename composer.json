@@ -15,9 +15,13 @@
 	}
   ],
   "require": {
-	"php": ">= 7.1.0",
+	  "php": ">= 7.1.0",
     "webmozart/path-util": "^2.3",
     "symfony/console": "~2.3 || ^3.0 || ^4.0"
+  },
+	
+	"suggest": {
+    "tracy/tracy": "For more detailed error messages."
   },
 
   "autoload": {

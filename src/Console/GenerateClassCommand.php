@@ -58,6 +58,9 @@ final class GenerateClassCommand extends Command
 			} catch (\Throwable $e) {
 				$hasError = TRUE;
 				$output->writeln(\sprintf("\n<error>%s</error>", $e->getMessage()));
+				if (\class_exists(\Tracy\Debugger::class)) {
+					\Tracy\Debugger::log($e);
+				}
 			}
 		}
 		$output->writeln("<info>$processedFiles processed files.</info>");
