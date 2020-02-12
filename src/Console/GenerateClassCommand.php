@@ -106,7 +106,9 @@ final class GenerateClassCommand extends Command
 			echo $code . "\n\n";
 
 		} else {
+			\chmod($targetPath, 0664); // some users accessing files using group permissions
 			\file_put_contents($targetPath, $code);
+			\chmod($targetPath, 0444); // read-only -- assumes single user system
 		}
 	}
 
