@@ -19,7 +19,7 @@
     "webmozart/path-util": "^2.3",
     "symfony/console": "~2.3 || ^3.0 || ^4.0"
   },
-	
+
 	"suggest": {
     "tracy/tracy": "For more detailed error messages."
   },
@@ -44,14 +44,6 @@
 	{
 	  "type": "vcs",
 	  "url": "git@gitlab.grifart.local:grifart-internal/stateful.git"
-	},
-	{
-	  "type": "vcs",
-	  "url": "git@gitlab.grifart.local:grifart-internal/equalable-utils.git"
-	},
-	{
-	  "type": "vcs",
-	  "url": "git@gitlab.grifart.local:grifart-internal/comparable-polyfill.git"
 	}
   ]
 }
