@@ -32,15 +32,17 @@ final class GenerateClassCommand extends Command
 	protected function execute(InputInterface $input, OutputInterface $output): int
 	{
 		$definitionPath = $input->getArgument('definition');
+		$searchPattern = $input->getOption('search-pattern');
+		\assert(\is_string($definitionPath) && \is_string($searchPattern));
 
 		// 1. find files to process
 		$filesToProcess = [];
 		if(is_dir($definitionPath)) {
-			foreach(Finder::find($input->getOption('search-pattern'))->from($definitionPath) as $definitionFile) {
+			foreach(Finder::find($searchPattern)->from($definitionPath) as $definitionFile) {
 				$filesToProcess[] = (string) $definitionFile;
 			}
 		} elseif (is_file($definitionPath)) {
-			$filesToProcess[] = (string) $definitionPath;
+			$filesToProcess[] = $definitionPath;
 		} else {
 			$output->writeln('<error>Given path is nor a file or directory.</error>');
 			return 1;
