@@ -1,49 +1,47 @@
 {
-  "name": "grifart/class-scaffolder",
-  "license": "MIT",
-  "description": "Application that provides API for autonomous generation of tax documents.",
-  "homepage": "http://www.grifart.cz",
-  "type": "library",
-  "authors": [
-	{
-	  "name": "Jiří Pudil",
-	  "homepage": "http://www.grifart.cz"
+	"name": "grifart/class-scaffolder",
+	"license": "MIT",
+	"description": "Application that provides API for autonomous generation of tax documents.",
+	"homepage": "http://www.grifart.cz",
+	"type": "library",
+	"authors": [
+		{
+			"name": "Jiří Pudil",
+			"homepage": "http://www.grifart.cz"
+		},
+		{
+			"name": "Jan Kuchař",
+			"homepage": "http://www.grifart.cz"
+		}
+	],
+	"require": {
+		"php": ">= 7.1.0",
+		"webmozart/path-util": "^2.3",
+		"symfony/console": "~2.3 || ^3.0 || ^4.0"
 	},
-	{
-	  "name": "Jan Kuchař",
-	  "homepage": "http://www.grifart.cz"
-	}
-  ],
-  "require": {
-	  "php": ">= 7.1.0",
-    "webmozart/path-util": "^2.3",
-    "symfony/console": "~2.3 || ^3.0 || ^4.0"
-  },
-
 	"suggest": {
-    "tracy/tracy": "For more detailed error messages."
-  },
-
-  "autoload": {
-	"psr-4": {
-	  "Grifart\\ClassScaffolder\\": "src"
+		"tracy/tracy": "For more detailed error messages."
 	},
-	"files": [
-	  "src/Definition/Types/functions.php"
+	"autoload": {
+		"psr-4": {
+			"Grifart\\ClassScaffolder\\": "src"
+		},
+		"files": [
+			"src/Definition/Types/functions.php"
+		]
+	},
+	"require-dev": {
+		"grifart/stateful": "^0.1.1",
+		"nette/tester": "^2.0.0",
+		"phpstan/phpstan": "^0.10.2"
+	},
+	"suggests": {
+		"grifart/stateful": "Install grifart/stateful for use of StatefulDecorator."
+	},
+	"repositories": [
+		{
+			"type": "vcs",
+			"url": "git@gitlab.grifart.local:grifart-internal/stateful.git"
+		}
 	]
-  },
-  "require-dev": {
-	"grifart/stateful": "^0.1.1",
-    "nette/tester": "^2.0.0",
-    "phpstan/phpstan": "^0.10.2"
-  },
-  "suggests": {
-	"grifart/stateful": "Install grifart/stateful for use of StatefulDecorator."
-  },
-  "repositories": [
-	{
-	  "type": "vcs",
-	  "url": "git@gitlab.grifart.local:grifart-internal/stateful.git"
-	}
-  ]
 }
