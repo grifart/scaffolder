@@ -18,7 +18,7 @@ use Webmozart\PathUtil\Path;
 final class GenerateClassCommand extends Command
 {
 
-	protected function configure()
+	protected function configure(): void
 	{
 		$this->setName('grifart:scaffolder:generateClass')
 			->setDescription('Generate a class from given definition.')
@@ -115,7 +115,10 @@ final class GenerateClassCommand extends Command
 	}
 
 
-	private function loadDefinitions(?string $definitionFile): array
+	/**
+	 * @return ClassDefinition[]
+	 */
+	private function loadDefinitions(string $definitionFile): array
 	{
 		$definitionFile = Path::canonicalize($definitionFile);
 		if ( ! \file_exists($definitionFile)) {

@@ -11,10 +11,7 @@ use Nette\PhpGenerator\PhpNamespace;
 final class ClassType implements Type
 {
 
-	/**
-	 * @var string
-	 */
-	private $typeName;
+	private string $typeName;
 
 
 	public function __construct(string $typeName)

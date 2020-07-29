@@ -11,10 +11,7 @@ use Nette\PhpGenerator\PhpNamespace;
 final class NullableType implements CompositeType
 {
 
-	/**
-	 * @var Type
-	 */
-	private $type;
+	private Type $type;
 
 
 	public function __construct(Type $type)

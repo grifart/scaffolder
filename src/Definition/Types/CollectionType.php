@@ -10,20 +10,11 @@ use Nette\PhpGenerator\PhpNamespace;
 final class CollectionType implements CompositeType
 {
 
-	/**
-	 * @var Type
-	 */
-	private $collectionType;
+	private Type $collectionType;
 
-	/**
-	 * @var Type
-	 */
-	private $keyType;
+	private Type $keyType;
 
-	/**
-	 * @var Type
-	 */
-	private $elementType;
+	private Type $elementType;
 
 
 	public function __construct(Type $collectionType, Type $keyType, Type $elementType)

@@ -15,11 +15,20 @@
 		}
 	],
 	"require": {
-		"php": ">= 7.1.0",
-		"webmozart/path-util": "^2.3",
-		"symfony/console": "~2.3 || ^3.0 || ^4.0"
+		"php": "^7.4",
+		"nette/finder": "^2.5",
+		"nette/php-generator": "^3.0",
+		"symfony/console": "^4.0 || ^5.0",
+		"webmozart/path-util": "^2.3"
+	},
+	"require-dev": {
+		"grifart/stateful": "^0.4",
+		"nette/tester": "^2.0.0",
+		"phpstan/phpstan": "^0.12",
+		"tracy/tracy": "^2.7.5"
 	},
 	"suggest": {
+		"grifart/stateful": "Install grifart/stateful for use of StatefulDecorator.",
 		"tracy/tracy": "For more detailed error messages."
 	},
 	"autoload": {
@@ -29,15 +38,6 @@
 		"files": [
 			"src/Definition/Types/functions.php"
 		]
-	},
-	"require-dev": {
-		"grifart/stateful": "^0.1.1",
-		"nette/tester": "^2.0.0",
-		"phpstan/phpstan": "^0.10.2",
-		"tracy/tracy": "^2.7.5"
-	},
-	"suggests": {
-		"grifart/stateful": "Install grifart/stateful for use of StatefulDecorator."
 	},
 	"repositories": [
 		{

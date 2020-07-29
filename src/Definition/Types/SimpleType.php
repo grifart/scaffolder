@@ -11,10 +11,7 @@ use Nette\PhpGenerator\PhpNamespace;
 final class SimpleType implements Type
 {
 
-	/**
-	 * @var string
-	 */
-	private $type;
+	private string $type;
 
 
 	private function __construct(string $type)

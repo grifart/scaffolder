@@ -1,0 +1,37 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Method Grifart\\\\ClassScaffolder\\\\Definition\\\\ClassDefinitionBuilder\\:\\:field\\(\\) has parameter \\$type with no typehint specified\\.$#"
+			count: 1
+			path: src/Definition/ClassDefinitionBuilder.php
+
+		-
+			message: "#^Function Grifart\\\\ClassScaffolder\\\\Definition\\\\Types\\\\resolve\\(\\) has parameter \\$type with no typehint specified\\.$#"
+			count: 1
+			path: src/Definition/Types/functions.php
+
+		-
+			message: "#^Function Grifart\\\\ClassScaffolder\\\\Definition\\\\Types\\\\nullable\\(\\) has parameter \\$type with no typehint specified\\.$#"
+			count: 1
+			path: src/Definition/Types/functions.php
+
+		-
+			message: "#^Function Grifart\\\\ClassScaffolder\\\\Definition\\\\Types\\\\collection\\(\\) has parameter \\$collectionType with no typehint specified\\.$#"
+			count: 1
+			path: src/Definition/Types/functions.php
+
+		-
+			message: "#^Function Grifart\\\\ClassScaffolder\\\\Definition\\\\Types\\\\collection\\(\\) has parameter \\$elementType with no typehint specified\\.$#"
+			count: 1
+			path: src/Definition/Types/functions.php
+
+		-
+			message: "#^Function Grifart\\\\ClassScaffolder\\\\Definition\\\\Types\\\\collection\\(\\) has parameter \\$keyType with no typehint specified\\.$#"
+			count: 1
+			path: src/Definition/Types/functions.php
+
+		-
+			message: "#^Function Grifart\\\\ClassScaffolder\\\\Definition\\\\Types\\\\listOf\\(\\) has parameter \\$elementType with no typehint specified\\.$#"
+			count: 1
+			path: src/Definition/Types/functions.php
+

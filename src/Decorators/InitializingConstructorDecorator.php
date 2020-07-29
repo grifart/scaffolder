@@ -21,7 +21,7 @@ final class InitializingConstructorDecorator implements ClassDecorator
 
 		foreach ($definition->getFields() as $fieldName => $type) {
 			$parameter = $constructor->addParameter($fieldName);
-			$parameter->setTypeHint($type->getTypeHint());
+			$parameter->setType($type->getTypeHint());
 			$parameter->setNullable($type->isNullable());
 
 			$constructor->addBody('$this->? = ?;', [

@@ -27,7 +27,7 @@ final class SettersDecorator implements ClassDecorator
 				])
 				->setParameters([
 					(new Parameter($fieldName))
-						->setTypeHint($type->getTypeHint())
+						->setType($type->getTypeHint())
 						->setNullable($type->isNullable())
 				]);
 			$getter->setReturnType('void');
