@@ -31,6 +31,9 @@
 		"grifart/stateful": "Install grifart/stateful for use of StatefulDecorator.",
 		"tracy/tracy": "For more detailed error messages."
 	},
+	"bin": [
+		"bin/scaffold"
+	],
 	"autoload": {
 		"psr-4": {
 			"Grifart\\ClassScaffolder\\": "src"
