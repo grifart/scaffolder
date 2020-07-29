@@ -2,8 +2,7 @@ namespace NS;
 
 final class CLS
 {
-	/** @var string|null */
-	private $poem;
+	private ?string $poem;
 
 
 	public function setPoem(?string $poem): void

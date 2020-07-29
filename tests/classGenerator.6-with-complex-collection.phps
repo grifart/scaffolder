@@ -7,7 +7,7 @@ use SplObjectStorage;
 final class CLS
 {
 	/** @var SplObjectStorage|SplFixedArray[] [ClassDefinition => SplFixedArray] */
-	private $field;
+	private SplObjectStorage $field;
 
 
 	/**

@@ -18,13 +18,18 @@ final class PropertiesDecorator implements ClassDecorator
 
 		foreach ($definition->getFields() as $fieldName => $type) {
 			// add property
-			$classType->addProperty($fieldName)
+			$property = $classType->addProperty($fieldName)
 				->setVisibility('private')
-				->addComment(\sprintf(
+				->setType($type->getTypeHint())
+				->setNullable($type->isNullable());
+
+			if ($type->requiresDocComment()) {
+				$property->addComment(\sprintf(
 					'@var %s%s',
 					$type->getDocCommentType($namespace),
 					$type->hasComment() ? ' ' . $type->getComment($namespace) : ''
 				));
+			}
 		}
 	}
 }

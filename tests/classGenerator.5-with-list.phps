@@ -3,7 +3,7 @@ namespace NS;
 final class CLS
 {
 	/** @var array|string[] [int => string] */
-	private $field;
+	private array $field;
 
 
 	/**

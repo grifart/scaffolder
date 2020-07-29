@@ -2,8 +2,7 @@ namespace NS;
 
 final class CLS
 {
-	/** @var string */
-	private $field;
+	private string $field;
 
 
 	public function __construct(string $field)
