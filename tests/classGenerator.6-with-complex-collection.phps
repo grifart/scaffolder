@@ -6,12 +6,12 @@ use SplObjectStorage;
 
 final class CLS
 {
-	/** @var SplObjectStorage|SplFixedArray[] [ClassDefinition => SplFixedArray] */
+	/** @var SplObjectStorage<ClassDefinition, SplFixedArray> */
 	private SplObjectStorage $field;
 
 
 	/**
-	 * @param SplObjectStorage|SplFixedArray[] $field [ClassDefinition => SplFixedArray]
+	 * @param SplObjectStorage<ClassDefinition, SplFixedArray> $field
 	 */
 	public function __construct(SplObjectStorage $field)
 	{
@@ -20,7 +20,7 @@ final class CLS
 
 
 	/**
-	 * @return SplObjectStorage|SplFixedArray[] [ClassDefinition => SplFixedArray]
+	 * @return SplObjectStorage<ClassDefinition, SplFixedArray>
 	 */
 	public function getField(): SplObjectStorage
 	{

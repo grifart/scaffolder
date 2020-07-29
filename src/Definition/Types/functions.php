@@ -37,6 +37,17 @@ function nullable($type): NullableType {
 }
 
 
+function generic($baseType, ...$parameterTypes): GenericType {
+	return new GenericType(
+		resolve($baseType),
+		...\array_map(
+			static fn($type): Type => resolve($type),
+			$parameterTypes,
+		),
+	);
+}
+
+
 function collection($collectionType, $keyType, $elementType): CollectionType {
 	return new CollectionType(
 		resolve($collectionType),
@@ -44,8 +55,6 @@ function collection($collectionType, $keyType, $elementType): CollectionType {
 		resolve($elementType)
 	);
 }
-
-
 
 function listOf($elementType): CollectionType {
 	return collection('array', 'int', $elementType);

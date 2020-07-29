@@ -59,7 +59,11 @@ require_once __DIR__ . '/bootstrap.php';
 			[
 				'classGenerator.7-setters.phps',
 				new ClassDefinition('NS', 'CLS', [], ['poem'=>nullable(Types\resolve('string'))], [new \Grifart\ClassScaffolder\Decorators\PropertiesDecorator(), new \Grifart\ClassScaffolder\Decorators\SettersDecorator()])
-			]
+			],
+			[
+				'classGenerator.8-generics.phps',
+				new ClassDefinition('NS', 'CLS', [], ['generic'=>Types\generic(Types\classType('NS\GenericClass'), 'int', 'callable', nullable('string'))], [new \Grifart\ClassScaffolder\Decorators\PropertiesDecorator()])
+			],
 		];
 	}
 

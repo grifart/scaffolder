@@ -64,26 +64,23 @@ final class CollectionType implements CompositeType
 	public function getDocCommentType(PhpNamespace $namespace): string
 	{
 		return \sprintf(
-			'%s|%s[]',
+			'%s<%s, %s>',
 			$this->collectionType->getDocCommentType($namespace),
-			$this->elementType->getDocCommentType($namespace)
+			$this->keyType->getDocCommentType($namespace),
+			$this->elementType->getDocCommentType($namespace),
 		);
 	}
 
 
 	public function hasComment(): bool
 	{
-		return TRUE;
+		return FALSE;
 	}
 
 
 	public function getComment(PhpNamespace $namespace): ?string
 	{
-		return \sprintf(
-			'[%s => %s]',
-			$this->keyType->getDocCommentType($namespace),
-			$this->elementType->getDocCommentType($namespace)
-		);
+		return NULL;
 	}
 
 

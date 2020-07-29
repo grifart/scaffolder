@@ -16,6 +16,16 @@ parameters:
 			path: src/Definition/Types/functions.php
 
 		-
+			message: "#^Function Grifart\\\\ClassScaffolder\\\\Definition\\\\Types\\\\generic\\(\\) has parameter \\$baseType with no typehint specified\\.$#"
+			count: 1
+			path: src/Definition/Types/functions.php
+
+		-
+			message: "#^Function Grifart\\\\ClassScaffolder\\\\Definition\\\\Types\\\\generic\\(\\) has parameter \\$parameterTypes with no typehint specified\\.$#"
+			count: 1
+			path: src/Definition/Types/functions.php
+
+		-
 			message: "#^Function Grifart\\\\ClassScaffolder\\\\Definition\\\\Types\\\\collection\\(\\) has parameter \\$collectionType with no typehint specified\\.$#"
 			count: 1
 			path: src/Definition/Types/functions.php
