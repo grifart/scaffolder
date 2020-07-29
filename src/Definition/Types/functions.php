@@ -25,6 +25,11 @@ function resolve($type): Type {
 }
 
 
+function classType(string $type): NonCheckedClassType {
+	return new NonCheckedClassType($type);
+}
+
+
 function nullable($type): NullableType {
 	return new NullableType(
 		resolve($type)
