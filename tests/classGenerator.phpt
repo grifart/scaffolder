@@ -62,7 +62,7 @@ require_once __DIR__ . '/bootstrap.php';
 			],
 			[
 				'classGenerator.8-generics.phps',
-				new ClassDefinition('NS', 'CLS', [], ['generic'=>Types\generic(Types\classType('NS\GenericClass'), 'int', 'callable', nullable('string'))], [new \Grifart\ClassScaffolder\Decorators\PropertiesDecorator()])
+				new ClassDefinition('NS', 'CLS', [], ['generic'=>Types\generic(Types\classType('NS\GenericClass'), 'int', 'callable', '?string')], [new \Grifart\ClassScaffolder\Decorators\PropertiesDecorator()])
 			],
 		];
 	}

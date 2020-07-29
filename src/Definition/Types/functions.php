@@ -10,6 +10,10 @@ function resolve($type): Type {
 		return $type;
 	}
 
+	if (\is_string($type) && $type[0] === '?') {
+		return nullable(resolve(\substr($type, 1)));
+	}
+
 	if (\in_array($type, ['string', 'int', 'float', 'bool', 'array', 'iterable', 'callable', 'object'], TRUE)) {
 		return SimpleType::$type();
 	}
