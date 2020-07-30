@@ -1,10 +1,12 @@
+default:
+  image: grifart/php7.4-with-gulp-and-all-php-modules
+
 stages:
   - build
   - test
 
 build.composer:
   stage: build
-  tags: [grifart/php7.1-with-gulp-and-all-php-modules]
 
   script:
     - composer install --ansi --no-interaction --prefer-dist
@@ -17,7 +19,6 @@ build.composer:
 
 test.tests:
   stage: test
-  tags: [grifart/php7.1-with-gulp-and-all-php-modules]
 
   dependencies: [build.composer]
   script:
@@ -26,16 +27,14 @@ test.tests:
 
 test.phpstan:
   stage: test
-  tags: [grifart/php7.1-with-gulp-and-all-php-modules]
 
   dependencies: [build.composer]
   script:
-    - vendor/bin/phpstan analyze --ansi --no-progress --no-interaction --level 6 src
+    - vendor/bin/phpstan analyze --ansi --no-progress --no-interaction --level 8 src
 
 
 test.linter:
   stage: test
-  tags: [grifart/php7.1-with-gulp-and-all-php-modules]
 
   dependencies: [build.composer]
   before_script:

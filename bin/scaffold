@@ -1,0 +1,30 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types = 1);
+
+use Grifart\ClassScaffolder\Console\GenerateClassCommand;
+use Symfony\Component\Console\Application;
+
+$autoloadPaths = [
+	__DIR__ . '/../vendor/autoload.php', // local dev repo / built phar
+	__DIR__ . '/../../../autoload.php', // installed as a composer dependency
+];
+
+$autoloadFound = false;
+foreach ($autoloadPaths as $autoloadPath) {
+	if (file_exists($autoloadPath)) {
+		require_once $autoloadPath;
+		$autoloadFound = true;
+		break;
+	}
+}
+
+if ( ! $autoloadFound) {
+	throw new RuntimeException('Unable to find "vendor/autoload.php"');
+}
+
+$application = new Application('class-scaffolder');
+$application->add($command = new GenerateClassCommand());
+$application->setDefaultCommand($command->getName(), true);
+exit($application->run());

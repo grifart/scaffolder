@@ -23,7 +23,7 @@ final class ClassGenerator
 		// implements
 
 		foreach ($definition->getImplements() as $implement) {
-			$classType->getNamespace()->addUse($implement);
+			$namespace->addUse($implement);
 			$classType->addImplement($implement);
 		}
 
@@ -33,8 +33,8 @@ final class ClassGenerator
 		foreach ($definition->getFields() as $fieldName => $type) {
 
 			// add use
-			$addUse = function (array $types) use ($namespace, &$addUse): void {
-				/** @var Definition\Types\Type[] $types */
+			$addUse = static function (array $types) use ($namespace, &$addUse): void {
+				/** @var Definition\Types\Type $type */
 				foreach ($types as $type) {
 					if ($type instanceof CompositeType) {
 						$addUse($type->getSubTypes());

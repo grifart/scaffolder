@@ -31,7 +31,7 @@ final class StatefulDecorator implements ClassDecorator
 		$fromState->setVisibility('public');
 		$fromState->setStatic(TRUE);
 		$fromState->setReturnType('self');
-		$fromState->addParameter('state')->setTypeHint(State::class);
+		$fromState->addParameter('state')->setType(State::class);
 		$fromState->addBody('$state->ensureVersion(1);');
 		$fromState->addBody('$self = $state->makeAnEmptyObject(self::class);');
 		$fromState->addBody("\assert(\$self instanceof self);\n");

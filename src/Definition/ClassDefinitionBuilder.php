@@ -11,20 +11,18 @@ use Grifart\ClassScaffolder\Definition\Types;
 final class ClassDefinitionBuilder
 {
 
-	/** @var ?string */
-	private $namespaceName;
+	private ?string $namespaceName = null;
 
-	/** @var string */
-	private $className;
+	private string $className;
 
 	/** @var string[] */
-	private $implements = [];
+	private array $implements = [];
 
 	/** @var Types\Type[] */
-	private $fields = [];
+	private array $fields = [];
 
 	/** @var ClassDecorator[] */
-	private $decorators = [];
+	private array $decorators = [];
 
 
 	public function __construct(string $className)

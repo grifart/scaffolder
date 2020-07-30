@@ -11,22 +11,25 @@ use Grifart\ClassScaffolder\Definition\Types\Type;
 final class ClassDefinition
 {
 
-	/** @var ?string */
-	private $namespaceName;
+	private ?string $namespaceName;
 
-	/** @var string */
-	private $className;
+	private string $className;
 
 	/** @var string[] */
-	private $implements;
+	private array $implements;
 
 	/** @var Type[] */
-	private $fields;
+	private array $fields;
 
 	/** @var ClassDecorator[] */
-	private $decorators;
+	private array $decorators;
 
 
+	/**
+	 * @param string[] $implements
+	 * @param Type[] $fields
+	 * @param ClassDecorator[] $decorators
+	 */
 	public function __construct(
 		?string $namespaceName,
 		string $className,

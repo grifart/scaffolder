@@ -10,6 +10,10 @@ function resolve($type): Type {
 		return $type;
 	}
 
+	if (\is_string($type) && $type[0] === '?') {
+		return nullable(resolve(\substr($type, 1)));
+	}
+
 	if (\in_array($type, ['string', 'int', 'float', 'bool', 'array', 'iterable', 'callable', 'object'], TRUE)) {
 		return SimpleType::$type();
 	}
@@ -25,9 +29,25 @@ function resolve($type): Type {
 }
 
 
+function classType(string $type): NonCheckedClassType {
+	return new NonCheckedClassType($type);
+}
+
+
 function nullable($type): NullableType {
 	return new NullableType(
 		resolve($type)
+	);
+}
+
+
+function generic($baseType, ...$parameterTypes): GenericType {
+	return new GenericType(
+		resolve($baseType),
+		...\array_map(
+			static fn($type): Type => resolve($type),
+			$parameterTypes,
+		),
 	);
 }
 
@@ -39,8 +59,6 @@ function collection($collectionType, $keyType, $elementType): CollectionType {
 		resolve($elementType)
 	);
 }
-
-
 
 function listOf($elementType): CollectionType {
 	return collection('array', 'int', $elementType);

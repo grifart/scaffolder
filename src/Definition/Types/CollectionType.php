@@ -10,20 +10,11 @@ use Nette\PhpGenerator\PhpNamespace;
 final class CollectionType implements CompositeType
 {
 
-	/**
-	 * @var Type
-	 */
-	private $collectionType;
+	private Type $collectionType;
 
-	/**
-	 * @var Type
-	 */
-	private $keyType;
+	private Type $keyType;
 
-	/**
-	 * @var Type
-	 */
-	private $elementType;
+	private Type $elementType;
 
 
 	public function __construct(Type $collectionType, Type $keyType, Type $elementType)
@@ -73,26 +64,23 @@ final class CollectionType implements CompositeType
 	public function getDocCommentType(PhpNamespace $namespace): string
 	{
 		return \sprintf(
-			'%s|%s[]',
+			'%s<%s, %s>',
 			$this->collectionType->getDocCommentType($namespace),
-			$this->elementType->getDocCommentType($namespace)
+			$this->keyType->getDocCommentType($namespace),
+			$this->elementType->getDocCommentType($namespace),
 		);
 	}
 
 
 	public function hasComment(): bool
 	{
-		return TRUE;
+		return FALSE;
 	}
 
 
 	public function getComment(PhpNamespace $namespace): ?string
 	{
-		return \sprintf(
-			'[%s => %s]',
-			$this->keyType->getDocCommentType($namespace),
-			$this->elementType->getDocCommentType($namespace)
-		);
+		return NULL;
 	}
 
 

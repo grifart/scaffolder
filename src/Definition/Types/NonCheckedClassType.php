@@ -8,37 +8,31 @@ namespace Grifart\ClassScaffolder\Definition\Types;
 use Nette\PhpGenerator\PhpNamespace;
 
 
-final class NullableType implements CompositeType
+final class NonCheckedClassType implements Type
 {
 
-	private Type $type;
+	private string $typeName;
 
 
-	public function __construct(Type $type)
+	public function __construct(string $typeName)
 	{
-		$this->type = $type;
+		$this->typeName = $typeName;
 	}
 
 
-	public function getType(): Type
+	public function getTypeName(): string
 	{
-		return $this->type;
+		return $this->typeName;
 	}
 
 
 	public function getTypeHint(): string
 	{
-		return $this->type->getTypeHint();
+		return $this->typeName;
 	}
 
 
 	public function isNullable(): bool
-	{
-		return TRUE;
-	}
-
-
-	public function requiresDocComment(): bool
 	{
 		return FALSE;
 	}
@@ -46,7 +40,7 @@ final class NullableType implements CompositeType
 
 	public function getDocCommentType(PhpNamespace $namespace): string
 	{
-		return $this->type->getDocCommentType($namespace) . '|null';
+		return $namespace->unresolveName($this->typeName);
 	}
 
 
@@ -62,12 +56,9 @@ final class NullableType implements CompositeType
 	}
 
 
-	/**
-	 * @return Type[]
-	 */
-	public function getSubTypes(): array
+	public function requiresDocComment(): bool
 	{
-		return [$this->type];
+		return FALSE;
 	}
 
 }
