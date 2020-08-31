@@ -73,6 +73,7 @@ final class SimpleType implements Type
 		return new self('mixed');
 	}
 
+
 	public function getTypeHint(): string
 	{
 		return $this->type;

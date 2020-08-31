@@ -73,6 +73,14 @@ require_once __DIR__ . '/../bootstrap.php';
 				'classGenerator.10-promoted-properties.phps',
 				new ClassDefinition('NS', 'CLS', [], [new Field('field', Types\resolve('string'))], [new \Grifart\ClassScaffolder\Decorators\ConstructorWithPromotedPropertiesDecorator(), new \Grifart\ClassScaffolder\Decorators\GettersDecorator()])
 			],
+			[
+				'classGenerator.9-union.phps',
+				new ClassDefinition('NS', 'CLS', [], [new Field('union', Types\union(Types\classType('NS\GenericClass'), 'int', 'callable', '?string'))], [new \Grifart\ClassScaffolder\Decorators\PropertiesDecorator()])
+			],
+			[
+				'classGenerator.9-union-with-generics.phps',
+				new ClassDefinition('NS', 'CLS', [], [new Field('union', Types\generic('array', 'string', Types\union(Types\classType('NS\GenericClass'), 'int', 'callable', '?string')))], [new \Grifart\ClassScaffolder\Decorators\PropertiesDecorator()])
+			],
 		];
 	}
 

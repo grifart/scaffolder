@@ -68,3 +68,12 @@ function collection(Type|ClassDefinition|string $collectionType, Type|ClassDefin
 function listOf(Type|ClassDefinition|string $elementType): ListType {
 	return new ListType(resolve($elementType));
 }
+
+function union(...$parameterTypes): UnionType {
+	return new UnionType(
+		...\array_map(
+			static fn($type): Type => resolve($type),
+			$parameterTypes,
+		)
+	);
+}
