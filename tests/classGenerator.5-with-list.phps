@@ -2,12 +2,12 @@ namespace NS;
 
 final class CLS
 {
-	/** @var array<int, string> */
+	/** @var string[] */
 	private array $field;
 
 
 	/**
-	 * @param array<int, string> $field
+	 * @param string[] $field
 	 */
 	public function __construct(array $field)
 	{
@@ -16,7 +16,7 @@ final class CLS
 
 
 	/**
-	 * @return array<int, string>
+	 * @return string[]
 	 */
 	public function getField(): array
 	{
