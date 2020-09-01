@@ -60,6 +60,6 @@ function collection($collectionType, $keyType, $elementType): CollectionType {
 	);
 }
 
-function listOf($elementType): CollectionType {
-	return collection('array', 'int', $elementType);
+function listOf($elementType): ListType {
+	return new ListType(resolve($elementType));
 }
