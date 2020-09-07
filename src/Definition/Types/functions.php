@@ -4,10 +4,15 @@ declare(strict_types = 1);
 
 namespace Grifart\ClassScaffolder\Definition\Types;
 
+use Grifart\ClassScaffolder\Definition\ClassDefinition;
 
 function resolve($type): Type {
 	if ($type instanceof Type) {
 		return $type;
+	}
+
+	if ($type instanceof ClassDefinition) {
+		return new NonCheckedClassType($type->getFullyQualifiedName());
 	}
 
 	if (\is_string($type) && $type[0] === '?') {

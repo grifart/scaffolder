@@ -64,6 +64,10 @@ require_once __DIR__ . '/bootstrap.php';
 				'classGenerator.8-generics.phps',
 				new ClassDefinition('NS', 'CLS', [], ['generic'=>Types\generic(Types\classType('NS\GenericClass'), 'int', 'callable', '?string')], [new \Grifart\ClassScaffolder\Decorators\PropertiesDecorator()])
 			],
+			[
+				'classGenerator.9-cross-reference.phps',
+				new ClassDefinition('NS', 'CLS', [], ['field'=>Types\resolve(new ClassDefinition('NS', 'SubCLS', [], [], []))], $this->getDecorators())
+			],
 		];
 	}
 

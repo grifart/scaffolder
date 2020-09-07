@@ -58,6 +58,15 @@ final class ClassDefinition
 	}
 
 
+	public function getFullyQualifiedName(): string
+	{
+		return \trim(
+			$this->namespaceName . '\\' . $this->className,
+			'\\',
+		);
+	}
+
+
 	/**
 	 * @return string[]
 	 */
