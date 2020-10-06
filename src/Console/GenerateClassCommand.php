@@ -52,14 +52,14 @@ final class GenerateClassCommand extends Command
 		$hasError = FALSE;
 		$processedFiles = 0;
 		$total = count($filesToProcess);
-		foreach($filesToProcess as $filesToProcess) {
+		foreach($filesToProcess as $fileToProcess) {
 			$processedFiles++;
 			try {
-				$this->processFile($filesToProcess, $input, $output);
+				$this->processFile($fileToProcess, $input, $output);
 				$output->write("Processed $processedFiles / $total\r");
 			} catch (\Throwable $e) {
 				$hasError = TRUE;
-				$output->writeln(\sprintf("\n<error>%s</error>", $e->getMessage()));
+				$output->writeln(\sprintf("\n%s: <error>%s</error>", $fileToProcess, $e->getMessage()));
 				if (\class_exists(\Tracy\Debugger::class)) {
 					\Tracy\Debugger::log($e);
 				}
