@@ -15,7 +15,10 @@ final class ConstructorWithPromotedPropertiesDecorator
 		$constructor = $classType->addMethod('__construct');
 		$constructor->setVisibility('public');
 
-		foreach ($definition->getFields() as $fieldName => $type) {
+		foreach ($definition->getFields() as $field) {
+			$fieldName = $field->getName();
+			$type = $field->getType();
+
 			$constructor->addPromotedParameter($fieldName)
 				->setPrivate()
 				->setType($type->getTypeHint())

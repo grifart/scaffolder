@@ -19,7 +19,7 @@ final class ClassDefinitionBuilder
 	/** @var string[] */
 	private array $implements = [];
 
-	/** @var Types\Type[] */
+	/** @var Field[] */
 	private array $fields = [];
 
 	/** @var ClassDecorator[] */
@@ -56,7 +56,10 @@ final class ClassDefinitionBuilder
 
 	public function field(string $name, Type|ClassDefinition|string $type): self
 	{
-		$this->fields[$name] = Types\resolve($type);
+		$this->fields[] = new Field(
+			$name,
+			Types\resolve($type),
+		);
 		return $this;
 	}
 

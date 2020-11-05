@@ -5,7 +5,6 @@ declare(strict_types = 1);
 namespace Grifart\ClassScaffolder\Definition;
 
 use Grifart\ClassScaffolder\Decorators\ClassDecorator;
-use Grifart\ClassScaffolder\Definition\Types\Type;
 
 
 final class ClassDefinition
@@ -18,7 +17,7 @@ final class ClassDefinition
 	/** @var string[] */
 	private array $implements;
 
-	/** @var Type[] */
+	/** @var Field[] */
 	private array $fields;
 
 	/** @var ClassDecorator[] */
@@ -27,7 +26,7 @@ final class ClassDefinition
 
 	/**
 	 * @param string[] $implements
-	 * @param Type[] $fields
+	 * @param Field[] $fields
 	 * @param ClassDecorator[] $decorators
 	 */
 	public function __construct(
@@ -77,7 +76,7 @@ final class ClassDefinition
 
 
 	/**
-	 * @return Type[]
+	 * @return Field[]
 	 */
 	public function getFields(): array
 	{

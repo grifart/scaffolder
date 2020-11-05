@@ -15,9 +15,10 @@ final class PropertiesDecorator implements ClassDecorator
 
 	public function decorate(PhpNamespace $namespace, ClassType $classType, ClassDefinition $definition): void
 	{
-		foreach ($definition->getFields() as $fieldName => $type) {
+		foreach ($definition->getFields() as $field) {
+			$type = $field->getType();
 			// add property
-			$property = $classType->addProperty($fieldName)
+			$property = $classType->addProperty($field->getName())
 				->setVisibility('private')
 				->setType($type->getTypeHint())
 				->setNullable($type->isNullable());
