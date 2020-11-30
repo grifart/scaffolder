@@ -1,43 +1,66 @@
-default:
-  image: grifart/php7.4-with-gulp-and-all-php-modules
-
 stages:
   - build
   - test
 
-build.composer:
+.build.composer:
   stage: build
-
-  script:
-    - composer install --ansi --no-interaction --prefer-dist
-
+  script: composer install --ansi --no-interaction --prefer-dist
   artifacts:
     expire_in: 2 days
     paths:
       - vendor
 
+build.composer.php7:
+  extends: .build.composer
+  image: grifart/php7.4-with-gulp-and-all-php-modules
 
-test.tests:
+build.composer.php8:
+  extends: .build.composer
+  image: grifart/php8.0-with-all-modules-and-various-tools
+
+
+.test.tests:
   stage: test
+  script: vendor/bin/tester tests
 
-  dependencies: [build.composer]
-  script:
-    - vendor/bin/tester tests
+test.tests.php7:
+  extends: .test.tests
+  dependencies: [build.composer.php7]
+  image: grifart/php7.4-with-gulp-and-all-php-modules
+
+test.tests.php8:
+  extends: .test.tests
+  dependencies: [build.composer.php8]
+  image: grifart/php8.0-with-all-modules-and-various-tools
 
 
-test.phpstan:
+.test.phpstan:
   stage: test
+  script: vendor/bin/phpstan analyze --ansi --no-progress --no-interaction --level 8 src
 
-  dependencies: [build.composer]
-  script:
-    - vendor/bin/phpstan analyze --ansi --no-progress --no-interaction --level 8 src
+test.phpstan.php7:
+  extends: .test.phpstan
+  dependencies: [build.composer.php7]
+  image: grifart/php7.4-with-gulp-and-all-php-modules
+
+test.phpstan.php8:
+  extends: .test.phpstan
+  dependencies: [build.composer.php8]
+  image: grifart/php8.0-with-all-modules-and-various-tools
 
 
-test.linter:
+.test.linter:
   stage: test
-
-  dependencies: [build.composer]
   before_script:
-    - composer global require jakub-onderka/php-parallel-lint jakub-onderka/php-console-highlighter
-  script:
-    - parallel-lint src tests
+    - composer global require php-parallel-lint/php-parallel-lint php-parallel-lint/php-console-highlighter
+  script: parallel-lint src tests
+
+test.linter.php7:
+  extends: .test.linter
+  dependencies: [build.composer.php7]
+  image: grifart/php7.4-with-gulp-and-all-php-modules
+
+test.linter.php8:
+  extends: .test.linter
+  dependencies: [build.composer.php8]
+  image: grifart/php8.0-with-all-modules-and-various-tools
