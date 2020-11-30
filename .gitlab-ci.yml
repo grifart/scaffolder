@@ -51,9 +51,7 @@ test.phpstan.php8:
 
 .test.linter:
   stage: test
-  before_script:
-    - composer global require php-parallel-lint/php-parallel-lint php-parallel-lint/php-console-highlighter
-  script: parallel-lint src tests
+  script: vendor/bin/parallel-lint src tests
 
 test.linter.php7:
   extends: .test.linter
