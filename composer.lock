@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2e43372b61079da72e771e04c49088c8",
+    "content-hash": "3bef43122de277679c6a20bf5fa76ed1",
     "packages": [
         {
             "name": "nette/finder",
@@ -1148,23 +1148,23 @@
         },
         {
             "name": "grifart/stateful",
-            "version": "dev-php8",
+            "version": "0.6.0",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.grifart.local:grifart-internal/stateful.git",
-                "reference": "18f09edb885a9bb462f6b46896aad5c891eaf549"
+                "reference": "b16fdfea10a6df6f2b2079b5b4e1485c46247e57"
             },
             "require": {
                 "grifart/comparable-polyfill": "^1.0",
                 "grifart/equalable-utils": "^1.0",
-                "php": "^7.2||^8.0",
+                "php": "^8.0",
                 "php-ds/php-ds": "^1.1"
             },
             "require-dev": {
                 "brick/date-time": "^0.2.1",
                 "mockery/mockery": "^1.0.0",
                 "nette/tester": "^2.0.0",
-                "php-parallel-lint/php-console-highlighter": "^0.4.0",
+                "php-parallel-lint/php-console-color": "^1.0",
                 "php-parallel-lint/php-parallel-lint": "^1.0",
                 "phpstan/phpstan": "^0.12"
             },
@@ -1199,7 +1199,7 @@
                 ]
             },
             "description": "Serializes any object into primitive types and arrays.",
-            "time": "2020-11-30T09:54:54+00:00"
+            "time": "2020-12-01T15:17:53+00:00"
         },
         {
             "name": "nette/tester",
@@ -1550,13 +1550,11 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "grifart/stateful": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "^7.4||^8.0"
+        "php": "^8.0"
     },
     "platform-dev": [],
     "plugin-api-version": "1.1.0"
