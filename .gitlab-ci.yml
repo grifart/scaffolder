@@ -1,5 +1,5 @@
 default:
-  image: grifart/php7.4-with-gulp-and-all-php-modules
+  image: grifart/php8.0-with-all-modules-and-various-tools
 
 stages:
   - build
@@ -7,10 +7,7 @@ stages:
 
 build.composer:
   stage: build
-
-  script:
-    - composer install --ansi --no-interaction --prefer-dist
-
+  script: composer install --ansi --no-interaction --prefer-dist
   artifacts:
     expire_in: 2 days
     paths:
@@ -19,25 +16,17 @@ build.composer:
 
 test.tests:
   stage: test
-
   dependencies: [build.composer]
-  script:
-    - vendor/bin/tester tests
+  script: vendor/bin/tester tests
 
 
 test.phpstan:
   stage: test
-
   dependencies: [build.composer]
-  script:
-    - vendor/bin/phpstan analyze --ansi --no-progress --no-interaction --level 8 src
+  script: vendor/bin/phpstan analyze --ansi --no-progress --no-interaction --level 8 src
 
 
 test.linter:
   stage: test
-
   dependencies: [build.composer]
-  before_script:
-    - composer global require jakub-onderka/php-parallel-lint jakub-onderka/php-console-highlighter
-  script:
-    - parallel-lint src tests
+  script: vendor/bin/parallel-lint src tests
