@@ -4,7 +4,7 @@
 		"grifart/class-scaffolder": "self.version"
 	},
 	"license": "MIT",
-	"description": "Application that provides API for autonomous generation of tax documents.",
+	"description": "Class scaffolder. Write definition, generate simple value holders. Useful for trivial composite types used in event sourced applications - for commands, events and query definitions classes. This mostly supplements public readonly $properties",
 	"homepage": "http://www.grifart.cz",
 	"type": "library",
 	"authors": [
