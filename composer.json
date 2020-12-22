@@ -1,6 +1,8 @@
 {
 	"name": "grifart/scaffolder",
-	"replace": "grifart/class-scaffolder",
+	"replace": {
+		"grifart/class-scaffolder": "self.version"
+	},
 	"license": "MIT",
 	"description": "Application that provides API for autonomous generation of tax documents.",
 	"homepage": "http://www.grifart.cz",
