@@ -25,6 +25,7 @@ final class GenerateClassCommand extends Command
 			->addArgument('definition', InputArgument::REQUIRED, 'Definition file or directory containing definitions')
 			->addOption('search-pattern', NULL, InputArgument::OPTIONAL, '(for directories) Search pattern for your definitions', '*.definition.php')
 			->addOption('dry-run', NULL, InputOption::VALUE_NONE, 'Only print the generated file to output instead of saving it')
+			->addOption('no-readonly', NULL, InputOption::VALUE_NONE, 'Generated files are marked as read only by default (using chmod), using this option turns off this behaviour.')
 			->setAliases(['doklady:scaffolder:generate' /* API used before extracted from doklady.io/invoicing-app */]);
 	}
 
@@ -33,6 +34,7 @@ final class GenerateClassCommand extends Command
 	{
 		$definitionPath = $input->getArgument('definition');
 		$searchPattern = $input->getOption('search-pattern');
+		$readonly = ! $input->getOption('no-readonly');
 		\assert(\is_string($definitionPath) && \is_string($searchPattern));
 
 		// 1. find files to process
@@ -55,7 +57,7 @@ final class GenerateClassCommand extends Command
 		foreach($filesToProcess as $fileToProcess) {
 			$processedFiles++;
 			try {
-				$this->processFile($fileToProcess, $input, $output);
+				$this->processFile($fileToProcess, $input, $output, $readonly);
 				$output->write("Processed $processedFiles / $total\r");
 			} catch (\Throwable $e) {
 				$hasError = TRUE;
@@ -73,16 +75,16 @@ final class GenerateClassCommand extends Command
 		return 0;
 	}
 
-	private function processFile(string $definitionFile, InputInterface $input, OutputInterface $output): void {
+	private function processFile(string $definitionFile, InputInterface $input, OutputInterface $output, bool $readonly): void {
 		foreach($this->loadDefinitions($definitionFile) as $definition) {
 			if (!$definition instanceof ClassDefinition) {
 				throw new \InvalidArgumentException('Definition file must contain class definition.');
 			}
-			$this->doGeneration($definition, $definitionFile, $input, $output);
+			$this->doGeneration($definition, $definitionFile, $input, $output, $readonly);
 		}
 	}
 
-	private function doGeneration(ClassDefinition $definition, string $definitionFile, InputInterface $input, OutputInterface $output): void {
+	private function doGeneration(ClassDefinition $definition, string $definitionFile, InputInterface $input, OutputInterface $output, bool $readonly): void {
 		$classGenerator = new ClassGenerator();
 		$generatedClass = $classGenerator->generateClass($definition);
 
@@ -110,7 +112,9 @@ final class GenerateClassCommand extends Command
 		} else {
 			\chmod($targetPath, 0664); // some users accessing files using group permissions
 			\file_put_contents($targetPath, $code);
-			\chmod($targetPath, 0444); // read-only -- assumes single user system
+			if ($readonly) {
+				\chmod($targetPath, 0444); // read-only -- assumes single user system
+			}
 		}
 	}
 
