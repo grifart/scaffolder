@@ -19,7 +19,7 @@ function resolve($type): Type {
 		return nullable(resolve(\substr($type, 1)));
 	}
 
-	if (\in_array($type, ['string', 'int', 'float', 'bool', 'array', 'iterable', 'callable', 'object'], TRUE)) {
+	if (\in_array($type, ['string', 'int', 'float', 'bool', 'array', 'iterable', 'callable', 'object', 'mixed'], TRUE)) {
 		return SimpleType::$type();
 	}
 

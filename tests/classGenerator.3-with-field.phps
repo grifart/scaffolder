@@ -2,16 +2,16 @@ namespace NS;
 
 final class CLS
 {
-	private string $field;
+	private mixed $field;
 
 
-	public function __construct(string $field)
+	public function __construct(mixed $field)
 	{
 		$this->field = $field;
 	}
 
 
-	public function getField(): string
+	public function getField(): mixed
 	{
 		return $this->field;
 	}
