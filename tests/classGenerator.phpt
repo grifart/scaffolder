@@ -42,7 +42,7 @@ require_once __DIR__ . '/bootstrap.php';
 			],
 			[
 				'classGenerator.3-with-field.phps',
-				new ClassDefinition('NS', 'CLS', [], ['field'=>Types\resolve('string')], $this->getDecorators())
+				new ClassDefinition('NS', 'CLS', [], ['field'=>Types\resolve('mixed')], $this->getDecorators())
 			],
 			[
 				'classGenerator.4-with-field-nullable.phps',
