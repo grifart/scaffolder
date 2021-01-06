@@ -30,11 +30,11 @@ final class StatefulDecorator implements ClassDecorator
 		$fromState = $classType->addMethod('_fromState');
 		$fromState->setVisibility('public');
 		$fromState->setStatic(TRUE);
-		$fromState->setReturnType('self');
+		$fromState->setReturnType('static');
 		$fromState->addParameter('state')->setType(State::class);
 		$fromState->addBody('$state->ensureVersion(1);');
 		$fromState->addBody('$self = $state->makeAnEmptyObject(self::class);');
-		$fromState->addBody("\assert(\$self instanceof self);\n");
+		$fromState->addBody("\assert(\$self instanceof static);\n");
 
 		foreach ($classType->getProperties() as $property) {
 			$propertyName = $property->getName();
