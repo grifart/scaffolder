@@ -1,0 +1,22 @@
+namespace Grifart\ClassScaffolder\Test\Stub;
+
+final class StubKeepMethod
+{
+	/**
+	 * This method is kept while scaffolding.
+	 */
+	public function newMethod(): void
+	{
+		// Implement method here
+	}
+
+
+	/**
+	 * Some PHPDoc!
+	 * @return mixed
+	 */
+	public function somethingToBeKept(): ?mixed
+	{
+		return 'whatever';
+	}
+}

@@ -36,11 +36,13 @@
 		"phpstan/phpstan": "^0.12",
 		"php-parallel-lint/php-console-color": "^1.0",
 		"php-parallel-lint/php-parallel-lint": "^1.2",
-		"tracy/tracy": "^2.7.5"
+		"tracy/tracy": "^2.7.5",
+		"nikic/php-parser": "^4.10"
 	},
 	"suggest": {
 		"grifart/stateful": "Install grifart/stateful for use of StatefulDecorator.",
-		"tracy/tracy": "For more detailed error messages."
+		"tracy/tracy": "For more detailed error messages.",
+		"nikic/php-parser": "To able to use KeepMethodDecorator."
 	},
 	"bin": [
 		"bin/scaffold"
@@ -52,6 +54,11 @@
 		"files": [
 			"src/Definition/Types/functions.php"
 		]
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"Grifart\\ClassScaffolder\\Test\\": "tests"
+		}
 	},
 	"repositories": [
 		{
