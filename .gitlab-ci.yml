@@ -17,16 +17,16 @@ build.composer:
 test.tests:
   stage: test
   dependencies: [build.composer]
-  script: vendor/bin/tester tests
+  script: composer run test
 
 
 test.phpstan:
   stage: test
   dependencies: [build.composer]
-  script: vendor/bin/phpstan analyze --ansi --no-progress --no-interaction --level 8 src
+  script: composer run phpstan
 
 
 test.linter:
   stage: test
   dependencies: [build.composer]
-  script: vendor/bin/parallel-lint src tests
+  script: composer run verify-syntax

@@ -17,6 +17,12 @@
 			"homepage": "http://www.grifart.cz"
 		}
 	],
+	"scripts": {
+		"verify": ["@validate-syntax", "@test", "@phpstan"],
+		"verify-syntax": "vendor/bin/parallel-lint src tests",
+		"test": "tester tests",
+		"phpstan": "phpstan analyze --ansi --no-progress --no-interaction --level 8 src"
+	},
 	"require": {
 		"php": "^8.0",
 		"nette/finder": "^2.5",
