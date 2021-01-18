@@ -17,8 +17,6 @@ build.composer:
 test.tests:
   stage: test
   dependencies: [build.composer]
-  before_script:
-    - php -v
   script: composer run test
   artifacts:
     expire_in: 2 days
