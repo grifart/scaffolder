@@ -18,7 +18,11 @@ test.tests:
   stage: test
   dependencies: [build.composer]
   script: composer run test
-
+  artifacts:
+    expire_in: 2 days
+    paths:
+      # contains generated diffs
+      - tests
 
 test.phpstan:
   stage: test
