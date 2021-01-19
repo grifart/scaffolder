@@ -30,6 +30,7 @@ Assert::matchFile(
 		new \Grifart\ClassScaffolder\Decorators\KeepMethodDecorator('newMethod'),
 		new \Grifart\ClassScaffolder\Decorators\KeepMethodDecorator('methodToBeKept'),
 		new \Grifart\ClassScaffolder\Decorators\KeepMethodDecorator('methodToBeKeptWithParam'),
+		new \Grifart\ClassScaffolder\Decorators\KeepMethodDecorator('methodToBeKeptWithMixedParam'),
 		new \Grifart\ClassScaffolder\Decorators\KeepMethodDecorator('methodToBeKeptWithImportedUses'),
 		new \Grifart\ClassScaffolder\Decorators\KeepMethodDecorator('methodToBeKeptWithAnnotation'),
 	]),

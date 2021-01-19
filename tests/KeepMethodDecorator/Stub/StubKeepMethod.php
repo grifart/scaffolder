@@ -16,6 +16,8 @@ final class StubKeepMethod
 
 	public function methodToBeKeptWithParam(int $whatever): void {}
 
+	public function methodToBeKeptWithMixedParam(mixed $whatever): void {}
+
 	public function methodToBeKeptWithImportedUses(ClassDefinitionBuilder $builder): string {
 		return ClassDefinition::class;
 	}
