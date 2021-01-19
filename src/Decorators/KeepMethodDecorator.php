@@ -79,7 +79,7 @@ final class KeepMethodDecorator implements ClassDecorator
 		 */
 		foreach ($method->getParameters() as $parameter) {
 			$type = $parameter->getType();
-			if ($type !== null && \class_exists($type)) {
+			if ($type !== null && (\class_exists($type) || \interface_exists($type))) {
 				$namespace->addUse($type);
 			}
 		}
