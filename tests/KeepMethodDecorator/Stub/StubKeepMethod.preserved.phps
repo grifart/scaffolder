@@ -14,13 +14,18 @@ final class StubKeepMethod
 	}
 
 
-	public function methodToBeKept(): ?mixed
+	public function methodToBeKept(): mixed
 	{
 		return 'whatever';
 	}
 
 
 	public function methodToBeKeptWithParam(int $whatever): void
+	{
+	}
+
+
+	public function methodToBeKeptWithMixedParam(mixed $whatever): void
 	{
 	}
 
