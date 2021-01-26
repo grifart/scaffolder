@@ -53,7 +53,7 @@ final class ClassGenerator
 		// decorators
 
 		foreach ($definition->getDecorators() as $decorator) {
-			$decorator->decorate($classType, $definition);
+			$decorator->decorate($namespace, $classType, $definition);
 		}
 
 

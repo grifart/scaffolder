@@ -6,13 +6,13 @@ namespace Grifart\ClassScaffolder\Decorators;
 
 use Grifart\ClassScaffolder\Definition\ClassDefinition;
 use Nette\PhpGenerator\ClassType;
+use Nette\PhpGenerator\PhpNamespace;
 
 final class GettersDecorator implements ClassDecorator
 {
 
-	public function decorate(ClassType $classType, ClassDefinition $definition): void
+	public function decorate(PhpNamespace $namespace, ClassType $classType, ClassDefinition $definition): void
 	{
-		$namespace = DecoratorTools::extractNamespace($classType);
 		DecoratorTools::checkIfAllFieldsArePresent($definition, $classType);
 
 		foreach ($definition->getFields() as $fieldName => $type) {

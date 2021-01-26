@@ -9,15 +9,6 @@ use Nette\PhpGenerator\PhpNamespace;
 /** @internal used by {@see ClassDecorator} */
 final class DecoratorTools
 {
-
-	public static function extractNamespace(ClassType $classType): PhpNamespace {
-		$namespace = $classType->getNamespace();
-		if ($namespace === NULL) {
-			throw new \InvalidArgumentException('Class Generator always generate class in namespace. Report this to class-scaffolder developers.');
-		}
-		return $namespace;
-	}
-
 	public static function checkIfAllFieldsArePresent(ClassDefinition $definition, ClassType $classType): void
 	{
 		// check if all fields are present

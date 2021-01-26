@@ -18,7 +18,7 @@ final class KeepMethodDecorator implements ClassDecorator
 		$this->methodToBeKept = $methodName;
 	}
 
-	public function decorate(ClassType $classToBeGenerated, ClassDefinition $definition): void
+	public function decorate(PhpNamespace $namespace, ClassType $classToBeGenerated, ClassDefinition $definition): void
 	{
 		$alreadyExistentClass = self::getAlreadyExistentClass($definition);
 

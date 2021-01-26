@@ -13,9 +13,8 @@ use Nette\PhpGenerator as Code;
 final class StatefulDecorator implements ClassDecorator
 {
 
-	public function decorate(Code\ClassType $classType, ClassDefinition $definition): void
+	public function decorate(Code\PhpNamespace $namespace, Code\ClassType $classType, ClassDefinition $definition): void
 	{
-		$namespace = DecoratorTools::extractNamespace($classType);
 		DecoratorTools::checkIfAllFieldsArePresent($definition, $classType);
 
 		$namespace->addUse(StateBuilder::class);
