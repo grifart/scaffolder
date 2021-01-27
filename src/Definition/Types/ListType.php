@@ -35,16 +35,6 @@ final class ListType implements CompositeType
 		return \sprintf('%s[]', $this->itemType->getDocCommentType($namespace));
 	}
 
-	public function hasComment(): bool
-	{
-		return false;
-	}
-
-	public function getComment(PhpNamespace $namespace): ?string
-	{
-		return null;
-	}
-
 	public function getSubTypes(): array
 	{
 		return [$this->itemType];

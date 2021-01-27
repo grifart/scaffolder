@@ -21,10 +21,4 @@ interface Type
 
 	public function getDocCommentType(PhpNamespace $namespace): string;
 
-
-	public function hasComment(): bool;
-
-
-	public function getComment(PhpNamespace $namespace): ?string;
-
 }

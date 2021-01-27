@@ -109,16 +109,4 @@ final class SimpleType implements Type
 		return $this->type;
 	}
 
-
-	public function hasComment(): bool
-	{
-		return FALSE;
-	}
-
-
-	public function getComment(PhpNamespace $namespace): ?string
-	{
-		return NULL;
-	}
-
 }
