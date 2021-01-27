@@ -62,16 +62,4 @@ final class UnionType implements CompositeType
 			$this->subTypes,
 		));
 	}
-
-
-	public function hasComment(): bool
-	{
-		return false;
-	}
-
-
-	public function getComment(PhpNamespace $namespace): ?string
-	{
-		return null;
-	}
 }

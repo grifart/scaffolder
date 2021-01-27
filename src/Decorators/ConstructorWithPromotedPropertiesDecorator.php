@@ -27,10 +27,9 @@ final class ConstructorWithPromotedPropertiesDecorator
 			if ($type->requiresDocComment()) {
 				$docCommentType = $type->getDocCommentType($namespace);
 				$constructor->addComment(\sprintf(
-					'@param %s $%s%s',
+					'@param %s $%s',
 					$docCommentType,
 					$fieldName,
-					$type->hasComment() ? ' ' . $type->getComment($namespace) : ''
 				));
 			}
 		}

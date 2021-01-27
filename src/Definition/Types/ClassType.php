@@ -51,18 +51,6 @@ final class ClassType implements Type
 	}
 
 
-	public function hasComment(): bool
-	{
-		return FALSE;
-	}
-
-
-	public function getComment(PhpNamespace $namespace): ?string
-	{
-		return NULL;
-	}
-
-
 	public function requiresDocComment(): bool
 	{
 		return FALSE;

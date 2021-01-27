@@ -50,18 +50,6 @@ final class NullableType implements CompositeType
 	}
 
 
-	public function hasComment(): bool
-	{
-		return FALSE;
-	}
-
-
-	public function getComment(PhpNamespace $namespace): ?string
-	{
-		return NULL;
-	}
-
-
 	/**
 	 * @return Type[]
 	 */

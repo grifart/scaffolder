@@ -35,9 +35,8 @@ final class GettersDecorator implements ClassDecorator
 				$docCommentType = $type->getDocCommentType($namespace);
 
 				$getter->addComment(\sprintf(
-					'@return %s%s',
+					'@return %s',
 					$docCommentType,
-					$type->hasComment() ? ' ' . $type->getComment($namespace) : ''
 				));
 			}
 		}

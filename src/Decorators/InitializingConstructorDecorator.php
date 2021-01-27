@@ -35,10 +35,9 @@ final class InitializingConstructorDecorator implements ClassDecorator
 				$docCommentType = $type->getDocCommentType($namespace);
 
 				$constructor->addComment(\sprintf(
-					'@param %s $%s%s',
+					'@param %s $%s',
 					$docCommentType,
 					$fieldName,
-					$type->hasComment() ? ' ' . $type->getComment($namespace) : ''
 				));
 			}
 		}

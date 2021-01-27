@@ -25,9 +25,8 @@ final class PropertiesDecorator implements ClassDecorator
 
 			if ($type->requiresDocComment()) {
 				$property->addComment(\sprintf(
-					'@var %s%s',
+					'@var %s',
 					$type->getDocCommentType($namespace),
-					$type->hasComment() ? ' ' . $type->getComment($namespace) : ''
 				));
 			}
 		}
