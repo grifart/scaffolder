@@ -6,16 +6,15 @@ namespace Grifart\ClassScaffolder\Decorators;
 
 use Grifart\ClassScaffolder\Definition\ClassDefinition;
 use Nette\PhpGenerator\ClassType;
+use Nette\PhpGenerator\PhpNamespace;
+
 
 final class PropertiesDecorator implements ClassDecorator
 {
 
 
-	public function decorate(ClassType $classType, ClassDefinition $definition): void
+	public function decorate(PhpNamespace $namespace, ClassType $classType, ClassDefinition $definition): void
 	{
-		$namespace = $classType->getNamespace();
-		\assert($namespace !== NULL, 'Class Generator always generate class in namespace.');
-
 		foreach ($definition->getFields() as $fieldName => $type) {
 			// add property
 			$property = $classType->addProperty($fieldName)

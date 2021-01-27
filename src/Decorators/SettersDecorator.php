@@ -8,13 +8,14 @@ use Grifart\ClassScaffolder\Definition\ClassDefinition;
 use Nette\PhpGenerator\ClassType;
 use Nette\PhpGenerator\Parameter;
 use Nette\PhpGenerator\PhpLiteral;
+use Nette\PhpGenerator\PhpNamespace;
+
 
 final class SettersDecorator implements ClassDecorator
 {
 
-	public function decorate(ClassType $classType, ClassDefinition $definition): void
+	public function decorate(PhpNamespace $namespace, ClassType $classType, ClassDefinition $definition): void
 	{
-		$namespace = DecoratorTools::extractNamespace($classType);
 		DecoratorTools::checkIfAllFieldsArePresent($definition, $classType);
 
 		foreach ($definition->getFields() as $fieldName => $type) {
