@@ -6,7 +6,7 @@ namespace Grifart\ClassScaffolder\Definition\Types;
 
 use Grifart\ClassScaffolder\Definition\ClassDefinition;
 
-function resolve($type): Type {
+function resolve(Type|ClassDefinition|string $type): Type {
 	if ($type instanceof Type) {
 		return $type;
 	}
@@ -39,14 +39,14 @@ function classType(string $type): NonCheckedClassType {
 }
 
 
-function nullable($type): NullableType {
+function nullable(Type|ClassDefinition|string $type): NullableType {
 	return new NullableType(
 		resolve($type)
 	);
 }
 
 
-function generic($baseType, ...$parameterTypes): GenericType {
+function generic(Type|ClassDefinition|string $baseType, Type|ClassDefinition|string ...$parameterTypes): GenericType {
 	return new GenericType(
 		resolve($baseType),
 		...\array_map(
@@ -57,7 +57,7 @@ function generic($baseType, ...$parameterTypes): GenericType {
 }
 
 
-function collection($collectionType, $keyType, $elementType): CollectionType {
+function collection(Type|ClassDefinition|string $collectionType, Type|ClassDefinition|string $keyType, Type|ClassDefinition|string $elementType): CollectionType {
 	return new CollectionType(
 		resolve($collectionType),
 		resolve($keyType),
@@ -65,6 +65,6 @@ function collection($collectionType, $keyType, $elementType): CollectionType {
 	);
 }
 
-function listOf($elementType): ListType {
+function listOf(Type|ClassDefinition|string $elementType): ListType {
 	return new ListType(resolve($elementType));
 }
