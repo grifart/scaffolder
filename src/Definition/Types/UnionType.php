@@ -10,66 +10,12 @@ final class UnionType implements CompositeType
 {
 
 	/** @var Type[] */
-	private array $parameterTypes;
+	private array $subTypes;
 
 
-	public function __construct(Type ...$unionTypes)
+	public function __construct(Type $first, Type $second, Type ...$rest)
 	{
-		$this->parameterTypes = $unionTypes;
-	}
-
-
-	public function getBaseType(): Type
-	{
-		return SimpleType::mixed();
-	}
-
-
-	/**
-	 * @return Type[]
-	 */
-	public function getParameterTypes(): array
-	{
-		return $this->parameterTypes;
-	}
-
-
-	public function getTypeHint(): string
-	{
-		return '';
-	}
-
-
-	public function isNullable(): bool
-	{
-		return FALSE;
-	}
-
-
-	public function requiresDocComment(): bool
-	{
-		return TRUE;
-	}
-
-
-	public function getDocCommentType(PhpNamespace $namespace): string
-	{
-		return \implode('|', \array_map(
-			static fn(Type $type) => $type->getDocCommentType($namespace),
-			$this->parameterTypes,
-		));
-	}
-
-
-	public function hasComment(): bool
-	{
-		return FALSE;
-	}
-
-
-	public function getComment(PhpNamespace $namespace): ?string
-	{
-		return NULL;
+		$this->subTypes = [$first, $second, ...$rest];
 	}
 
 
@@ -78,8 +24,54 @@ final class UnionType implements CompositeType
 	 */
 	public function getSubTypes(): array
 	{
-		return [
-			...$this->parameterTypes,
-		];
+		return $this->subTypes;
+	}
+
+
+	public function getTypeHint(): string
+	{
+		return \implode('|', \array_map(
+			static fn(Type $type) => $type->getTypeHint(),
+			$this->subTypes,
+		));
+	}
+
+
+	public function isNullable(): bool
+	{
+		return false;
+	}
+
+
+	public function requiresDocComment(): bool
+	{
+		foreach ($this->subTypes as $subType) {
+			if ($subType->requiresDocComment()) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+
+	public function getDocCommentType(PhpNamespace $namespace): string
+	{
+		return \implode('|', \array_map(
+			static fn(Type $type) => $type->getDocCommentType($namespace),
+			$this->subTypes,
+		));
+	}
+
+
+	public function hasComment(): bool
+	{
+		return false;
+	}
+
+
+	public function getComment(PhpNamespace $namespace): ?string
+	{
+		return null;
 	}
 }
