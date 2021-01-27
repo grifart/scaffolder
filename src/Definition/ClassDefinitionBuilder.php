@@ -6,6 +6,7 @@ namespace Grifart\ClassScaffolder\Definition;
 
 use Grifart\ClassScaffolder\Decorators\ClassDecorator;
 use Grifart\ClassScaffolder\Definition\Types;
+use Grifart\ClassScaffolder\Definition\Types\Type;
 
 
 final class ClassDefinitionBuilder
@@ -53,7 +54,7 @@ final class ClassDefinitionBuilder
 	}
 
 
-	public function field(string $name, $type): self
+	public function field(string $name, Type|ClassDefinition|string $type): self
 	{
 		$this->fields[$name] = Types\resolve($type);
 		return $this;
