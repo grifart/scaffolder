@@ -19,7 +19,7 @@ function resolve(Type|ClassDefinition|string $type): Type {
 		return nullable(resolve(\substr($type, 1)));
 	}
 
-	if (\in_array($type, ['string', 'int', 'float', 'bool', 'array', 'iterable', 'callable', 'object', 'mixed'], TRUE)) {
+	if (\in_array($type, ['string', 'int', 'float', 'bool', 'false', 'array', 'iterable', 'callable', 'object', 'mixed', 'null'], TRUE)) {
 		return SimpleType::$type();
 	}
 
@@ -49,10 +49,7 @@ function nullable(Type|ClassDefinition|string $type): NullableType {
 function generic(Type|ClassDefinition|string $baseType, Type|ClassDefinition|string ...$parameterTypes): GenericType {
 	return new GenericType(
 		resolve($baseType),
-		...\array_map(
-			static fn($type): Type => resolve($type),
-			$parameterTypes,
-		),
+		...\array_map('\Grifart\ClassScaffolder\Definition\Types\resolve', $parameterTypes),
 	);
 }
 
@@ -67,4 +64,17 @@ function collection(Type|ClassDefinition|string $collectionType, Type|ClassDefin
 
 function listOf(Type|ClassDefinition|string $elementType): ListType {
 	return new ListType(resolve($elementType));
+}
+
+
+function union(
+	Type|ClassDefinition|string $first,
+	Type|ClassDefinition|string $second,
+	Type|ClassDefinition|string ...$rest,
+): UnionType {
+	return new UnionType(
+		resolve($first),
+		resolve($second),
+		...\array_map('\Grifart\ClassScaffolder\Definition\Types\resolve', $rest),
+	);
 }

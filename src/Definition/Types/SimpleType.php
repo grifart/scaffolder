@@ -44,6 +44,12 @@ final class SimpleType implements Type
 	}
 
 
+	public static function false(): self
+	{
+		return new self('false');
+	}
+
+
 	public static function array(): self
 	{
 		return new self('array');
@@ -72,6 +78,13 @@ final class SimpleType implements Type
 	{
 		return new self('mixed');
 	}
+
+
+	public static function null(): self
+	{
+		return new self('null');
+	}
+
 
 	public function getTypeHint(): string
 	{
