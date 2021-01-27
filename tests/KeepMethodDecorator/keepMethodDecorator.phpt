@@ -4,6 +4,7 @@ namespace Grifart\ClassScaffolder\Test;
 
 use Grifart\ClassScaffolder\Decorators\ClassDecorator;
 use Grifart\ClassScaffolder\Definition\ClassDefinition;
+use Grifart\ClassScaffolder\Definition\Field;
 use Grifart\ClassScaffolder\Definition\Types;
 use Tester\Assert;
 
@@ -18,7 +19,7 @@ $generateClass = static fn (array $decorators) => $generator->generateClass(
 		'Grifart\ClassScaffolder\Test\KeepMethodDecorator\Stub',
 		'StubKeepMethod',
 		[],
-		['field'=>Types\resolve('mixed')],
+		[new Field('field', Types\resolve('mixed'))],
 		$decorators
 	),
 );

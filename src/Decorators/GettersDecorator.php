@@ -15,7 +15,10 @@ final class GettersDecorator implements ClassDecorator
 	{
 		DecoratorTools::checkIfAllFieldsArePresent($definition, $classType);
 
-		foreach ($definition->getFields() as $fieldName => $type) {
+		foreach ($definition->getFields() as $field) {
+			$fieldName = $field->getName();
+			$type = $field->getType();
+
 			// add getter
 			$getter = $classType->addMethod('get' . \ucfirst($fieldName))
 				->setVisibility('public')

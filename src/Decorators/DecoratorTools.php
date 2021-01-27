@@ -14,9 +14,9 @@ final class DecoratorTools
 	public static function checkIfAllFieldsArePresent(ClassDefinition $definition, ClassType $classType): void
 	{
 		// check if all fields are present
-		foreach ($definition->getFields() as $fieldName => $type) {
+		foreach ($definition->getFields() as $field) {
 			try {
-				self::getProperty($classType, $fieldName);
+				self::getProperty($classType, $field->getName());
 			} catch (\InvalidArgumentException $e) {
 				throw new \InvalidArgumentException('Used decorator requires you to have all fields specified in class specification already declared in generated class. Maybe you want to use PropertiesDecorator before this one?', 0, $e);
 			}

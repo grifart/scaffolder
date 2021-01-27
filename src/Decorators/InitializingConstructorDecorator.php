@@ -18,7 +18,10 @@ final class InitializingConstructorDecorator implements ClassDecorator
 		$constructor = $classType->addMethod('__construct');
 		$constructor->setVisibility('public');
 
-		foreach ($definition->getFields() as $fieldName => $type) {
+		foreach ($definition->getFields() as $field) {
+			$fieldName = $field->getName();
+			$type = $field->getType();
+
 			$parameter = $constructor->addParameter($fieldName);
 			$parameter->setType($type->getTypeHint());
 			$parameter->setNullable($type->isNullable());

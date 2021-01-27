@@ -5,8 +5,10 @@ declare(strict_types = 1);
 namespace Grifart\ClassScaffolder;
 
 use Grifart\ClassScaffolder\Definition\ClassDefinition;
+use Grifart\ClassScaffolder\Definition\Field;
 use Grifart\ClassScaffolder\Definition\Types\ClassType;
 use Grifart\ClassScaffolder\Definition\Types\CompositeType;
+use Grifart\ClassScaffolder\Definition\Types\Type;
 use Nette\PhpGenerator as Code;
 
 
@@ -30,7 +32,7 @@ final class ClassGenerator
 
 		// uses
 
-		foreach ($definition->getFields() as $fieldName => $type) {
+		foreach ($definition->getFields() as $field) {
 
 			// add use
 			$addUse = static function (array $types) use ($namespace, &$addUse): void {
@@ -45,7 +47,7 @@ final class ClassGenerator
 				}
 			};
 
-			$addUse([$type]);
+			$addUse([$field->getType()]);
 
 		}
 
