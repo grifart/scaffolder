@@ -70,7 +70,7 @@ require_once __DIR__ . '/../bootstrap.php';
 			],
 			[
 				'classGenerator.10-promoted-properties.phps',
-				new ClassDefinition('NS', 'CLS', [], ['field'=>Types\resolve('string')], [new \Grifart\ClassScaffolder\Decorators\ConstructorWithPromotedPropertiesDecorator()])
+				new ClassDefinition('NS', 'CLS', [], ['field'=>Types\resolve('string')], [new \Grifart\ClassScaffolder\Decorators\ConstructorWithPromotedPropertiesDecorator(), new \Grifart\ClassScaffolder\Decorators\GettersDecorator()])
 			],
 		];
 	}
