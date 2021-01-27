@@ -68,6 +68,10 @@ require_once __DIR__ . '/../bootstrap.php';
 				'classGenerator.9-cross-reference.phps',
 				new ClassDefinition('NS', 'CLS', [], ['field'=>Types\resolve(new ClassDefinition('NS', 'SubCLS', [], [], []))], $this->getDecorators())
 			],
+			[
+				'classGenerator.10-promoted-properties.phps',
+				new ClassDefinition('NS', 'CLS', [], ['field'=>Types\resolve('string')], [new \Grifart\ClassScaffolder\Decorators\ConstructorWithPromotedPropertiesDecorator()])
+			],
 		];
 	}
 
