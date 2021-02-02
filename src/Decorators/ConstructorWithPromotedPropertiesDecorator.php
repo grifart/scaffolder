@@ -8,7 +8,7 @@ use Grifart\ClassScaffolder\Definition\ClassDefinition;
 use Nette\PhpGenerator\ClassType;
 use Nette\PhpGenerator\PhpNamespace;
 
-final class ConstructorWithPromotedPropertiesDecorator
+final class ConstructorWithPromotedPropertiesDecorator implements ClassDecorator
 {
 	public function decorate(PhpNamespace $namespace, ClassType $classType, ClassDefinition $definition): void
 	{
