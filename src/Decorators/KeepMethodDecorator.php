@@ -20,11 +20,11 @@ final class KeepMethodDecorator implements ClassDecorator
 
 	public function decorate(PhpNamespace $classToBeGeneratedNamespace, ClassType $classToBeGenerated, ClassDefinition $definition): void
 	{
-		$alreadyExistentClass = self::getAlreadyExistentClass($definition);
+		$alreadyExistingClass = self::getAlreadyExistingClass($definition);
 
 		// method already exists, just transfer it to new class
-		if ($alreadyExistentClass !== null && $alreadyExistentClass->hasMethod($this->methodToBeKept)) {
-			$keptMethod = $alreadyExistentClass->getMethod($this->methodToBeKept);
+		if ($alreadyExistingClass !== null && $alreadyExistingClass->hasMethod($this->methodToBeKept)) {
+			$keptMethod = $alreadyExistingClass->getMethod($this->methodToBeKept);
 
 			self::addClassesUsedInMethodToUses($keptMethod, $classToBeGeneratedNamespace);
 
@@ -52,7 +52,7 @@ final class KeepMethodDecorator implements ClassDecorator
 		);
 	}
 
-	private static function getAlreadyExistentClass(ClassDefinition $definition): ?ClassType
+	private static function getAlreadyExistingClass(ClassDefinition $definition): ?ClassType
 	{
 		$namespace = $definition->getNamespaceName();
 		$classFqn = ($namespace === null ? '' : $namespace) . '\\' . $definition->getClassName();
