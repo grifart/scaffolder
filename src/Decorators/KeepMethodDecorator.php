@@ -18,12 +18,9 @@ final class KeepMethodDecorator implements ClassDecorator
 		$this->methodToBeKept = $methodName;
 	}
 
-	public function decorate(PhpNamespace $namespace, ClassType $classToBeGenerated, ClassDefinition $definition): void
+	public function decorate(PhpNamespace $classToBeGeneratedNamespace, ClassType $classToBeGenerated, ClassDefinition $definition): void
 	{
 		$alreadyExistentClass = self::getAlreadyExistentClass($definition);
-
-		$classToBeGeneratedNamespace = $classToBeGenerated->getNamespace();
-		\assert($classToBeGeneratedNamespace !== NULL, 'Class Generator always generates class in namespace.');
 
 		// method already exists, just transfer it to new class
 		if ($alreadyExistentClass !== null && $alreadyExistentClass->hasMethod($this->methodToBeKept)) {
