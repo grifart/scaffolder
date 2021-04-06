@@ -3,53 +3,41 @@
 namespace Grifart\ClassScaffolder\Decorators;
 
 use Grifart\ClassScaffolder\Definition\ClassDefinition;
+use Grifart\ClassScaffolder\KeepMethod;
 use Nette\PhpGenerator\ClassType;
 use Nette\PhpGenerator\Method;
 use Nette\PhpGenerator\PhpNamespace;
 use Nette\Utils\Strings;
 
 
-final class KeepMethodDecorator implements ClassDecorator
+final class KeepAnnotatedMethodsDecorator implements ClassDecorator
 {
-	private string $methodToBeKept;
-
-	public function __construct(string $methodName)
-	{
-		$this->methodToBeKept = $methodName;
-	}
-
 	public function decorate(PhpNamespace $classToBeGeneratedNamespace, ClassType $classToBeGenerated, ClassDefinition $definition): void
 	{
 		$alreadyExistingClass = self::getAlreadyExistingClass($definition);
-
-		// method already exists, just transfer it to new class
-		if ($alreadyExistingClass !== null && $alreadyExistingClass->hasMethod($this->methodToBeKept)) {
-			$keptMethod = $alreadyExistingClass->getMethod($this->methodToBeKept);
-
-			self::addClassesUsedInMethodToUses($keptMethod, $classToBeGeneratedNamespace);
-
-			$classToBeGenerated->setMethods([
-				...\array_values($classToBeGenerated->getMethods()),
-				$keptMethod,
-			]);
+		if ($alreadyExistingClass === null) {
 			return;
 		}
 
-		// method does not exist or no previous class
-		$addMethodStub = function(ClassType $classToBeGenerated): Method {
-			$method = $classToBeGenerated->addMethod($this->methodToBeKept);
-			$method->setReturnType('void');
-			$method->setBody('// Implement method here');
-			return $method;
-		};
+		foreach ($alreadyExistingClass->getMethods() as $existingMethod) {
+			foreach ($existingMethod->getAttributes() as $attribute) {
+				if ($attribute->getName() === KeepMethod::class) {
+					self::transferMethod($classToBeGeneratedNamespace, $classToBeGenerated, $existingMethod);
+					break; // continue to next method
+				}
+			}
+		}
+	}
 
-		$methodToBeKept = $classToBeGenerated->hasMethod($this->methodToBeKept)
-			? $classToBeGenerated->getMethod($this->methodToBeKept)
-			: $addMethodStub($classToBeGenerated);
-		$methodToBeKept->setComment(
-			'This method is kept while scaffolding.' . "\n" .
-			$methodToBeKept->getComment()
-		);
+	private static function transferMethod(PhpNamespace $targetClassNamespace, ClassType $targetClass, Method $methodToBeTransferred): void
+	{
+		$targetClassNamespace->addUse(KeepMethod::class);
+		self::addClassesUsedInMethodToUses($methodToBeTransferred, $targetClassNamespace);
+
+		$targetClass->setMethods([
+			...\array_values($targetClass->getMethods()),
+			$methodToBeTransferred,
+		]);
 	}
 
 	private static function getAlreadyExistingClass(ClassDefinition $definition): ?ClassType
@@ -72,7 +60,7 @@ final class KeepMethodDecorator implements ClassDecorator
 	{
 		/*
 		 * Parameters.
-		 * Otherwise e.g. fromDTO(\Path\To\DTO $dto) would be generated instead of fromDTO(DTO $dto)
+		 * So that `fromDTO(\Path\To\DTO $dto)` becomes `fromDTO(DTO $dto)`
 		 */
 		foreach ($method->getParameters() as $parameter) {
 			$type = $parameter->getType();
@@ -83,19 +71,22 @@ final class KeepMethodDecorator implements ClassDecorator
 
 		/*
 		 * Body class usages.
-		 * Otherwise e.g. \Path\To\CampaignRole::ROLE_MANAGER would be generated instead of CampaignRole::ROLE_MANAGER
+		 * So that `\Path\To\CampaignRole::ROLE_MANAGER` becomes `CampaignRole::ROLE_MANAGER`
 		 */
 		$body = $method->getBody();
 		if ($body === null) {
 			return;
 		}
 
+		// find all FQN classes
 		$usedClasses = Strings::matchAll($body, '/(\\\\([\\\\\w]+))/'); // search for \A\B\C
 		foreach ($usedClasses as $match) {
 			$usedClass = $match[2]; // A\B\C
 			if (\class_exists($usedClass)) {
+				// add to uses
 				$namespace->addUse($usedClass);
 
+				// replace FQN with just class name
 				$a = \explode('\\', $usedClass);
 				$b = \array_pop($a); // C
 				\assert($b !== null, 'Array can not be empty.');
