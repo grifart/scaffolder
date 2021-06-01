@@ -122,7 +122,7 @@ final class GenerateClassCommand extends Command
 	/**
 	 * @return ClassDefinition[]
 	 */
-	private function loadDefinitions(string $definitionFile): array
+	private function loadDefinitions(string $definitionFile): iterable
 	{
 		$definitionFile = Path::canonicalize($definitionFile);
 		if ( ! \file_exists($definitionFile)) {
@@ -133,7 +133,7 @@ final class GenerateClassCommand extends Command
 		}
 
 		$definitions = require $definitionFile;
-		if (!\is_array($definitions)) {
+		if ( ! \is_iterable($definitions)) {
 			$definitions = [$definitions];
 		}
 		foreach($definitions as $definition) {
