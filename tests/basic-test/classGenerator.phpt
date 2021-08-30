@@ -90,6 +90,14 @@ require_once __DIR__ . '/../bootstrap.php';
 				'classGenerator.11-union-with-generics.phps',
 				new ClassDefinition('NS', 'CLS', [], [new Field('union', Types\generic('array', 'string', Types\union(Types\classType('NS\GenericClass'), 'int', 'callable', 'string', 'null')))], [new PropertiesDecorator()])
 			],
+			[
+				'classGenerator.12-shape.phps',
+				new ClassDefinition('NS', 'CLS', [], [new Field('shape', Types\arrayShape([
+					'foo' => 'int',
+					'bar' => Types\generic(Types\classType('NS\GenericClass'), 'string'),
+					'baz' => Types\listOf('string'),
+				]))], [new PropertiesDecorator()])
+			],
 		];
 	}
 
