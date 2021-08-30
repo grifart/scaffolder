@@ -28,7 +28,7 @@ function resolve(Type|ClassDefinition|ClassDefinitionBuilder|string $type): Type
 		return SimpleType::$type();
 	}
 
-	if (\class_exists($type) || \interface_exists($type)) {
+	if (\class_exists($type) || \interface_exists($type) || (\PHP_VERSION_ID >= 80100 && \enum_exists($type))) {
 		return new ClassType($type);
 	}
 
