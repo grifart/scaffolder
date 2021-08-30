@@ -90,3 +90,16 @@ function union(
 		...\array_map('\Grifart\ClassScaffolder\Definition\Types\resolve', $rest),
 	);
 }
+
+
+function intersection(
+	Type|ClassDefinition|ClassDefinitionBuilder|string $first,
+	Type|ClassDefinition|ClassDefinitionBuilder|string $second,
+	Type|ClassDefinition|ClassDefinitionBuilder|string ...$rest,
+): IntersectionType {
+	return new IntersectionType(
+		resolve($first),
+		resolve($second),
+		...\array_map('\Grifart\ClassScaffolder\Definition\Types\resolve', $rest),
+	);
+}

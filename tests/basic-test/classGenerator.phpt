@@ -98,6 +98,10 @@ require_once __DIR__ . '/../bootstrap.php';
 					'baz' => Types\listOf('string'),
 				]))], [new PropertiesDecorator()])
 			],
+			[
+				'classGenerator.13-intersection.phps',
+				new ClassDefinition('NS', 'CLS', [], [new Field('intersection', Types\intersection('Countable', 'Traversable'))], [new PropertiesDecorator()])
+			],
 		];
 	}
 
