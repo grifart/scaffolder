@@ -66,6 +66,13 @@ function listOf(Type|ClassDefinition|string $elementType): ListType {
 	return new ListType(resolve($elementType));
 }
 
+/**
+ * @param array<string, Type|ClassDefinition|string> $shape
+ */
+function arrayShape(array $shape): ArrayShapeType {
+	return new ArrayShapeType(\array_map('\Grifart\ClassScaffolder\Definition\Types\resolve', $shape));
+}
+
 
 function union(
 	Type|ClassDefinition|string $first,
