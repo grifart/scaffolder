@@ -17,8 +17,9 @@ final class ClassGenerator
 
 	public function generateClass(ClassDefinition $definition): Code\PhpNamespace
 	{
-		$namespace = new Code\PhpNamespace($definition->getNamespaceName() ?? '');
-		$classType = $namespace->addClass($definition->getClassName());
+		$classInNamespace = ClassInNamespace::fromDefinition($definition);
+		$namespace = $classInNamespace->getNamespace();
+		$classType = $classInNamespace->getClassType();
 		$classType->setFinal();
 
 
