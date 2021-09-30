@@ -17,9 +17,9 @@ final class ClassGenerator
 
 	public function generateClass(ClassDefinition $definition): Code\PhpNamespace
 	{
-		$classInNamespace = ClassInNamespace::fromDefinition($definition);
-		$namespace = $classInNamespace->getNamespace();
-		$classType = $classInNamespace->getClassType();
+		$draft = ClassInNamespace::fromDefinition($definition);
+		$namespace = $draft->getNamespace();
+		$classType = $draft->getClassType();
 		$classType->setFinal();
 
 
@@ -58,7 +58,7 @@ final class ClassGenerator
 		// decorators
 
 		foreach ($definition->getDecorators() as $decorator) {
-			$decorator->decorate($classInNamespace, $definition);
+			$decorator->decorate($definition, $draft);
 		}
 
 

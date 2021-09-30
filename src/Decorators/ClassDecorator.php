@@ -11,8 +11,8 @@ interface ClassDecorator
 {
 
 	public function decorate(
-		ClassInNamespace $draft,
 		ClassDefinition $definition,
+		ClassInNamespace $draft,
 	): void;
 
 }

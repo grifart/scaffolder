@@ -10,7 +10,7 @@ use Grifart\ClassScaffolder\Definition\ClassDefinition;
 final class GettersDecorator implements ClassDecorator
 {
 
-	public function decorate(ClassInNamespace $draft, ClassDefinition $definition): void
+	public function decorate(ClassDefinition $definition, ClassInNamespace $draft): void
 	{
 		$classType = $draft->getClassType();
 		DecoratorTools::checkIfAllFieldsArePresent($definition, $classType);

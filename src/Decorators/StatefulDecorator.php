@@ -13,7 +13,7 @@ use Grifart\Stateful\StateBuilder;
 final class StatefulDecorator implements ClassDecorator
 {
 
-	public function decorate(ClassInNamespace $draft, ClassDefinition $definition): void
+	public function decorate(ClassDefinition $definition, ClassInNamespace $draft): void
 	{
 		$namespace = $draft->getNamespace();
 		$classType = $draft->getClassType();
