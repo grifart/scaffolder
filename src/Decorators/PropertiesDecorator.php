@@ -12,7 +12,7 @@ final class PropertiesDecorator implements ClassDecorator
 {
 
 
-	public function decorate(ClassDefinition $definition, ClassInNamespace $draft): void
+	public function decorate(ClassDefinition $definition, ClassInNamespace $draft, ?ClassInNamespace $current): void
 	{
 		foreach ($definition->getFields() as $field) {
 			$type = $field->getType();

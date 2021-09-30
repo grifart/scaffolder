@@ -5,10 +5,8 @@ declare(strict_types = 1);
 namespace Grifart\ClassScaffolder;
 
 use Grifart\ClassScaffolder\Definition\ClassDefinition;
-use Grifart\ClassScaffolder\Definition\Field;
 use Grifart\ClassScaffolder\Definition\Types\ClassType;
 use Grifart\ClassScaffolder\Definition\Types\CompositeType;
-use Grifart\ClassScaffolder\Definition\Types\Type;
 use Nette\PhpGenerator as Code;
 
 
@@ -57,12 +55,41 @@ final class ClassGenerator
 
 		// decorators
 
+		$current = self::findCurrent($definition);
 		foreach ($definition->getDecorators() as $decorator) {
-			$decorator->decorate($definition, $draft);
+			$decorator->decorate($definition, $draft, $current);
 		}
 
 
 		return $namespace;
+	}
+
+
+	private static function findCurrent(ClassDefinition $definition): ?ClassInNamespace
+	{
+		$namespace = $definition->getNamespaceName();
+		$className = $definition->getClassName();
+		$classFqn = ($namespace === null ? '' : $namespace) . '\\' . $className;
+		if ( ! \class_exists($classFqn)) {
+			return null;
+		}
+
+		// find class' namespace
+		$file = Code\PhpFile::fromCode(\file_get_contents((new \ReflectionClass($classFqn))->getFileName()));
+		$matchedNamespace = null;
+		foreach ($file->getNamespaces() as $namespace) {
+			$doesNamespaceContainDesiredClass = \count(\array_filter($namespace->getClasses(), fn(Code\ClassType $classType): bool => $classType->getName() === $className)) === 1;
+			if ($doesNamespaceContainDesiredClass) {
+				$matchedNamespace = $namespace;
+				break;
+			}
+		}
+		\assert($matchedNamespace !== null);
+
+		return ClassInNamespace::from(
+			$matchedNamespace,
+			Code\ClassType::withBodiesFrom($classFqn),
+		);
 	}
 
 }

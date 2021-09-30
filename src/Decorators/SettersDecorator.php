@@ -13,7 +13,7 @@ use Nette\PhpGenerator\PhpLiteral;
 final class SettersDecorator implements ClassDecorator
 {
 
-	public function decorate(ClassDefinition $definition, ClassInNamespace $draft): void
+	public function decorate(ClassDefinition $definition, ClassInNamespace $draft, ?ClassInNamespace $current): void
 	{
 		$classType = $draft->getClassType();
 		DecoratorTools::checkIfAllFieldsArePresent($definition, $classType);

@@ -11,7 +11,7 @@ use Nette\PhpGenerator as Code;
 final class InitializingConstructorDecorator implements ClassDecorator
 {
 
-	public function decorate(ClassDefinition $definition, ClassInNamespace $draft): void
+	public function decorate(ClassDefinition $definition, ClassInNamespace $draft, ?ClassInNamespace $current): void
 	{
 		$classType = $draft->getClassType();
 		DecoratorTools::checkIfAllFieldsArePresent($definition, $classType);

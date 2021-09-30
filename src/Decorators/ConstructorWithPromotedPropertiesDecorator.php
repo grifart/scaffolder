@@ -9,7 +9,7 @@ use Grifart\ClassScaffolder\Definition\ClassDefinition;
 
 final class ConstructorWithPromotedPropertiesDecorator implements ClassDecorator
 {
-	public function decorate(ClassDefinition $definition, ClassInNamespace $draft): void
+	public function decorate(ClassDefinition $definition, ClassInNamespace $draft, ?ClassInNamespace $current): void
 	{
 		$constructor = $draft->getClassType()->addMethod('__construct');
 		$constructor->setVisibility('public');

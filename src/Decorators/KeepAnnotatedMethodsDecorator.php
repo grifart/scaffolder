@@ -13,7 +13,7 @@ use Nette\Utils\Strings;
 
 final class KeepAnnotatedMethodsDecorator implements ClassDecorator
 {
-	public function decorate(ClassDefinition $definition, ClassInNamespace $draft): void
+	public function decorate(ClassDefinition $definition, ClassInNamespace $draft, ?ClassInNamespace $current): void
 	{
 		$alreadyExistingClass = self::getAlreadyExistingClass($definition);
 		if ($alreadyExistingClass === null) {
