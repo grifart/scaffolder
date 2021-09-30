@@ -4,18 +4,18 @@
 namespace Grifart\ClassScaffolder\Decorators;
 
 
+use Grifart\ClassScaffolder\ClassInNamespace;
 use Grifart\ClassScaffolder\Definition\ClassDefinition;
-use Nette\PhpGenerator\ClassType;
 use Nette\PhpGenerator\Parameter;
 use Nette\PhpGenerator\PhpLiteral;
-use Nette\PhpGenerator\PhpNamespace;
 
 
 final class SettersDecorator implements ClassDecorator
 {
 
-	public function decorate(PhpNamespace $namespace, ClassType $classType, ClassDefinition $definition): void
+	public function decorate(ClassInNamespace $classInNamespace, ClassDefinition $definition): void
 	{
+		$classType = $classInNamespace->getClassType();
 		DecoratorTools::checkIfAllFieldsArePresent($definition, $classType);
 
 		foreach ($definition->getFields() as $field) {
@@ -39,7 +39,7 @@ final class SettersDecorator implements ClassDecorator
 
 			// add phpDoc type hints if necessary
 			if ($type->requiresDocComment()) {
-				$docCommentType = $type->getDocCommentType($namespace);
+				$docCommentType = $type->getDocCommentType($classInNamespace->getNamespace());
 
 				$getter->addComment(\sprintf(
 					'@return %s',

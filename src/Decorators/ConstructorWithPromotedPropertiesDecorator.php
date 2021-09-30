@@ -4,15 +4,14 @@ declare(strict_types=1);
 
 namespace Grifart\ClassScaffolder\Decorators;
 
+use Grifart\ClassScaffolder\ClassInNamespace;
 use Grifart\ClassScaffolder\Definition\ClassDefinition;
-use Nette\PhpGenerator\ClassType;
-use Nette\PhpGenerator\PhpNamespace;
 
 final class ConstructorWithPromotedPropertiesDecorator implements ClassDecorator
 {
-	public function decorate(PhpNamespace $namespace, ClassType $classType, ClassDefinition $definition): void
+	public function decorate(ClassInNamespace $classInNamespace, ClassDefinition $definition): void
 	{
-		$constructor = $classType->addMethod('__construct');
+		$constructor = $classInNamespace->getClassType()->addMethod('__construct');
 		$constructor->setVisibility('public');
 
 		foreach ($definition->getFields() as $field) {
@@ -25,7 +24,7 @@ final class ConstructorWithPromotedPropertiesDecorator implements ClassDecorator
 				->setNullable($type->isNullable());
 
 			if ($type->requiresDocComment()) {
-				$docCommentType = $type->getDocCommentType($namespace);
+				$docCommentType = $type->getDocCommentType($classInNamespace->getNamespace());
 				$constructor->addComment(\sprintf(
 					'@param %s $%s',
 					$docCommentType,

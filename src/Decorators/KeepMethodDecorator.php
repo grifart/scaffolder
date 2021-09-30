@@ -2,6 +2,7 @@
 
 namespace Grifart\ClassScaffolder\Decorators;
 
+use Grifart\ClassScaffolder\ClassInNamespace;
 use Grifart\ClassScaffolder\Definition\ClassDefinition;
 use Nette\PhpGenerator\ClassType;
 use Nette\PhpGenerator\Method;
@@ -18,15 +19,16 @@ final class KeepMethodDecorator implements ClassDecorator
 		$this->methodToBeKept = $methodName;
 	}
 
-	public function decorate(PhpNamespace $classToBeGeneratedNamespace, ClassType $classToBeGenerated, ClassDefinition $definition): void
+	public function decorate(ClassInNamespace $classInNamespace, ClassDefinition $definition): void
 	{
 		$alreadyExistingClass = self::getAlreadyExistingClass($definition);
+		$classToBeGenerated = $classInNamespace->getClassType();
 
 		// method already exists, just transfer it to new class
 		if ($alreadyExistingClass !== null && $alreadyExistingClass->hasMethod($this->methodToBeKept)) {
 			$keptMethod = $alreadyExistingClass->getMethod($this->methodToBeKept);
 
-			self::addClassesUsedInMethodToUses($keptMethod, $classToBeGeneratedNamespace);
+			self::addClassesUsedInMethodToUses($keptMethod, $classInNamespace->getNamespace());
 
 			$classToBeGenerated->setMethods([
 				...\array_values($classToBeGenerated->getMethods()),
