@@ -27,7 +27,7 @@
 		"php": "^8.0",
 		"ext-tokenizer": "*",
 		"nette/finder": "^2.5",
-		"nette/php-generator": "^3.5.2",
+		"nette/php-generator": "^3.6.1",
 		"symfony/console": "^5.0",
 		"webmozart/path-util": "^2.3"
 	},
