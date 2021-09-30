@@ -14,12 +14,10 @@ use Nette\PhpGenerator\Method;
  */
 final class KeepMethodDecorator implements ClassDecorator
 {
-	private string $methodToBeKept;
 
-	public function __construct(string $methodName)
-	{
-		$this->methodToBeKept = $methodName;
-	}
+	public function __construct(
+		private string $methodToBeKept,
+	) {}
 
 	public function decorate(ClassDefinition $definition, ClassInNamespace $draft, ?ClassInNamespace $current): void
 	{
