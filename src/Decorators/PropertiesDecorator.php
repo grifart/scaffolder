@@ -12,12 +12,12 @@ final class PropertiesDecorator implements ClassDecorator
 {
 
 
-	public function decorate(ClassInNamespace $classInNamespace, ClassDefinition $definition): void
+	public function decorate(ClassInNamespace $draft, ClassDefinition $definition): void
 	{
 		foreach ($definition->getFields() as $field) {
 			$type = $field->getType();
 			// add property
-			$property = $classInNamespace->getClassType()->addProperty($field->getName())
+			$property = $draft->getClassType()->addProperty($field->getName())
 				->setVisibility('private')
 				->setType($type->getTypeHint())
 				->setNullable($type->isNullable());
@@ -25,7 +25,7 @@ final class PropertiesDecorator implements ClassDecorator
 			if ($type->requiresDocComment()) {
 				$property->addComment(\sprintf(
 					'@var %s',
-					$type->getDocCommentType($classInNamespace->getNamespace()),
+					$type->getDocCommentType($draft->getNamespace()),
 				));
 			}
 		}

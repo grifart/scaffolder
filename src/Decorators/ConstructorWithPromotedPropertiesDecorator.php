@@ -9,9 +9,9 @@ use Grifart\ClassScaffolder\Definition\ClassDefinition;
 
 final class ConstructorWithPromotedPropertiesDecorator implements ClassDecorator
 {
-	public function decorate(ClassInNamespace $classInNamespace, ClassDefinition $definition): void
+	public function decorate(ClassInNamespace $draft, ClassDefinition $definition): void
 	{
-		$constructor = $classInNamespace->getClassType()->addMethod('__construct');
+		$constructor = $draft->getClassType()->addMethod('__construct');
 		$constructor->setVisibility('public');
 
 		foreach ($definition->getFields() as $field) {
@@ -24,7 +24,7 @@ final class ConstructorWithPromotedPropertiesDecorator implements ClassDecorator
 				->setNullable($type->isNullable());
 
 			if ($type->requiresDocComment()) {
-				$docCommentType = $type->getDocCommentType($classInNamespace->getNamespace());
+				$docCommentType = $type->getDocCommentType($draft->getNamespace());
 				$constructor->addComment(\sprintf(
 					'@param %s $%s',
 					$docCommentType,

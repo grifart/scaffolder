@@ -13,9 +13,9 @@ use Nette\PhpGenerator\PhpLiteral;
 final class SettersDecorator implements ClassDecorator
 {
 
-	public function decorate(ClassInNamespace $classInNamespace, ClassDefinition $definition): void
+	public function decorate(ClassInNamespace $draft, ClassDefinition $definition): void
 	{
-		$classType = $classInNamespace->getClassType();
+		$classType = $draft->getClassType();
 		DecoratorTools::checkIfAllFieldsArePresent($definition, $classType);
 
 		foreach ($definition->getFields() as $field) {
@@ -39,7 +39,7 @@ final class SettersDecorator implements ClassDecorator
 
 			// add phpDoc type hints if necessary
 			if ($type->requiresDocComment()) {
-				$docCommentType = $type->getDocCommentType($classInNamespace->getNamespace());
+				$docCommentType = $type->getDocCommentType($draft->getNamespace());
 
 				$getter->addComment(\sprintf(
 					'@return %s',

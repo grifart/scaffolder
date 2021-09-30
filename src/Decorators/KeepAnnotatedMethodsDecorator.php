@@ -13,7 +13,7 @@ use Nette\Utils\Strings;
 
 final class KeepAnnotatedMethodsDecorator implements ClassDecorator
 {
-	public function decorate(ClassInNamespace $classInNamespace, ClassDefinition $definition): void
+	public function decorate(ClassInNamespace $draft, ClassDefinition $definition): void
 	{
 		$alreadyExistingClass = self::getAlreadyExistingClass($definition);
 		if ($alreadyExistingClass === null) {
@@ -23,7 +23,7 @@ final class KeepAnnotatedMethodsDecorator implements ClassDecorator
 		foreach ($alreadyExistingClass->getMethods() as $existingMethod) {
 			foreach ($existingMethod->getAttributes() as $attribute) {
 				if ($attribute->getName() === KeepMethod::class) {
-					self::transferMethod($classInNamespace->getNamespace(), $classInNamespace->getClassType(), $existingMethod);
+					self::transferMethod($draft->getNamespace(), $draft->getClassType(), $existingMethod);
 					break; // continue to next method
 				}
 			}

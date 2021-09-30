@@ -11,9 +11,9 @@ use Nette\PhpGenerator as Code;
 final class InitializingConstructorDecorator implements ClassDecorator
 {
 
-	public function decorate(ClassInNamespace $classInNamespace, ClassDefinition $definition): void
+	public function decorate(ClassInNamespace $draft, ClassDefinition $definition): void
 	{
-		$classType = $classInNamespace->getClassType();
+		$classType = $draft->getClassType();
 		DecoratorTools::checkIfAllFieldsArePresent($definition, $classType);
 
 		$constructor = $classType->addMethod('__construct');
@@ -33,7 +33,7 @@ final class InitializingConstructorDecorator implements ClassDecorator
 			]);
 
 			if ($type->requiresDocComment()) {
-				$docCommentType = $type->getDocCommentType($classInNamespace->getNamespace());
+				$docCommentType = $type->getDocCommentType($draft->getNamespace());
 
 				$constructor->addComment(\sprintf(
 					'@param %s $%s',

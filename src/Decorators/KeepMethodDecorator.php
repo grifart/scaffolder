@@ -19,16 +19,16 @@ final class KeepMethodDecorator implements ClassDecorator
 		$this->methodToBeKept = $methodName;
 	}
 
-	public function decorate(ClassInNamespace $classInNamespace, ClassDefinition $definition): void
+	public function decorate(ClassInNamespace $draft, ClassDefinition $definition): void
 	{
 		$alreadyExistingClass = self::getAlreadyExistingClass($definition);
-		$classToBeGenerated = $classInNamespace->getClassType();
+		$classToBeGenerated = $draft->getClassType();
 
 		// method already exists, just transfer it to new class
 		if ($alreadyExistingClass !== null && $alreadyExistingClass->hasMethod($this->methodToBeKept)) {
 			$keptMethod = $alreadyExistingClass->getMethod($this->methodToBeKept);
 
-			self::addClassesUsedInMethodToUses($keptMethod, $classInNamespace->getNamespace());
+			self::addClassesUsedInMethodToUses($keptMethod, $draft->getNamespace());
 
 			$classToBeGenerated->setMethods([
 				...\array_values($classToBeGenerated->getMethods()),

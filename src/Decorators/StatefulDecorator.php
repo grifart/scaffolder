@@ -13,10 +13,10 @@ use Grifart\Stateful\StateBuilder;
 final class StatefulDecorator implements ClassDecorator
 {
 
-	public function decorate(ClassInNamespace $classInNamespace, ClassDefinition $definition): void
+	public function decorate(ClassInNamespace $draft, ClassDefinition $definition): void
 	{
-		$namespace = $classInNamespace->getNamespace();
-		$classType = $classInNamespace->getClassType();
+		$namespace = $draft->getNamespace();
+		$classType = $draft->getClassType();
 		DecoratorTools::checkIfAllFieldsArePresent($definition, $classType);
 
 		$namespace->addUse(StateBuilder::class);
