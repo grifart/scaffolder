@@ -21,12 +21,11 @@ final class KeepMethodDecorator implements ClassDecorator
 
 	public function decorate(ClassDefinition $definition, ClassInNamespace $draft, ?ClassInNamespace $current): void
 	{
-		$alreadyExistingClass = self::getAlreadyExistingClass($definition);
 		$classToBeGenerated = $draft->getClassType();
 
 		// method already exists, just transfer it to new class
-		if ($alreadyExistingClass !== null && $alreadyExistingClass->hasMethod($this->methodToBeKept)) {
-			$keptMethod = $alreadyExistingClass->getMethod($this->methodToBeKept);
+		if ($current !== null && $current->getClassType()->hasMethod($this->methodToBeKept)) {
+			$keptMethod = $current->getClassType()->getMethod($this->methodToBeKept);
 
 			self::addClassesUsedInMethodToUses($keptMethod, $draft->getNamespace());
 
@@ -52,18 +51,6 @@ final class KeepMethodDecorator implements ClassDecorator
 			'This method is kept while scaffolding.' . "\n" .
 			$methodToBeKept->getComment()
 		);
-	}
-
-	private static function getAlreadyExistingClass(ClassDefinition $definition): ?ClassType
-	{
-		$namespace = $definition->getNamespaceName();
-		$classFqn = ($namespace === null ? '' : $namespace) . '\\' . $definition->getClassName();
-
-		if ( ! \class_exists($classFqn)) {
-			return null;
-		}
-
-		return ClassType::withBodiesFrom($classFqn);
 	}
 
 

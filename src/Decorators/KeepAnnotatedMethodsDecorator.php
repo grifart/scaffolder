@@ -15,12 +15,11 @@ final class KeepAnnotatedMethodsDecorator implements ClassDecorator
 {
 	public function decorate(ClassDefinition $definition, ClassInNamespace $draft, ?ClassInNamespace $current): void
 	{
-		$alreadyExistingClass = self::getAlreadyExistingClass($definition);
-		if ($alreadyExistingClass === null) {
+		if ($current === null) {
 			return;
 		}
 
-		foreach ($alreadyExistingClass->getMethods() as $existingMethod) {
+		foreach ($current->getClassType()->getMethods() as $existingMethod) {
 			foreach ($existingMethod->getAttributes() as $attribute) {
 				if ($attribute->getName() === KeepMethod::class) {
 					self::transferMethod($draft->getNamespace(), $draft->getClassType(), $existingMethod);
@@ -39,18 +38,6 @@ final class KeepAnnotatedMethodsDecorator implements ClassDecorator
 			...\array_values($targetClass->getMethods()),
 			$methodToBeTransferred,
 		]);
-	}
-
-	private static function getAlreadyExistingClass(ClassDefinition $definition): ?ClassType
-	{
-		$namespace = $definition->getNamespaceName();
-		$classFqn = ($namespace === null ? '' : $namespace) . '\\' . $definition->getClassName();
-
-		if ( ! \class_exists($classFqn)) {
-			return null;
-		}
-
-		return ClassType::withBodiesFrom($classFqn);
 	}
 
 
