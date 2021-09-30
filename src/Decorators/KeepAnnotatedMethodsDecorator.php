@@ -25,17 +25,18 @@ final class KeepAnnotatedMethodsDecorator implements ClassDecorator
 		foreach ($current->getClassType()->getMethods() as $existingMethod) {
 			foreach ($existingMethod->getAttributes() as $attribute) {
 				if ($attribute->getName() === KeepMethod::class) {
-					self::transferMethod($draft->getNamespace(), $draft->getClassType(), $existingMethod);
+					self::transferMethod($draft, $existingMethod);
 					break; // continue to next method
 				}
 			}
 		}
 	}
 
-	private static function transferMethod(PhpNamespace $targetClassNamespace, ClassType $targetClass, Method $methodToBeTransferred): void
+	private static function transferMethod(ClassInNamespace $draft, Method $methodToBeTransferred): void
 	{
-		$targetClassNamespace->addUse(KeepMethod::class);
+		$draft->getNamespace()->addUse(KeepMethod::class);
 
+		$targetClass = $draft->getClassType();
 		$targetClass->setMethods([
 			...\array_values($targetClass->getMethods()),
 			$methodToBeTransferred,
