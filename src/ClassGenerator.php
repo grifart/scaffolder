@@ -22,6 +22,8 @@ final class ClassGenerator
 		$classType->setFinal();
 
 
+		// GLOBAL STUFF
+
 		// implements
 
 		foreach ($definition->getImplements() as $implement) {
@@ -30,7 +32,7 @@ final class ClassGenerator
 		}
 
 
-		// uses
+		// fields – always set use statements for defined fields (so that one can refer it in whatever decorator)
 
 		foreach ($definition->getFields() as $field) {
 
