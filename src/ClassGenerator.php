@@ -75,7 +75,15 @@ final class ClassGenerator
 		}
 
 		// find class' namespace
-		$file = Code\PhpFile::fromCode(\file_get_contents((new \ReflectionClass($classFqn))->getFileName()));
+		$classFile = (new \ReflectionClass($classFqn))->getFileName();
+		if ($classFile === false) {
+			throw new \LogicException('Cannot copy from core or extension class ' . $classFqn);
+		}
+
+		$classFileContent = \file_get_contents($classFile);
+		\assert($classFileContent !== false);
+
+		$file = Code\PhpFile::fromCode($classFileContent);
 		$matchedNamespace = null;
 		foreach ($file->getNamespaces() as $namespace) {
 			$doesNamespaceContainDesiredClass = \count(\array_filter($namespace->getClasses(), fn(Code\ClassType $classType): bool => $classType->getName() === $className)) === 1;
