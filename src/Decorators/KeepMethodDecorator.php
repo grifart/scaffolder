@@ -9,8 +9,8 @@ use Nette\PhpGenerator\Method;
 
 
 /**
- * ⚠ Note that you should use `KeepUseStatementsDecorator` as well
- * for transferring use statements as well. List it before this one.
+ * ⚠ Note that for transferring use statements you should use
+ * `KeepUseStatementsDecorator` as well. Call it before this one.
  */
 final class KeepMethodDecorator implements ClassDecorator
 {
