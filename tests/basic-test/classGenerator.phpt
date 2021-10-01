@@ -143,7 +143,7 @@ require_once __DIR__ . '/../bootstrap.php';
 					[],
 				),
 			);
-		}, \LogicException::class, 'Cannot copy from core or extension class \DateTime');
+		}, \LogicException::class, 'Cannot copy from core or extension class DateTime');
 	}
 
 
