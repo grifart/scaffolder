@@ -4,15 +4,16 @@
 namespace Grifart\ClassScaffolder\Decorators;
 
 
+use Grifart\ClassScaffolder\ClassInNamespace;
 use Grifart\ClassScaffolder\Definition\ClassDefinition;
-use Nette\PhpGenerator\ClassType;
 use Nette\PhpGenerator as Code;
 
 final class InitializingConstructorDecorator implements ClassDecorator
 {
 
-	public function decorate(Code\PhpNamespace $namespace, ClassType $classType, ClassDefinition $definition): void
+	public function decorate(ClassDefinition $definition, ClassInNamespace $draft, ?ClassInNamespace $current): void
 	{
+		$classType = $draft->getClassType();
 		DecoratorTools::checkIfAllFieldsArePresent($definition, $classType);
 
 		$constructor = $classType->addMethod('__construct');
@@ -32,7 +33,7 @@ final class InitializingConstructorDecorator implements ClassDecorator
 			]);
 
 			if ($type->requiresDocComment()) {
-				$docCommentType = $type->getDocCommentType($namespace);
+				$docCommentType = $type->getDocCommentType($draft->getNamespace());
 
 				$constructor->addComment(\sprintf(
 					'@param %s $%s',

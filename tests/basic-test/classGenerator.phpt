@@ -132,4 +132,19 @@ require_once __DIR__ . '/../bootstrap.php';
 	}
 
 
+	public function testAccessingBuiltInClass() {
+		Assert::exception(function () {
+			$this->generator->generateClass(
+				new ClassDefinition(
+					'',
+					'DateTime',
+					[],
+					[new Field('field', Types\resolve(Field::class))],
+					[],
+				),
+			);
+		}, \LogicException::class, 'Cannot copy from core or extension class DateTime');
+	}
+
+
 })->run();

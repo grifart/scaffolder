@@ -5,10 +5,8 @@ declare(strict_types = 1);
 namespace Grifart\ClassScaffolder;
 
 use Grifart\ClassScaffolder\Definition\ClassDefinition;
-use Grifart\ClassScaffolder\Definition\Field;
 use Grifart\ClassScaffolder\Definition\Types\ClassType;
 use Grifart\ClassScaffolder\Definition\Types\CompositeType;
-use Grifart\ClassScaffolder\Definition\Types\Type;
 use Nette\PhpGenerator as Code;
 
 
@@ -17,10 +15,13 @@ final class ClassGenerator
 
 	public function generateClass(ClassDefinition $definition): Code\PhpNamespace
 	{
-		$namespace = new Code\PhpNamespace($definition->getNamespaceName() ?? '');
-		$classType = $namespace->addClass($definition->getClassName());
+		$draft = ClassInNamespace::fromDefinition($definition);
+		$namespace = $draft->getNamespace();
+		$classType = $draft->getClassType();
 		$classType->setFinal();
 
+
+		// GLOBAL STUFF
 
 		// implements
 
@@ -30,7 +31,7 @@ final class ClassGenerator
 		}
 
 
-		// uses
+		// fields – always set use statements for defined fields (so that one can refer it in whatever decorator)
 
 		foreach ($definition->getFields() as $field) {
 
@@ -54,12 +55,48 @@ final class ClassGenerator
 
 		// decorators
 
+		$current = self::findCurrent($definition);
 		foreach ($definition->getDecorators() as $decorator) {
-			$decorator->decorate($namespace, $classType, $definition);
+			$decorator->decorate($definition, $draft, $current);
 		}
 
 
 		return $namespace;
+	}
+
+
+	private static function findCurrent(ClassDefinition $definition): ?ClassInNamespace
+	{
+		$className = $definition->getClassName();
+		$classFqn = $definition->getFullyQualifiedName();
+		if ( ! \class_exists($classFqn)) {
+			return null;
+		}
+
+		// find class' namespace
+		$classFile = (new \ReflectionClass($classFqn))->getFileName();
+		if ($classFile === false) {
+			throw new \LogicException('Cannot copy from core or extension class ' . $classFqn);
+		}
+
+		$classFileContent = \file_get_contents($classFile);
+		\assert($classFileContent !== false);
+
+		$file = Code\PhpFile::fromCode($classFileContent);
+		$matchedNamespace = null;
+		foreach ($file->getNamespaces() as $namespace) {
+			$doesNamespaceContainDesiredClass = \count(\array_filter($namespace->getClasses(), fn(Code\ClassType $classType): bool => $classType->getName() === $className)) === 1;
+			if ($doesNamespaceContainDesiredClass) {
+				$matchedNamespace = $namespace;
+				break;
+			}
+		}
+		\assert($matchedNamespace !== null);
+
+		return ClassInNamespace::from(
+			$matchedNamespace,
+			Code\ClassType::withBodiesFrom($classFqn),
+		);
 	}
 
 }

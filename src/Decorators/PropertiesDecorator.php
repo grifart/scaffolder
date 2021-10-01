@@ -4,21 +4,20 @@
 namespace Grifart\ClassScaffolder\Decorators;
 
 
+use Grifart\ClassScaffolder\ClassInNamespace;
 use Grifart\ClassScaffolder\Definition\ClassDefinition;
-use Nette\PhpGenerator\ClassType;
-use Nette\PhpGenerator\PhpNamespace;
 
 
 final class PropertiesDecorator implements ClassDecorator
 {
 
 
-	public function decorate(PhpNamespace $namespace, ClassType $classType, ClassDefinition $definition): void
+	public function decorate(ClassDefinition $definition, ClassInNamespace $draft, ?ClassInNamespace $current): void
 	{
 		foreach ($definition->getFields() as $field) {
 			$type = $field->getType();
 			// add property
-			$property = $classType->addProperty($field->getName())
+			$property = $draft->getClassType()->addProperty($field->getName())
 				->setVisibility('private')
 				->setType($type->getTypeHint())
 				->setNullable($type->isNullable());
@@ -26,7 +25,7 @@ final class PropertiesDecorator implements ClassDecorator
 			if ($type->requiresDocComment()) {
 				$property->addComment(\sprintf(
 					'@var %s',
-					$type->getDocCommentType($namespace),
+					$type->getDocCommentType($draft->getNamespace()),
 				));
 			}
 		}

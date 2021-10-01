@@ -2,6 +2,7 @@
 
 namespace Grifart\ClassScaffolder\Decorators;
 
+use Grifart\ClassScaffolder\ClassInNamespace;
 use Grifart\ClassScaffolder\Definition\ClassDefinition;
 use Grifart\ClassScaffolder\KeepMethod;
 use Nette\PhpGenerator\ClassType;
@@ -12,7 +13,7 @@ use Nette\Utils\Strings;
 
 final class KeepAnnotatedMethodsDecorator implements ClassDecorator
 {
-	public function decorate(PhpNamespace $classToBeGeneratedNamespace, ClassType $classToBeGenerated, ClassDefinition $definition): void
+	public function decorate(ClassDefinition $definition, ClassInNamespace $draft, ?ClassInNamespace $current): void
 	{
 		$alreadyExistingClass = self::getAlreadyExistingClass($definition);
 		if ($alreadyExistingClass === null) {
@@ -22,7 +23,7 @@ final class KeepAnnotatedMethodsDecorator implements ClassDecorator
 		foreach ($alreadyExistingClass->getMethods() as $existingMethod) {
 			foreach ($existingMethod->getAttributes() as $attribute) {
 				if ($attribute->getName() === KeepMethod::class) {
-					self::transferMethod($classToBeGeneratedNamespace, $classToBeGenerated, $existingMethod);
+					self::transferMethod($draft->getNamespace(), $draft->getClassType(), $existingMethod);
 					break; // continue to next method
 				}
 			}

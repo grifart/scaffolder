@@ -4,17 +4,19 @@ declare(strict_types = 1);
 
 namespace Grifart\ClassScaffolder\Decorators;
 
+use Grifart\ClassScaffolder\ClassInNamespace;
 use Grifart\ClassScaffolder\Definition\ClassDefinition;
 use Grifart\Stateful\State;
 use Grifart\Stateful\StateBuilder;
-use Nette\PhpGenerator as Code;
 
 
 final class StatefulDecorator implements ClassDecorator
 {
 
-	public function decorate(Code\PhpNamespace $namespace, Code\ClassType $classType, ClassDefinition $definition): void
+	public function decorate(ClassDefinition $definition, ClassInNamespace $draft, ?ClassInNamespace $current): void
 	{
+		$namespace = $draft->getNamespace();
+		$classType = $draft->getClassType();
 		DecoratorTools::checkIfAllFieldsArePresent($definition, $classType);
 
 		$namespace->addUse(StateBuilder::class);
