@@ -67,9 +67,8 @@ final class ClassGenerator
 
 	private static function findCurrent(ClassDefinition $definition): ?ClassInNamespace
 	{
-		$namespace = $definition->getNamespaceName();
 		$className = $definition->getClassName();
-		$classFqn = ($namespace === null ? '' : $namespace) . '\\' . $className;
+		$classFqn = $definition->getFullyQualifiedName();
 		if ( ! \class_exists($classFqn)) {
 			return null;
 		}
