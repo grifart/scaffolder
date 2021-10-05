@@ -7,7 +7,6 @@ use Grifart\ClassScaffolder\Decorators\ClassDecorator;
 use Grifart\ClassScaffolder\Decorators\KeepAnnotatedMethodsDecorator;
 use Grifart\ClassScaffolder\Decorators\KeepUseStatementsDecorator;
 use Grifart\ClassScaffolder\Definition\ClassDefinition;
-use Grifart\ClassScaffolder\Definition\Field;
 use Grifart\ClassScaffolder\Definition\Types;
 use Tester\Assert;
 
@@ -18,16 +17,9 @@ $generator = new ClassGenerator();
  * @param ClassDecorator[] $decorators
  */
 $generateClass = static fn (array $decorators) => $generator->generateClass(
-	new ClassDefinition(
-		'Grifart\ClassScaffolder\Test\KeepAnnotatedMethodsDecorator\Stub',
-		'StubKeepMethod',
-		[],
-		[new Field('field', Types\resolve('mixed'))],
-		[
-			new KeepUseStatementsDecorator(),
-			...$decorators,
-		],
-	),
+	(new ClassDefinition('Grifart\ClassScaffolder\Test\KeepAnnotatedMethodsDecorator\Stub\StubKeepMethod'))
+		->withField('field', Types\resolve('mixed'))
+		->decoratedBy(new KeepUseStatementsDecorator(), ...$decorators)
 );
 
 // methods are preserved
@@ -47,12 +39,8 @@ Assert::matchFile(
 // class does not exist yet
 Assert::noError(function () use ($generator) {
 	$generator->generateClass(
-		new ClassDefinition(
-			'Grifart\ClassScaffolder\Test\KeepAnnotatedMethodsDecorator',
-			'NonExistentClass',
-			[],
-			[new Field('field', Types\resolve('mixed'))],
-			[new KeepAnnotatedMethodsDecorator()],
-		),
+		(new ClassDefinition('Grifart\ClassScaffolder\Test\KeepAnnotatedMethodsDecorator\NonExistentClass'))
+			->withField('field', Types\resolve('mixed'))
+			->decoratedBy(new KeepAnnotatedMethodsDecorator())
 	);
 });

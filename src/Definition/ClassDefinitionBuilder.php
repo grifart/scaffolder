@@ -9,14 +9,13 @@ use Grifart\ClassScaffolder\Definition\Types;
 use Grifart\ClassScaffolder\Definition\Types\Type;
 
 
+/**
+ * @deprecated use ClassDefinition directly
+ */
 final class ClassDefinitionBuilder
 {
 
-	private ?string $namespaceName = null;
-
-	private string $className;
-
-	/** @var string[] */
+	/** @var class-string[] */
 	private array $implements = [];
 
 	/** @var Field[] */
@@ -26,20 +25,17 @@ final class ClassDefinitionBuilder
 	private array $decorators = [];
 
 
-	public function __construct(string $className)
+	public function __construct(
+		private string $className,
+	)
 	{
-		$className = \trim($className, '\\');
-		$pos = \strrpos($className, '\\');
-		if ($pos !== FALSE) {
-			$this->namespaceName = \substr($className, 0, $pos);
-			$this->className = \substr($className, $pos + 1);
-
-		} else {
-			$this->className = $className;
-		}
+		\trigger_error('ClassDefinitionBuilder is deprecated, use ClassDefinition directly instead.', \E_USER_DEPRECATED);
 	}
 
 
+	/**
+	 * @param class-string $implements
+	 */
 	public function implement(string $implements): self
 	{
 		if ( ! \interface_exists($implements)) {
@@ -73,13 +69,21 @@ final class ClassDefinitionBuilder
 
 	public function build(): ClassDefinition
 	{
-		return new ClassDefinition(
-			$this->namespaceName,
-			$this->className,
-			$this->implements,
-			$this->fields,
-			$this->decorators
-		);
+		$definition = (new ClassDefinition($this->className));
+
+		foreach ($this->fields as $field) {
+			$definition = $definition->withField($field->getName(), $field->getType());
+		}
+
+		foreach ($this->implements as $implement) {
+			$definition = $definition->thatImplements($implement);
+		}
+
+		foreach ($this->decorators as $decorator) {
+			$definition = $definition->decoratedBy($decorator);
+		}
+
+		return $definition;
 	}
 
 }

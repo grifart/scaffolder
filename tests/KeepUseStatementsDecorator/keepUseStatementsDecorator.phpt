@@ -16,16 +16,9 @@ require_once __DIR__ . '/../bootstrap.php';
 $generator = new ClassGenerator();
 
 $generateClass = static fn (string $className) => $generator->generateClass(
-	new ClassDefinition(
-		'Grifart\ClassScaffolder\Test\KeepUseStatementsDecorator\Stub',
-		$className,
-		[],
-		[new Field('field', Types\resolve(Field::class))],
-		[
-			new KeepUseStatementsDecorator(),
-			new PropertiesDecorator(),
-		],
-	),
+	(new ClassDefinition("Grifart\ClassScaffolder\Test\KeepUseStatementsDecorator\Stub\\$className"))
+		->withField('field', Types\resolve(Field::class))
+		->decoratedBy(new KeepUseStatementsDecorator(), new PropertiesDecorator())
 );
 
 // uses are copied from current

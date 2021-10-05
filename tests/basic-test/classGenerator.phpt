@@ -45,67 +45,96 @@ require_once __DIR__ . '/../bootstrap.php';
 		return [
 			[
 				'classGenerator.1-simple.phps',
-				new ClassDefinition('NS', 'CLS', [], [], $this->getDecorators())
+				(new ClassDefinition('NS\\CLS'))
+					->decoratedBy(...$this->getDecorators()),
 			],
 			[
 				'classGenerator.2-with-iterator.phps',
-				new ClassDefinition('NS', 'CLS', [Iterator::class], [], $this->getDecorators())
+				(new ClassDefinition('NS\\CLS'))
+					->thatImplements(Iterator::class)
+					->decoratedBy(...$this->getDecorators()),
 			],
 			[
 				'classGenerator.3-with-field.phps',
-				new ClassDefinition('NS', 'CLS', [], [new Field('field',Types\resolve('mixed'))], $this->getDecorators())
+				(new ClassDefinition('NS\\CLS'))
+					->withField('field', Types\resolve('mixed'))
+					->decoratedBy(...$this->getDecorators()),
 			],
 			[
 				'classGenerator.4-with-field-nullable.phps',
-				new ClassDefinition('NS', 'CLS', [], [new Field('field',Types\nullable(Types\resolve('string')))], $this->getDecorators())
+				(new ClassDefinition('NS\\CLS'))
+					->withField('field', Types\nullable(Types\resolve('string')))
+					->decoratedBy(...$this->getDecorators()),
 			],
 			[
 				'classGenerator.5-with-list.phps',
-				new ClassDefinition('NS', 'CLS', [], [new Field('field',Types\listOf('string'))], $this->getDecorators())
+				(new ClassDefinition('NS\\CLS'))
+					->withField('field', Types\listOf('string'))
+					->decoratedBy(...$this->getDecorators()),
 			],
 			[
 				'classGenerator.6-with-complex-collection.phps',
-				new ClassDefinition('NS', 'CLS', [], [new Field('field',Types\collection(SplObjectStorage::class,ClassDefinition::class, SplFixedArray::class))], $this->getDecorators())
+				(new ClassDefinition('NS\\CLS'))
+					->withField('field', Types\collection(SplObjectStorage::class,ClassDefinition::class, SplFixedArray::class))
+					->decoratedBy(...$this->getDecorators()),
 			],
 			[
 				'classGenerator.7-setters.phps',
-				new ClassDefinition('NS', 'CLS', [], [new Field('poem',nullable(Types\resolve('string')))], [new PropertiesDecorator(), new SettersDecorator()])
+				(new ClassDefinition('NS\\CLS'))
+					->withField('poem', nullable(Types\resolve('string')))
+					->decoratedBy(new PropertiesDecorator(), new SettersDecorator()),
 			],
 			[
 				'classGenerator.8-generics.phps',
-				new ClassDefinition('NS', 'CLS', [], [new Field('generic',Types\generic(Types\classType('NS\GenericClass'), 'int', 'callable', '?string'))], [new PropertiesDecorator()])
+				(new ClassDefinition('NS\\CLS'))
+					->withField('generic', Types\generic(Types\classType('NS\GenericClass'), 'int', 'callable', '?string'))
+					->decoratedBy(new PropertiesDecorator()),
 			],
 			[
 				'classGenerator.9-cross-reference.phps',
-				new ClassDefinition('NS', 'CLS', [], [new Field('field',Types\resolve(new ClassDefinition('NS', 'SubCLS', [], [], [])))], $this->getDecorators())
+				(new ClassDefinition('NS\\CLS'))
+					->withField('field', Types\resolve(new ClassDefinition('NS\\SubCLS')))
+					->decoratedBy(...$this->getDecorators()),
 			],
 			[
 				'classGenerator.10-promoted-properties.phps',
-				new ClassDefinition('NS', 'CLS', [], [new Field('field', Types\resolve('string'))], [new ConstructorWithPromotedPropertiesDecorator(), new GettersDecorator()])
+				(new ClassDefinition('NS\\CLS'))
+					->withField('field', Types\resolve('string'))
+					->decoratedBy(new ConstructorWithPromotedPropertiesDecorator(), new GettersDecorator()),
 			],
 			[
 				'classGenerator.11-union.phps',
-				new ClassDefinition('NS', 'CLS', [], [new Field('union', Types\union(Types\classType('NS\GenericClass'), 'int', 'callable', 'string', 'null'))], [new PropertiesDecorator()])
+				(new ClassDefinition('NS\\CLS'))
+					->withField('union', Types\union(Types\classType('NS\GenericClass'), 'int', 'callable', 'string', 'null'))
+					->decoratedBy(new PropertiesDecorator()),
 			],
 			[
 				'classGenerator.11-union-with-generics.phps',
-				new ClassDefinition('NS', 'CLS', [], [new Field('union', Types\generic('array', 'string', Types\union(Types\classType('NS\GenericClass'), 'int', 'callable', 'string', 'null')))], [new PropertiesDecorator()])
+				(new ClassDefinition('NS\\CLS'))
+					->withField('union', Types\generic('array', 'string', Types\union(Types\classType('NS\GenericClass'), 'int', 'callable', 'string', 'null')))
+					->decoratedBy(new PropertiesDecorator()),
 			],
 			[
 				'classGenerator.12-shape.phps',
-				new ClassDefinition('NS', 'CLS', [], [new Field('shape', Types\arrayShape([
-					'foo' => 'int',
-					'bar' => Types\generic(Types\classType('NS\GenericClass'), 'string'),
-					'baz' => Types\listOf('string'),
-				]))], [new PropertiesDecorator()])
+				(new ClassDefinition('NS\\CLS'))
+					->withField('shape', Types\arrayShape([
+						'foo' => 'int',
+						'bar' => Types\generic(Types\classType('NS\GenericClass'), 'string'),
+						'baz' => Types\listOf('string'),
+					]))
+					->decoratedBy(new PropertiesDecorator()),
 			],
 			[
 				'classGenerator.13-intersection.phps',
-				new ClassDefinition('NS', 'CLS', [], [new Field('intersection', Types\intersection('Countable', 'Traversable'))], [new PropertiesDecorator()])
+				(new ClassDefinition('NS\\CLS'))
+					->withField('intersection', Types\intersection('Countable', 'Traversable'))
+					->decoratedBy(new PropertiesDecorator()),
 			],
 			[
 				'classGenerator.14-readonly.phps',
-				new ClassDefinition('NS', 'CLS', [], [new Field('answer', Types\resolve('int'))], [new ConstructorWithPromotedPropertiesDecorator(), new ReadonlyDecorator()])
+				(new ClassDefinition('NS\\CLS'))
+					->withField('answer', Types\resolve('int'))
+					->decoratedBy(new ConstructorWithPromotedPropertiesDecorator(), new ReadonlyDecorator()),
 			],
 		];
 	}
@@ -122,7 +151,9 @@ require_once __DIR__ . '/../bootstrap.php';
 
 	public function dataProvider_decoratorsSafety(): array {
 		$classWithDecorator = function (array $decorators): ClassDefinition {
-			return new ClassDefinition('NS', 'CLS', [], [new Field('field',Types\resolve('string'))], $decorators);
+			return (new ClassDefinition('NS\\CLS'))
+				->withField('field', Types\resolve('string'))
+				->decoratedBy(...$decorators);
 		};
 
 		return [
@@ -144,13 +175,7 @@ require_once __DIR__ . '/../bootstrap.php';
 	public function testAccessingBuiltInClass() {
 		Assert::exception(function () {
 			$this->generator->generateClass(
-				new ClassDefinition(
-					'',
-					'DateTime',
-					[],
-					[new Field('field', Types\resolve(Field::class))],
-					[],
-				),
+				new ClassDefinition('DateTime')
 			);
 		}, \LogicException::class, 'Cannot copy from core or extension class DateTime');
 	}

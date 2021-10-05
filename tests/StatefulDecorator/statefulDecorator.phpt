@@ -19,16 +19,10 @@ require_once __DIR__ . '/../bootstrap.php';
 $generator = new ClassGenerator();
 
 $generateClass = static fn () => $generator->generateClass(
-	new ClassDefinition(
-		'Grifart\ClassScaffolder\Test',
-		'StatefulDecorator',
-		[Stateful::class],
-		[new Field('field', Types\resolve('string'))],
-		[
-			new ConstructorWithPromotedPropertiesDecorator(),
-			new StatefulDecorator(),
-		],
-	),
+	(new ClassDefinition('Grifart\ClassScaffolder\Test\StatefulDecorator'))
+		->thatImplements(Stateful::class)
+		->withField('field', Types\resolve('string'))
+		->decoratedBy(new ConstructorWithPromotedPropertiesDecorator(), new StatefulDecorator())
 );
 
 // uses are copied from current
