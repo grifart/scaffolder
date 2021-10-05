@@ -54,7 +54,7 @@ final class ClassDefinitionBuilder
 	}
 
 
-	public function field(string $name, Type|ClassDefinition|string $type): self
+	public function field(string $name, Type|ClassDefinition|ClassDefinitionBuilder|string $type): self
 	{
 		$this->fields[] = new Field(
 			$name,
