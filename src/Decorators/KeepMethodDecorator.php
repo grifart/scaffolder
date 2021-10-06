@@ -6,29 +6,26 @@ use Grifart\ClassScaffolder\ClassInNamespace;
 use Grifart\ClassScaffolder\Definition\ClassDefinition;
 use Nette\PhpGenerator\ClassType;
 use Nette\PhpGenerator\Method;
-use Nette\PhpGenerator\PhpNamespace;
-use Nette\Utils\Strings;
 
 
+/**
+ * ⚠ Note that for transferring use statements you should use
+ * `KeepUseStatementsDecorator` as well. Call it before this one.
+ */
 final class KeepMethodDecorator implements ClassDecorator
 {
-	private string $methodToBeKept;
 
-	public function __construct(string $methodName)
-	{
-		$this->methodToBeKept = $methodName;
-	}
+	public function __construct(
+		private string $methodToBeKept,
+	) {}
 
 	public function decorate(ClassDefinition $definition, ClassInNamespace $draft, ?ClassInNamespace $current): void
 	{
-		$alreadyExistingClass = self::getAlreadyExistingClass($definition);
 		$classToBeGenerated = $draft->getClassType();
 
 		// method already exists, just transfer it to new class
-		if ($alreadyExistingClass !== null && $alreadyExistingClass->hasMethod($this->methodToBeKept)) {
-			$keptMethod = $alreadyExistingClass->getMethod($this->methodToBeKept);
-
-			self::addClassesUsedInMethodToUses($keptMethod, $draft->getNamespace());
+		if ($current !== null && $current->getClassType()->hasMethod($this->methodToBeKept)) {
+			$keptMethod = $current->getClassType()->getMethod($this->methodToBeKept);
 
 			$classToBeGenerated->setMethods([
 				...\array_values($classToBeGenerated->getMethods()),
@@ -52,59 +49,5 @@ final class KeepMethodDecorator implements ClassDecorator
 			'This method is kept while scaffolding.' . "\n" .
 			$methodToBeKept->getComment()
 		);
-	}
-
-	private static function getAlreadyExistingClass(ClassDefinition $definition): ?ClassType
-	{
-		$namespace = $definition->getNamespaceName();
-		$classFqn = ($namespace === null ? '' : $namespace) . '\\' . $definition->getClassName();
-
-		if ( ! \class_exists($classFqn)) {
-			return null;
-		}
-
-		return ClassType::withBodiesFrom($classFqn);
-	}
-
-
-	/*
-	 * Converts FQNs in parameters and method body to class name only.
-	 */
-	private static function addClassesUsedInMethodToUses(Method $method, PhpNamespace $namespace): void
-	{
-		/*
-		 * Parameters.
-		 * Otherwise e.g. fromDTO(\Path\To\DTO $dto) would be generated instead of fromDTO(DTO $dto)
-		 */
-		foreach ($method->getParameters() as $parameter) {
-			$type = $parameter->getType();
-			if ($type !== null && (\class_exists($type) || \interface_exists($type))) {
-				$namespace->addUse($type);
-			}
-		}
-
-		/*
-		 * Body class usages.
-		 * Otherwise e.g. \Path\To\CampaignRole::ROLE_MANAGER would be generated instead of CampaignRole::ROLE_MANAGER
-		 */
-		$body = $method->getBody();
-		if ($body === null) {
-			return;
-		}
-
-		$usedClasses = Strings::matchAll($body, '/(\\\\([\\\\\w]+))/'); // search for \A\B\C
-		foreach ($usedClasses as $match) {
-			$usedClass = $match[2]; // A\B\C
-			if (\class_exists($usedClass)) {
-				$namespace->addUse($usedClass);
-
-				$a = \explode('\\', $usedClass);
-				$b = \array_pop($a); // C
-				\assert($b !== null, 'Array can not be empty.');
-				$body = \str_replace($match[1], $b, $body); // \A\B\C -> C
-			}
-		}
-
-		$method->setBody($body);
 	}
 }
