@@ -40,6 +40,11 @@ final class ClassDefinitionBuilder
 	}
 
 
+	public function thatImplements(string $implements): self
+	{
+		return $this->implement($implements);
+	}
+
 	public function implement(string $implements): self
 	{
 		if ( ! \interface_exists($implements)) {
@@ -54,7 +59,12 @@ final class ClassDefinitionBuilder
 	}
 
 
-	public function field(string $name, Type|ClassDefinition|string $type): self
+	public function withField(string $name, Type|ClassDefinition|ClassDefinitionBuilder|string $type): self
+	{
+		return $this->field($name, $type);
+	}
+
+	public function field(string $name, Type|ClassDefinition|ClassDefinitionBuilder|string $type): self
 	{
 		$this->fields[] = new Field(
 			$name,
@@ -63,6 +73,11 @@ final class ClassDefinitionBuilder
 		return $this;
 	}
 
+
+	public function decoratedBy(ClassDecorator $decorator): self
+	{
+		return $this->decorate($decorator);
+	}
 
 	public function decorate(ClassDecorator $decorator): self
 	{
