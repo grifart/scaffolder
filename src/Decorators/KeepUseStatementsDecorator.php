@@ -15,8 +15,8 @@ final class KeepUseStatementsDecorator implements ClassDecorator
 			return;
 		}
 
-		foreach ($current->getNamespace()->getUses() as $use) {
-			$draft->getNamespace()->addUse($use);
+		foreach ($current->getNamespace()->getUses() as $alias => $use) {
+			$draft->getNamespace()->addUse($use, $alias);
 		}
 	}
 
