@@ -1,0 +1,12 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Function enum_exists not found\\.$#"
+			count: 1
+			path: src/Definition/Types/ClassType.php
+
+		-
+			message: "#^Function enum_exists not found\\.$#"
+			count: 1
+			path: src/Definition/Types/functions.php
+

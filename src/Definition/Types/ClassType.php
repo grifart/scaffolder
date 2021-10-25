@@ -16,7 +16,7 @@ final class ClassType implements Type
 
 	public function __construct(string $typeName)
 	{
-		if ( ! \class_exists($typeName) && ! \interface_exists($typeName)) {
+		if ( ! \class_exists($typeName) && ! \interface_exists($typeName) && (\PHP_VERSION_ID >= 80100 && ! \enum_exists($typeName))) {
 			throw new \InvalidArgumentException(\sprintf(
 				'Class type %s was not found. Make sure your autoloading setup is correct.',
 				$typeName

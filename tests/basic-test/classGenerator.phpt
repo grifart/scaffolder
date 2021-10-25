@@ -8,6 +8,7 @@ use Grifart\ClassScaffolder\Decorators\ConstructorWithPromotedPropertiesDecorato
 use Grifart\ClassScaffolder\Decorators\GettersDecorator;
 use Grifart\ClassScaffolder\Decorators\InitializingConstructorDecorator;
 use Grifart\ClassScaffolder\Decorators\PropertiesDecorator;
+use Grifart\ClassScaffolder\Decorators\ReadonlyDecorator;
 use Grifart\ClassScaffolder\Decorators\SettersDecorator;
 use Grifart\ClassScaffolder\Decorators\StatefulDecorator;
 use Grifart\ClassScaffolder\Definition\ClassDefinition;
@@ -97,6 +98,14 @@ require_once __DIR__ . '/../bootstrap.php';
 					'bar' => Types\generic(Types\classType('NS\GenericClass'), 'string'),
 					'baz' => Types\listOf('string'),
 				]))], [new PropertiesDecorator()])
+			],
+			[
+				'classGenerator.13-intersection.phps',
+				new ClassDefinition('NS', 'CLS', [], [new Field('intersection', Types\intersection('Countable', 'Traversable'))], [new PropertiesDecorator()])
+			],
+			[
+				'classGenerator.14-readonly.phps',
+				new ClassDefinition('NS', 'CLS', [], [new Field('answer', Types\resolve('int'))], [new ConstructorWithPromotedPropertiesDecorator(), new ReadonlyDecorator()])
 			],
 		];
 	}

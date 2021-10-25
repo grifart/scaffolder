@@ -28,7 +28,7 @@ function resolve(Type|ClassDefinition|ClassDefinitionBuilder|string $type): Type
 		return SimpleType::$type();
 	}
 
-	if (\class_exists($type) || \interface_exists($type)) {
+	if (\class_exists($type) || \interface_exists($type) || (\PHP_VERSION_ID >= 80100 && \enum_exists($type))) {
 		return new ClassType($type);
 	}
 
@@ -85,6 +85,19 @@ function union(
 	Type|ClassDefinition|ClassDefinitionBuilder|string ...$rest,
 ): UnionType {
 	return new UnionType(
+		resolve($first),
+		resolve($second),
+		...\array_map('\Grifart\ClassScaffolder\Definition\Types\resolve', $rest),
+	);
+}
+
+
+function intersection(
+	Type|ClassDefinition|ClassDefinitionBuilder|string $first,
+	Type|ClassDefinition|ClassDefinitionBuilder|string $second,
+	Type|ClassDefinition|ClassDefinitionBuilder|string ...$rest,
+): IntersectionType {
+	return new IntersectionType(
 		resolve($first),
 		resolve($second),
 		...\array_map('\Grifart\ClassScaffolder\Definition\Types\resolve', $rest),
