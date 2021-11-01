@@ -37,19 +37,19 @@ final class StatefulDecorator implements ClassDecorator
 		$fromState->addBody('$self = $state->makeAnEmptyObject(self::class);');
 		$fromState->addBody("\assert(\$self instanceof static);\n");
 
-		foreach ($classType->getProperties() as $property) {
-			$propertyName = $property->getName();
+		foreach ($definition->getFields() as $field) {
+			$fieldName = $field->getName();
 
 			// add Stateful::_getState()
 			$getState->addBody("\t->field(?, \$this->?)", [
-				$propertyName,
-				$propertyName,
+				$fieldName,
+				$fieldName,
 			]);
 
 			// add Stateful::_fromState()
 			$fromState->addBody('$self->? = $state[?];', [
-				$propertyName,
-				$propertyName,
+				$fieldName,
+				$fieldName,
 			]);
 		}
 
