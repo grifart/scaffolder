@@ -6,6 +6,7 @@ namespace Grifart\ClassScaffolder\Decorators;
 
 use Grifart\ClassScaffolder\ClassInNamespace;
 use Grifart\ClassScaffolder\Definition\ClassDefinition;
+use Grifart\ClassScaffolder\Definition\Field;
 use Grifart\Stateful\State;
 use Grifart\Stateful\StateBuilder;
 
@@ -36,6 +37,14 @@ final class StatefulDecorator implements ClassDecorator
 		$fromState->addBody('$state->ensureVersion(1);');
 		$fromState->addBody('$self = $state->makeAnEmptyObject(self::class);');
 		$fromState->addBody("\assert(\$self instanceof static);\n");
+
+		$fromState->addBody(\sprintf(
+			'/** @var array{%s} $state */',
+			\implode(', ', \array_map(
+				static fn(Field $field) => \sprintf('%s: %s', $field->getName(), $field->getType()->getDocCommentType($namespace)),
+				$definition->getFields(),
+			)),
+		));
 
 		foreach ($definition->getFields() as $field) {
 			$fieldName = $field->getName();
