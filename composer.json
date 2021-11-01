@@ -21,7 +21,7 @@
 		"verify": ["@validate-syntax", "@test", "@phpstan"],
 		"verify-syntax": "vendor/bin/parallel-lint src tests",
 		"test": "tester -c tests/php-unix.ini tests",
-		"phpstan": "phpstan analyze --ansi --no-progress --no-interaction --level 8 src"
+		"phpstan": "phpstan analyze --ansi --no-progress --no-interaction --level max src"
 	},
 	"require": {
 		"php": "^8.0",
@@ -34,7 +34,7 @@
 	"require-dev": {
 		"grifart/stateful": "^0.6",
 		"nette/tester": "^2.0.0",
-		"phpstan/phpstan": "^0.12",
+		"phpstan/phpstan": "^1.0",
 		"php-parallel-lint/php-console-color": "^1.0",
 		"php-parallel-lint/php-parallel-lint": "^1.2",
 		"tracy/tracy": "^2.7.5",
