@@ -5,15 +5,10 @@ declare(strict_types = 1);
 namespace Grifart\ClassScaffolder\Definition\Types;
 
 use Grifart\ClassScaffolder\Definition\ClassDefinition;
-use Grifart\ClassScaffolder\Definition\ClassDefinitionBuilder;
 
-function resolve(Type|ClassDefinition|ClassDefinitionBuilder|string $type): Type {
+function resolve(Type|ClassDefinition|string $type): Type {
 	if ($type instanceof Type) {
 		return $type;
-	}
-
-	if ($type instanceof ClassDefinitionBuilder) {
-		return new NonCheckedClassType($type->build()->getFullyQualifiedName());
 	}
 
 	if ($type instanceof ClassDefinition) {
@@ -44,14 +39,14 @@ function classType(string $type): NonCheckedClassType {
 }
 
 
-function nullable(Type|ClassDefinition|ClassDefinitionBuilder|string $type): NullableType {
+function nullable(Type|ClassDefinition|string $type): NullableType {
 	return new NullableType(
 		resolve($type)
 	);
 }
 
 
-function generic(Type|ClassDefinition|ClassDefinitionBuilder|string $baseType, Type|ClassDefinition|ClassDefinitionBuilder|string ...$parameterTypes): GenericType {
+function generic(Type|ClassDefinition|string $baseType, Type|ClassDefinition|string ...$parameterTypes): GenericType {
 	return new GenericType(
 		resolve($baseType),
 		...\array_map('\Grifart\ClassScaffolder\Definition\Types\resolve', $parameterTypes),
@@ -59,7 +54,7 @@ function generic(Type|ClassDefinition|ClassDefinitionBuilder|string $baseType, T
 }
 
 
-function collection(Type|ClassDefinition|ClassDefinitionBuilder|string $collectionType, Type|ClassDefinition|ClassDefinitionBuilder|string $keyType, Type|ClassDefinition|ClassDefinitionBuilder|string $elementType): CollectionType {
+function collection(Type|ClassDefinition|string $collectionType, Type|ClassDefinition|string $keyType, Type|ClassDefinition|string $elementType): CollectionType {
 	return new CollectionType(
 		resolve($collectionType),
 		resolve($keyType),
@@ -67,12 +62,12 @@ function collection(Type|ClassDefinition|ClassDefinitionBuilder|string $collecti
 	);
 }
 
-function listOf(Type|ClassDefinition|ClassDefinitionBuilder|string $elementType): ListType {
+function listOf(Type|ClassDefinition|string $elementType): ListType {
 	return new ListType(resolve($elementType));
 }
 
 /**
- * @param array<string, Type|ClassDefinition|ClassDefinitionBuilder|string> $shape
+ * @param array<string, Type|ClassDefinition|string> $shape
  */
 function arrayShape(array $shape): ArrayShapeType {
 	return new ArrayShapeType(\array_map('\Grifart\ClassScaffolder\Definition\Types\resolve', $shape));
@@ -80,9 +75,9 @@ function arrayShape(array $shape): ArrayShapeType {
 
 
 function union(
-	Type|ClassDefinition|ClassDefinitionBuilder|string $first,
-	Type|ClassDefinition|ClassDefinitionBuilder|string $second,
-	Type|ClassDefinition|ClassDefinitionBuilder|string ...$rest,
+	Type|ClassDefinition|string $first,
+	Type|ClassDefinition|string $second,
+	Type|ClassDefinition|string ...$rest,
 ): UnionType {
 	return new UnionType(
 		resolve($first),
@@ -93,9 +88,9 @@ function union(
 
 
 function intersection(
-	Type|ClassDefinition|ClassDefinitionBuilder|string $first,
-	Type|ClassDefinition|ClassDefinitionBuilder|string $second,
-	Type|ClassDefinition|ClassDefinitionBuilder|string ...$rest,
+	Type|ClassDefinition|string $first,
+	Type|ClassDefinition|string $second,
+	Type|ClassDefinition|string ...$rest,
 ): IntersectionType {
 	return new IntersectionType(
 		resolve($first),

@@ -6,7 +6,6 @@ namespace Grifart\ClassScaffolder\Console;
 
 use Grifart\ClassScaffolder\ClassGenerator;
 use Grifart\ClassScaffolder\Definition\ClassDefinition;
-use Grifart\ClassScaffolder\Definition\ClassDefinitionBuilder;
 use Nette\Utils\Finder;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -78,12 +77,14 @@ final class GenerateClassCommand extends Command
 
 	private function processFile(string $definitionFile, InputInterface $input, OutputInterface $output, bool $readonly): void {
 		foreach($this->loadDefinitions($definitionFile) as $definition) {
+			if (!$definition instanceof ClassDefinition) {
+				throw new \InvalidArgumentException('Definition file must contain class definition.');
+			}
 			$this->doGeneration($definition, $definitionFile, $input, $output, $readonly);
 		}
 	}
 
-	private function doGeneration(ClassDefinition|ClassDefinitionBuilder $definitionOrBuilder, string $definitionFile, InputInterface $input, OutputInterface $output, bool $readonly): void {
-		$definition = $definitionOrBuilder instanceof ClassDefinitionBuilder ? $definitionOrBuilder->build() : $definitionOrBuilder;
+	private function doGeneration(ClassDefinition $definition, string $definitionFile, InputInterface $input, OutputInterface $output, bool $readonly): void {
 		$classGenerator = new ClassGenerator();
 		$generatedClass = $classGenerator->generateClass($definition);
 
@@ -119,7 +120,7 @@ final class GenerateClassCommand extends Command
 
 
 	/**
-	 * @return (ClassDefinition|ClassDefinitionBuilder)[]
+	 * @return ClassDefinition[]
 	 */
 	private function loadDefinitions(string $definitionFile): iterable
 	{
@@ -136,9 +137,9 @@ final class GenerateClassCommand extends Command
 			$definitions = [$definitions];
 		}
 		foreach($definitions as $definition) {
-			if ( ! ($definition instanceof ClassDefinition || $definition instanceof ClassDefinitionBuilder)) {
+			if ( ! ($definition instanceof ClassDefinition)) {
 				throw new \InvalidArgumentException(\sprintf(
-					'<error>Definition file must return instanceof ClassDefinition or ClassDefinitionBuilder, %s received.</error>',
+					'<error>Definition file must return instanceof ClassDefinition, %s received.</error>',
 					\is_object($definition) ? \get_class($definition) : \gettype($definition)
 				));
 			}
