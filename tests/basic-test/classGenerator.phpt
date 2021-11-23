@@ -4,12 +4,6 @@
  */
 
 use Grifart\ClassScaffolder\ClassGenerator;
-use Grifart\ClassScaffolder\Decorators\ConstructorWithPromotedPropertiesDecorator;
-use Grifart\ClassScaffolder\Decorators\GettersDecorator;
-use Grifart\ClassScaffolder\Decorators\InitializingConstructorDecorator;
-use Grifart\ClassScaffolder\Decorators\PropertiesDecorator;
-use Grifart\ClassScaffolder\Decorators\ReadonlyDecorator;
-use Grifart\ClassScaffolder\Decorators\SettersDecorator;
 use Grifart\ClassScaffolder\Decorators\StatefulDecorator;
 use Grifart\ClassScaffolder\Definition\ClassDefinition;
 use \Grifart\ClassScaffolder\Definition\Types;
@@ -17,6 +11,7 @@ use Tester\Assert;
 use Tester\TestCase;
 use function Grifart\ClassScaffolder\Capabilities\constructorWithPromotedProperties;
 use function Grifart\ClassScaffolder\Capabilities\getters;
+use function Grifart\ClassScaffolder\Capabilities\implementedInterface;
 use function Grifart\ClassScaffolder\Capabilities\initializingConstructor;
 use function Grifart\ClassScaffolder\Capabilities\properties;
 use function Grifart\ClassScaffolder\Capabilities\readonlyProperties;
@@ -29,8 +24,7 @@ require_once __DIR__ . '/../bootstrap.php';
 
 (new class extends TestCase {
 
-	/** @var ClassGenerator */
-	private $generator;
+	private ClassGenerator $generator;
 
 	protected function setUp()
 	{
@@ -56,8 +50,7 @@ require_once __DIR__ . '/../bootstrap.php';
 			[
 				'classGenerator.2-with-iterator.phps',
 				(new ClassDefinition('NS\\CLS'))
-					->thatImplements(Iterator::class)
-					->with(...$this->getCapabilities()),
+					->with(implementedInterface(Iterator::class), ...$this->getCapabilities()),
 			],
 			[
 				'classGenerator.3-with-field.phps',

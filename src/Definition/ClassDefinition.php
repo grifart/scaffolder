@@ -13,9 +13,6 @@ final class ClassDefinition
 
 	private string $className;
 
-	/** @var class-string[] */
-	private array $implements = [];
-
 	/** @var Field[] */
 	private array $fields = [];
 
@@ -55,44 +52,6 @@ final class ClassDefinition
 			$this->namespaceName . '\\' . $this->className,
 			'\\',
 		);
-	}
-
-
-	/**
-	 * @param class-string $interfaceName
-	 * @param class-string ...$interfaceNames
-	 */
-	public function thatImplements(string $interfaceName, string ...$interfaceNames): self
-	{
-		$allInterfaceNames = [$interfaceName, ...$interfaceNames];
-
-		foreach ($allInterfaceNames as $name) {
-			if ( ! \interface_exists($name)) {
-				throw new \InvalidArgumentException(
-					\sprintf(
-						'Interface %s not found. Make sure your autoloading setup is correct.',
-						$name
-					)
-				);
-			}
-		}
-
-		$copy = clone $this;
-		$copy->implements = [
-			...$copy->implements,
-			...$allInterfaceNames,
-		];
-
-		return $copy;
-	}
-
-
-	/**
-	 * @return string[]
-	 */
-	public function getImplements(): array
-	{
-		return $this->implements;
 	}
 
 

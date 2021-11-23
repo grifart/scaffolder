@@ -8,6 +8,7 @@ use Grifart\ClassScaffolder\Capabilities\Decorator;
 use Grifart\ClassScaffolder\Decorators\ClassDecorator;
 use Grifart\ClassScaffolder\Definition\Types;
 use Grifart\ClassScaffolder\Definition\Types\Type;
+use function Grifart\ClassScaffolder\Capabilities\implementedInterface;
 
 
 /**
@@ -77,7 +78,7 @@ final class ClassDefinitionBuilder
 		}
 
 		foreach ($this->implements as $implement) {
-			$definition = $definition->thatImplements($implement);
+			$definition = $definition->with(implementedInterface($implement));
 		}
 
 		foreach ($this->decorators as $decorator) {

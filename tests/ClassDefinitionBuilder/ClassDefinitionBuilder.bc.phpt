@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
 
 use Grifart\ClassScaffolder\Capabilities\Decorator;
+use Grifart\ClassScaffolder\Capabilities\ImplementedInterface;
 use Grifart\ClassScaffolder\Decorators\PropertiesDecorator;
 use Grifart\ClassScaffolder\Definition\ClassDefinition;
 use Grifart\ClassScaffolder\Definition\ClassDefinitionBuilder;
@@ -22,11 +23,11 @@ test(function () {
 
 	Assert::type(ClassDefinition::class, $definition);
 	Assert::same(BuiltClassName::class, $definition->getFullyQualifiedName());
-	Assert::same([Iterator::class], $definition->getImplements());
 	Assert::count(1, $definition->getFields());
 	Assert::same('field', $definition->getFields()[0]->getName());
 	Assert::type(Types\SimpleType::class, $definition->getFields()[0]->getType());
 	Assert::same('mixed', $definition->getFields()[0]->getType()->getTypeHint());
-	Assert::count(1, $definition->getCapabilities());
-	Assert::type(Decorator::class, $definition->getCapabilities()[0]);
+	Assert::count(2, $definition->getCapabilities());
+	Assert::type(ImplementedInterface::class, $definition->getCapabilities()[0]);
+	Assert::type(Decorator::class, $definition->getCapabilities()[1]);
 });

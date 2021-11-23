@@ -12,6 +12,13 @@ function getters(): Getters {
 	return new Getters();
 }
 
+/**
+ * @param class-string $interfaceName
+ */
+function implementedInterface(string $interfaceName): ImplementedInterface {
+	return new ImplementedInterface($interfaceName);
+}
+
 function initializingConstructor(): InitializingConstructor {
 	return new InitializingConstructor();
 }
