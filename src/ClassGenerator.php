@@ -31,7 +31,7 @@ final class ClassGenerator
 		}
 
 
-		// fields – always set use statements for defined fields (so that one can refer it in whatever decorator)
+		// fields – always set use statements for defined fields (so that one can refer it in whatever capability)
 
 		foreach ($definition->getFields() as $field) {
 
@@ -53,11 +53,11 @@ final class ClassGenerator
 		}
 
 
-		// decorators
+		// capabilities
 
 		$current = self::findCurrent($definition);
-		foreach ($definition->getDecorators() as $decorator) {
-			$decorator->decorate($definition, $draft, $current);
+		foreach ($definition->getCapabilities() as $capability) {
+			$capability->applyTo($definition, $draft, $current);
 		}
 
 

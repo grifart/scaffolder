@@ -3,10 +3,11 @@
 namespace Grifart\ClassScaffolder\Test;
 
 use Grifart\ClassScaffolder\Decorators\ClassDecorator;
-use Grifart\ClassScaffolder\Decorators\KeepUseStatementsDecorator;
 use Grifart\ClassScaffolder\Definition\ClassDefinition;
 use Grifart\ClassScaffolder\Definition\Types;
 use Tester\Assert;
+use function Grifart\ClassScaffolder\Capabilities\preservedMethod;
+use function Grifart\ClassScaffolder\Capabilities\preservedUseStatements;
 
 require_once __DIR__ . '/../bootstrap.php';
 $generator = new \Grifart\ClassScaffolder\ClassGenerator();
@@ -14,22 +15,22 @@ $generator = new \Grifart\ClassScaffolder\ClassGenerator();
 /**
  * @param ClassDecorator[] $decorators
  */
-$generateClass = static fn (array $decorators) => $generator->generateClass(
+$generateClass = static fn (array $capabilities) => $generator->generateClass(
 	(new ClassDefinition('Grifart\ClassScaffolder\Test\KeepMethodDecorator\Stub\StubKeepMethod'))
 		->withField('field', Types\resolve('mixed'))
-		->decoratedBy(new KeepUseStatementsDecorator(), ...$decorators)
+		->with(preservedUseStatements(), ...$capabilities)
 );
 
 // methods are preserved
 Assert::matchFile(
 	__DIR__ . '/Stub/StubKeepMethod.preserved.phps',
 	(string) $generateClass([
-		new \Grifart\ClassScaffolder\Decorators\KeepMethodDecorator('newMethod'),
-		new \Grifart\ClassScaffolder\Decorators\KeepMethodDecorator('methodToBeKept'),
-		new \Grifart\ClassScaffolder\Decorators\KeepMethodDecorator('methodToBeKeptWithParam'),
-		new \Grifart\ClassScaffolder\Decorators\KeepMethodDecorator('methodToBeKeptWithMixedParam'),
-		new \Grifart\ClassScaffolder\Decorators\KeepMethodDecorator('methodToBeKeptWithImportedUses'),
-		new \Grifart\ClassScaffolder\Decorators\KeepMethodDecorator('methodToBeKeptWithAnnotation'),
+		preservedMethod('newMethod'),
+		preservedMethod('methodToBeKept'),
+		preservedMethod('methodToBeKeptWithParam'),
+		preservedMethod('methodToBeKeptWithMixedParam'),
+		preservedMethod('methodToBeKeptWithImportedUses'),
+		preservedMethod('methodToBeKeptWithAnnotation'),
 	]),
 );
 

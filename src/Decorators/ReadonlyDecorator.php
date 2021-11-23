@@ -6,20 +6,12 @@ namespace Grifart\ClassScaffolder\Decorators;
 
 use Grifart\ClassScaffolder\ClassInNamespace;
 use Grifart\ClassScaffolder\Definition\ClassDefinition;
+use function Grifart\ClassScaffolder\Capabilities\readonlyProperties;
 
 final class ReadonlyDecorator implements ClassDecorator
 {
 	public function decorate(ClassDefinition $definition, ClassInNamespace $draft, ?ClassInNamespace $current): void
 	{
-		$classType = $draft->getClassType();
-		DecoratorTools::checkIfAllFieldsArePresent($definition, $classType);
-
-		foreach ($definition->getFields() as $field) {
-			$fieldName = $field->getName();
-			$property = DecoratorTools::getProperty($classType, $fieldName);
-			$property
-				->setPublic()
-				->setReadOnly();
-		}
+		readonlyProperties()->applyTo($definition, $draft, $current);
 	}
 }

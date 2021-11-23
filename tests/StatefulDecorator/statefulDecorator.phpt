@@ -14,6 +14,8 @@ use Grifart\ClassScaffolder\Definition\Field;
 use Grifart\ClassScaffolder\Definition\Types;
 use Grifart\Stateful\Stateful;
 use Tester\Assert;
+use function Grifart\ClassScaffolder\Capabilities\constructorWithPromotedProperties;
+use function Grifart\ClassScaffolder\Capabilities\statefulImplementation;
 
 require_once __DIR__ . '/../bootstrap.php';
 $generator = new ClassGenerator();
@@ -22,7 +24,7 @@ $generateClass = static fn () => $generator->generateClass(
 	(new ClassDefinition('Grifart\ClassScaffolder\Test\StatefulDecorator'))
 		->thatImplements(Stateful::class)
 		->withField('field', Types\resolve('string'))
-		->decoratedBy(new ConstructorWithPromotedPropertiesDecorator(), new StatefulDecorator())
+		->with(constructorWithPromotedProperties(), statefulImplementation())
 );
 
 // uses are copied from current

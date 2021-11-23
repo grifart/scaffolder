@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Grifart\ClassScaffolder\Decorators;
 
@@ -8,7 +10,7 @@ use Grifart\ClassScaffolder\KeepMethod;
 use Nette\PhpGenerator\ClassType;
 use Nette\PhpGenerator\Method;
 use Nette\PhpGenerator\PhpNamespace;
-
+use function Grifart\ClassScaffolder\Capabilities\preservedAnnotatedMethods;
 
 /**
  * ⚠ Note that for transferring use statements you should use
@@ -18,28 +20,6 @@ final class KeepAnnotatedMethodsDecorator implements ClassDecorator
 {
 	public function decorate(ClassDefinition $definition, ClassInNamespace $draft, ?ClassInNamespace $current): void
 	{
-		if ($current === null) {
-			return;
-		}
-
-		foreach ($current->getClassType()->getMethods() as $existingMethod) {
-			foreach ($existingMethod->getAttributes() as $attribute) {
-				if ($attribute->getName() === KeepMethod::class) {
-					self::transferMethod($draft, $existingMethod);
-					break; // continue to next method
-				}
-			}
-		}
-	}
-
-	private static function transferMethod(ClassInNamespace $draft, Method $methodToBeTransferred): void
-	{
-		$draft->getNamespace()->addUse(KeepMethod::class);
-
-		$targetClass = $draft->getClassType();
-		$targetClass->setMethods([
-			...\array_values($targetClass->getMethods()),
-			$methodToBeTransferred,
-		]);
+		preservedAnnotatedMethods()->applyTo($definition, $draft, $current);
 	}
 }

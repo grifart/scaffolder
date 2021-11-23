@@ -53,6 +53,7 @@
 			"Grifart\\ClassScaffolder\\": "src"
 		},
 		"files": [
+			"src/Capabilities/functions.php",
 			"src/Definition/functions.php",
 			"src/Definition/Types/functions.php"
 		]

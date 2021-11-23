@@ -11,6 +11,8 @@ use Grifart\ClassScaffolder\Definition\ClassDefinition;
 use Grifart\ClassScaffolder\Definition\Field;
 use Grifart\ClassScaffolder\Definition\Types;
 use Tester\Assert;
+use function Grifart\ClassScaffolder\Capabilities\preservedUseStatements;
+use function Grifart\ClassScaffolder\Capabilities\properties;
 
 require_once __DIR__ . '/../bootstrap.php';
 $generator = new ClassGenerator();
@@ -18,7 +20,7 @@ $generator = new ClassGenerator();
 $generateClass = static fn (string $className) => $generator->generateClass(
 	(new ClassDefinition("Grifart\ClassScaffolder\Test\KeepUseStatementsDecorator\Stub\\$className"))
 		->withField('field', Types\resolve(Field::class))
-		->decoratedBy(new KeepUseStatementsDecorator(), new PropertiesDecorator())
+		->with(preservedUseStatements(), properties())
 );
 
 // uses are copied from current

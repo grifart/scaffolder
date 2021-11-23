@@ -12,10 +12,15 @@ use Grifart\ClassScaffolder\Decorators\ReadonlyDecorator;
 use Grifart\ClassScaffolder\Decorators\SettersDecorator;
 use Grifart\ClassScaffolder\Decorators\StatefulDecorator;
 use Grifart\ClassScaffolder\Definition\ClassDefinition;
-use Grifart\ClassScaffolder\Definition\Field;
 use \Grifart\ClassScaffolder\Definition\Types;
 use Tester\Assert;
 use Tester\TestCase;
+use function Grifart\ClassScaffolder\Capabilities\constructorWithPromotedProperties;
+use function Grifart\ClassScaffolder\Capabilities\getters;
+use function Grifart\ClassScaffolder\Capabilities\initializingConstructor;
+use function Grifart\ClassScaffolder\Capabilities\properties;
+use function Grifart\ClassScaffolder\Capabilities\readonlyProperties;
+use function Grifart\ClassScaffolder\Capabilities\setters;
 use function Grifart\ClassScaffolder\Definition\Types\nullable;
 
 require_once __DIR__ . '/../bootstrap.php';
@@ -33,11 +38,11 @@ require_once __DIR__ . '/../bootstrap.php';
 		$this->generator = new ClassGenerator();
 	}
 
-	private function getDecorators(): array {
+	private function getCapabilities(): array {
 		return [
-			new PropertiesDecorator(),
-			new InitializingConstructorDecorator(),
-			new GettersDecorator(),
+			properties(),
+			initializingConstructor(),
+			getters(),
 		];
 	}
 
@@ -46,73 +51,73 @@ require_once __DIR__ . '/../bootstrap.php';
 			[
 				'classGenerator.1-simple.phps',
 				(new ClassDefinition('NS\\CLS'))
-					->decoratedBy(...$this->getDecorators()),
+					->with(...$this->getCapabilities()),
 			],
 			[
 				'classGenerator.2-with-iterator.phps',
 				(new ClassDefinition('NS\\CLS'))
 					->thatImplements(Iterator::class)
-					->decoratedBy(...$this->getDecorators()),
+					->with(...$this->getCapabilities()),
 			],
 			[
 				'classGenerator.3-with-field.phps',
 				(new ClassDefinition('NS\\CLS'))
 					->withField('field', Types\resolve('mixed'))
-					->decoratedBy(...$this->getDecorators()),
+					->with(...$this->getCapabilities()),
 			],
 			[
 				'classGenerator.4-with-field-nullable.phps',
 				(new ClassDefinition('NS\\CLS'))
 					->withField('field', Types\nullable(Types\resolve('string')))
-					->decoratedBy(...$this->getDecorators()),
+					->with(...$this->getCapabilities()),
 			],
 			[
 				'classGenerator.5-with-list.phps',
 				(new ClassDefinition('NS\\CLS'))
 					->withField('field', Types\listOf('string'))
-					->decoratedBy(...$this->getDecorators()),
+					->with(...$this->getCapabilities()),
 			],
 			[
 				'classGenerator.6-with-complex-collection.phps',
 				(new ClassDefinition('NS\\CLS'))
 					->withField('field', Types\collection(SplObjectStorage::class,ClassDefinition::class, SplFixedArray::class))
-					->decoratedBy(...$this->getDecorators()),
+					->with(...$this->getCapabilities()),
 			],
 			[
 				'classGenerator.7-setters.phps',
 				(new ClassDefinition('NS\\CLS'))
 					->withField('poem', nullable(Types\resolve('string')))
-					->decoratedBy(new PropertiesDecorator(), new SettersDecorator()),
+					->with(properties(), setters()),
 			],
 			[
 				'classGenerator.8-generics.phps',
 				(new ClassDefinition('NS\\CLS'))
 					->withField('generic', Types\generic(Types\classType('NS\GenericClass'), 'int', 'callable', '?string'))
-					->decoratedBy(new PropertiesDecorator()),
+					->with(properties()),
 			],
 			[
 				'classGenerator.9-cross-reference.phps',
 				(new ClassDefinition('NS\\CLS'))
 					->withField('field', Types\resolve(new ClassDefinition('NS\\SubCLS')))
-					->decoratedBy(...$this->getDecorators()),
+					->with(...$this->getCapabilities()),
 			],
 			[
 				'classGenerator.10-promoted-properties.phps',
 				(new ClassDefinition('NS\\CLS'))
 					->withField('field', Types\resolve('string'))
-					->decoratedBy(new ConstructorWithPromotedPropertiesDecorator(), new GettersDecorator()),
+					->with(constructorWithPromotedProperties(), getters()),
 			],
 			[
 				'classGenerator.11-union.phps',
 				(new ClassDefinition('NS\\CLS'))
 					->withField('union', Types\union(Types\classType('NS\GenericClass'), 'int', 'callable', 'string', 'null'))
-					->decoratedBy(new PropertiesDecorator()),
+					->with(properties()),
 			],
 			[
 				'classGenerator.11-union-with-generics.phps',
 				(new ClassDefinition('NS\\CLS'))
 					->withField('union', Types\generic('array', 'string', Types\union(Types\classType('NS\GenericClass'), 'int', 'callable', 'string', 'null')))
-					->decoratedBy(new PropertiesDecorator()),
+					->with(properties()),
 			],
 			[
 				'classGenerator.12-shape.phps',
@@ -122,19 +127,19 @@ require_once __DIR__ . '/../bootstrap.php';
 						'bar' => Types\generic(Types\classType('NS\GenericClass'), 'string'),
 						'baz' => Types\listOf('string'),
 					]))
-					->decoratedBy(new PropertiesDecorator()),
+					->with(properties()),
 			],
 			[
 				'classGenerator.13-intersection.phps',
 				(new ClassDefinition('NS\\CLS'))
 					->withField('intersection', Types\intersection('Countable', 'Traversable'))
-					->decoratedBy(new PropertiesDecorator()),
+					->with(properties()),
 			],
 			[
 				'classGenerator.14-readonly.phps',
 				(new ClassDefinition('NS\\CLS'))
 					->withField('answer', Types\resolve('int'))
-					->decoratedBy(new ConstructorWithPromotedPropertiesDecorator(), new ReadonlyDecorator()),
+					->with(constructorWithPromotedProperties(), readonlyProperties()),
 			],
 		];
 	}
@@ -149,26 +154,26 @@ require_once __DIR__ . '/../bootstrap.php';
 
 
 
-	public function dataProvider_decoratorsSafety(): array {
-		$classWithDecorator = function (array $decorators): ClassDefinition {
+	public function dataProvider_capabilitiesSafety(): array {
+		$classWithCapabilities = function (array $capabilities): ClassDefinition {
 			return (new ClassDefinition('NS\\CLS'))
 				->withField('field', Types\resolve('string'))
-				->decoratedBy(...$decorators);
+				->with(...$capabilities);
 		};
 
 		return [
-			[$classWithDecorator([new InitializingConstructorDecorator()])],
-			[$classWithDecorator([new GettersDecorator()])],
-			[$classWithDecorator([new SettersDecorator()])],
-			[$classWithDecorator([new StatefulDecorator()])],
+			[$classWithCapabilities([initializingConstructor()])],
+			[$classWithCapabilities([getters()])],
+			[$classWithCapabilities([setters()])],
+			[$classWithCapabilities([new \Grifart\ClassScaffolder\Capabilities\Decorator(new StatefulDecorator())])],
 		];
 	}
 
-	/** @dataProvider dataProvider_decoratorsSafety */
-	public function testDecoratorsSafety(ClassDefinition $definition) {
+	/** @dataProvider dataProvider_capabilitiesSafety */
+	public function testCapabilitiesSafety(ClassDefinition $definition) {
 		Assert::exception(function() use ($definition) {
 			$this->generator->generateClass($definition);
-		}, InvalidArgumentException::class, 'Used decorator requires you to have all fields specified in class specification already declared in generated class. Maybe you want to use PropertiesDecorator before this one?');
+		}, InvalidArgumentException::class, 'Used capability requires you to have all fields specified in class specification already declared in generated class. Maybe you want to use properties() before this one?');
 	}
 
 

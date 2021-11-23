@@ -4,8 +4,7 @@ declare(strict_types = 1);
 
 namespace Grifart\ClassScaffolder\Definition;
 
-use Grifart\ClassScaffolder\Decorators\ClassDecorator;
-
+use Grifart\ClassScaffolder\Capabilities\Capability;
 
 final class ClassDefinition
 {
@@ -20,8 +19,8 @@ final class ClassDefinition
 	/** @var Field[] */
 	private array $fields = [];
 
-	/** @var ClassDecorator[] */
-	private array $decorators = [];
+	/** @var Capability[] */
+	private array $capabilities = [];
 
 
 	public function __construct(string $className)
@@ -128,24 +127,24 @@ final class ClassDefinition
 	}
 
 
-	public function decoratedBy(ClassDecorator $decorator, ClassDecorator ...$decorators): self
+	public function with(Capability $capability, Capability ...$capabilities): self
 	{
 		$copy = clone $this;
-		$copy->decorators = [
-			...$copy->decorators,
-			$decorator,
-			...$decorators,
+		$copy->capabilities = [
+			...$copy->capabilities,
+			$capability,
+			...$capabilities,
 		];
 		return $copy;
 	}
 
 
 	/**
-	 * @return ClassDecorator[]
+	 * @return Capability[]
 	 */
-	public function getDecorators(): array
+	public function getCapabilities(): array
 	{
-		return $this->decorators;
+		return $this->capabilities;
 	}
 
 }

@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace Grifart\ClassScaffolder\Definition;
 
+use Grifart\ClassScaffolder\Capabilities\Decorator;
 use Grifart\ClassScaffolder\Decorators\ClassDecorator;
 use Grifart\ClassScaffolder\Definition\Types;
 use Grifart\ClassScaffolder\Definition\Types\Type;
@@ -80,7 +81,7 @@ final class ClassDefinitionBuilder
 		}
 
 		foreach ($this->decorators as $decorator) {
-			$definition = $definition->decoratedBy($decorator);
+			$definition = $definition->with(new Decorator($decorator));
 		}
 
 		return $definition;

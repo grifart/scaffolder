@@ -4,11 +4,11 @@ namespace Grifart\ClassScaffolder\Test;
 
 use Grifart\ClassScaffolder\ClassGenerator;
 use Grifart\ClassScaffolder\Decorators\ClassDecorator;
-use Grifart\ClassScaffolder\Decorators\KeepAnnotatedMethodsDecorator;
-use Grifart\ClassScaffolder\Decorators\KeepUseStatementsDecorator;
 use Grifart\ClassScaffolder\Definition\ClassDefinition;
 use Grifart\ClassScaffolder\Definition\Types;
 use Tester\Assert;
+use function Grifart\ClassScaffolder\Capabilities\preservedAnnotatedMethods;
+use function Grifart\ClassScaffolder\Capabilities\preservedUseStatements;
 
 require_once __DIR__ . '/../bootstrap.php';
 $generator = new ClassGenerator();
@@ -16,17 +16,17 @@ $generator = new ClassGenerator();
 /**
  * @param ClassDecorator[] $decorators
  */
-$generateClass = static fn (array $decorators) => $generator->generateClass(
+$generateClass = static fn (array $capabilities) => $generator->generateClass(
 	(new ClassDefinition('Grifart\ClassScaffolder\Test\KeepAnnotatedMethodsDecorator\Stub\StubKeepMethod'))
 		->withField('field', Types\resolve('mixed'))
-		->decoratedBy(new KeepUseStatementsDecorator(), ...$decorators)
+		->with(preservedUseStatements(), ...$capabilities)
 );
 
 // methods are preserved
 Assert::matchFile(
 	__DIR__ . '/Stub/StubKeepMethod.preserved.phps',
 	(string) $generateClass([
-		new KeepAnnotatedMethodsDecorator(),
+		preservedAnnotatedMethods(),
 	]),
 );
 
@@ -41,6 +41,6 @@ Assert::noError(function () use ($generator) {
 	$generator->generateClass(
 		(new ClassDefinition('Grifart\ClassScaffolder\Test\KeepAnnotatedMethodsDecorator\NonExistentClass'))
 			->withField('field', Types\resolve('mixed'))
-			->decoratedBy(new KeepAnnotatedMethodsDecorator())
+			->with(preservedAnnotatedMethods())
 	);
 });
