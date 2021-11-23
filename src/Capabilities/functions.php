@@ -13,6 +13,13 @@ function getters(): Getters {
 }
 
 /**
+ * @param string ...$fieldNames
+ */
+function immutableSetters(string ...$fieldNames): ImmutableSetters {
+	return new ImmutableSetters(...$fieldNames);
+}
+
+/**
  * @param class-string $interfaceName
  */
 function implementedInterface(string $interfaceName): ImplementedInterface {
@@ -21,6 +28,10 @@ function implementedInterface(string $interfaceName): ImplementedInterface {
 
 function initializingConstructor(): InitializingConstructor {
 	return new InitializingConstructor();
+}
+
+function namedConstructor(string $constructorName): NamedConstructor {
+	return new NamedConstructor($constructorName);
 }
 
 function preservedAnnotatedMethods(): PreservedAnnotatedMethods {
@@ -33,6 +44,10 @@ function preservedMethod(string $methodName): PreservedMethod {
 
 function preservedUseStatements(): PreservedUseStatements {
 	return new PreservedUseStatements();
+}
+
+function privateConstructor(): PrivateConstructor {
+	return new PrivateConstructor();
 }
 
 function properties(): Properties {

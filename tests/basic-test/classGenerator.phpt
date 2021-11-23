@@ -13,8 +13,11 @@ use Tester\Assert;
 use Tester\TestCase;
 use function Grifart\ClassScaffolder\Capabilities\constructorWithPromotedProperties;
 use function Grifart\ClassScaffolder\Capabilities\getters;
+use function Grifart\ClassScaffolder\Capabilities\immutableSetters;
 use function Grifart\ClassScaffolder\Capabilities\implementedInterface;
 use function Grifart\ClassScaffolder\Capabilities\initializingConstructor;
+use function Grifart\ClassScaffolder\Capabilities\namedConstructor;
+use function Grifart\ClassScaffolder\Capabilities\privateConstructor;
 use function Grifart\ClassScaffolder\Capabilities\properties;
 use function Grifart\ClassScaffolder\Capabilities\readonlyProperties;
 use function Grifart\ClassScaffolder\Capabilities\setters;
@@ -160,6 +163,27 @@ require_once __DIR__ . '/../bootstrap.php';
 				->build(),
 		];
 		error_reporting($errorReporting);
+
+		yield [
+			'classGenerator.16-immutable-setters.phps',
+			(new ClassDefinition('NS\\CLS'))
+				->withField('field', Types\listOf('string'))
+				->with(constructorWithPromotedProperties(), immutableSetters('field')),
+		];
+
+		yield [
+			'classGenerator.17-named-constructor.phps',
+			(new ClassDefinition('NS\\CLS'))
+				->withFields([
+					'field' => Types\listOf('string'),
+					'anotherField' => 'string',
+				])
+				->with(
+					constructorWithPromotedProperties(),
+					privateConstructor(),
+					namedConstructor('of'),
+				),
+		];
 	}
 
 	/** @dataProvider dataProvider_generator */
