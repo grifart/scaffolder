@@ -5,7 +5,6 @@
 
 use Grifart\ClassScaffolder\ClassGenerator;
 use Grifart\ClassScaffolder\Decorators\PropertiesDecorator;
-use Grifart\ClassScaffolder\Decorators\StatefulDecorator;
 use Grifart\ClassScaffolder\Definition\ClassDefinition;
 use Grifart\ClassScaffolder\Definition\ClassDefinitionBuilder;
 use \Grifart\ClassScaffolder\Definition\Types;
@@ -207,7 +206,6 @@ require_once __DIR__ . '/../bootstrap.php';
 			[$classWithCapabilities([initializingConstructor()])],
 			[$classWithCapabilities([getters()])],
 			[$classWithCapabilities([setters()])],
-			[$classWithCapabilities([new \Grifart\ClassScaffolder\Capabilities\Decorator(new StatefulDecorator())])],
 		];
 	}
 

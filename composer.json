@@ -32,7 +32,6 @@
 		"webmozart/path-util": "^2.3"
 	},
 	"require-dev": {
-		"grifart/stateful": "^0.6",
 		"nette/tester": "^2.0.0",
 		"phpstan/phpstan": "^1.0",
 		"php-parallel-lint/php-console-color": "^1.0",
@@ -41,7 +40,6 @@
 		"nikic/php-parser": "^4.10"
 	},
 	"suggest": {
-		"grifart/stateful": "Install grifart/stateful for use of StatefulDecorator.",
 		"tracy/tracy": "For more detailed error messages.",
 		"nikic/php-parser": "To able to use KeepMethodDecorator."
 	},
@@ -62,11 +60,5 @@
 		"psr-4": {
 			"Grifart\\ClassScaffolder\\Test\\": "tests"
 		}
-	},
-	"repositories": [
-		{
-			"type": "vcs",
-			"url": "git@gitlab.grifart.local:grifart-internal/stateful.git"
-		}
-	]
+	}
 }

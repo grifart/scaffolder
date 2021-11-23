@@ -61,7 +61,3 @@ function readonlyProperties(): ReadonlyProperties {
 function setters(): Setters {
 	return new Setters();
 }
-
-function statefulImplementation(): StatefulImplementation {
-	return new StatefulImplementation();
-}
