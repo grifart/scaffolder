@@ -20,12 +20,13 @@ final class GenerateClassCommand extends Command
 
 	protected function configure(): void
 	{
-		$this->setName('grifart:scaffolder:generateClass')
-			->setDescription('Generate a class from given definition.')
+		$this->setName('grifart:scaffold')
+			->setDescription('Generate classes from given definitions.')
 			->addArgument('definition', InputArgument::OPTIONAL, 'Definition file or directory containing definitions', \getcwd())
 			->addOption('search-pattern', NULL, InputArgument::OPTIONAL, '(for directories) Search pattern for your definitions', '*.definition.php')
 			->addOption('dry-run', NULL, InputOption::VALUE_NONE, 'Only print the generated file to output instead of saving it')
-			->addOption('no-readonly', NULL, InputOption::VALUE_NONE, 'Generated files are marked as read only by default (using chmod), using this option turns off this behaviour.');
+			->addOption('no-readonly', NULL, InputOption::VALUE_NONE, 'Generated files are marked as read only by default (using chmod), using this option turns off this behaviour.')
+			->setAliases(['grifart:scaffolder:generateClass']);
 	}
 
 
