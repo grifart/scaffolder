@@ -116,7 +116,7 @@ require_once __DIR__ . '/../bootstrap.php';
 		yield [
 			'classGenerator.11-union.phps',
 			(new ClassDefinition('NS\\CLS'))
-				->withField('union', Types\union(Types\classType('NS\GenericClass'), 'int', 'callable', 'string', 'null'))
+				->withField('union', Types\union(Types\classType('NS\GenericClass'), 'int', 'string', 'null'))
 				->with(properties()),
 		];
 

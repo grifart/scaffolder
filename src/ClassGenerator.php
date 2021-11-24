@@ -13,7 +13,7 @@ use Nette\PhpGenerator as Code;
 final class ClassGenerator
 {
 
-	public function generateClass(ClassDefinition $definition): Code\PhpNamespace
+	public function generateClass(ClassDefinition $definition): Code\PhpFile
 	{
 		$draft = ClassInNamespace::fromDefinition($definition);
 		$namespace = $draft->getNamespace();
@@ -51,7 +51,11 @@ final class ClassGenerator
 		}
 
 
-		return $namespace;
+		$file = new Code\PhpFile();
+		$file->setStrictTypes();
+		$file->addNamespace($namespace);
+
+		return $file;
 	}
 
 

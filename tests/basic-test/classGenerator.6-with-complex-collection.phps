@@ -1,3 +1,7 @@
+<?php
+
+declare(strict_types=1);
+
 namespace NS;
 
 use Grifart\ClassScaffolder\Definition\ClassDefinition;
