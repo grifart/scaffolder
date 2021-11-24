@@ -4,44 +4,33 @@ declare(strict_types = 1);
 
 namespace Grifart\ClassScaffolder\Definition;
 
-use Grifart\ClassScaffolder\Decorators\ClassDecorator;
-
+use Grifart\ClassScaffolder\Capabilities\Capability;
 
 final class ClassDefinition
 {
 
-	private ?string $namespaceName;
+	private ?string $namespaceName = null;
 
 	private string $className;
 
-	/** @var string[] */
-	private array $implements;
-
 	/** @var Field[] */
-	private array $fields;
+	private array $fields = [];
 
-	/** @var ClassDecorator[] */
-	private array $decorators;
+	/** @var Capability[] */
+	private array $capabilities = [];
 
 
-	/**
-	 * @param string[] $implements
-	 * @param Field[] $fields
-	 * @param ClassDecorator[] $decorators
-	 */
-	public function __construct(
-		?string $namespaceName,
-		string $className,
-		array $implements,
-		array $fields,
-		array $decorators
-	)
+	public function __construct(string $className)
 	{
-		$this->namespaceName = $namespaceName;
-		$this->className = $className;
-		$this->implements = $implements;
-		$this->fields = $fields;
-		$this->decorators = $decorators;
+		$className = \trim($className, '\\');
+		$pos = \strrpos($className, '\\');
+		if ($pos !== FALSE) {
+			$this->namespaceName = \substr($className, 0, $pos);
+			$this->className = \substr($className, $pos + 1);
+
+		} else {
+			$this->className = $className;
+		}
 	}
 
 
@@ -66,12 +55,25 @@ final class ClassDefinition
 	}
 
 
-	/**
-	 * @return string[]
-	 */
-	public function getImplements(): array
+	public function withField(string $name, Types\Type|self|string $type): self
 	{
-		return $this->implements;
+		$copy = clone $this;
+		$copy->fields[] = new Field($name, Types\resolve($type));
+		return $copy;
+	}
+
+
+	/**
+	 * @param array<string, Types\Type|self|string> $fields
+	 */
+	public function withFields(array $fields): self
+	{
+		$copy = clone $this;
+		foreach ($fields as $name => $type) {
+			$copy->fields[] = new Field($name, Types\resolve($type));
+		}
+
+		return $copy;
 	}
 
 
@@ -84,12 +86,24 @@ final class ClassDefinition
 	}
 
 
-	/**
-	 * @return ClassDecorator[]
-	 */
-	public function getDecorators(): array
+	public function with(Capability $capability, Capability ...$capabilities): self
 	{
-		return $this->decorators;
+		$copy = clone $this;
+		$copy->capabilities = [
+			...$copy->capabilities,
+			$capability,
+			...$capabilities,
+		];
+		return $copy;
+	}
+
+
+	/**
+	 * @return Capability[]
+	 */
+	public function getCapabilities(): array
+	{
+		return $this->capabilities;
 	}
 
 }

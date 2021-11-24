@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace Grifart\ClassScaffolder;
 
 use Grifart\ClassScaffolder\Definition\ClassDefinition;
+use Grifart\ClassScaffolder\Definition\Types\CheckedClassType;
 use Grifart\ClassScaffolder\Definition\Types\ClassType;
 use Grifart\ClassScaffolder\Definition\Types\CompositeType;
 use Nette\PhpGenerator as Code;
@@ -13,7 +14,7 @@ use Nette\PhpGenerator as Code;
 final class ClassGenerator
 {
 
-	public function generateClass(ClassDefinition $definition): Code\PhpNamespace
+	public function generateClass(ClassDefinition $definition): Code\PhpFile
 	{
 		$draft = ClassInNamespace::fromDefinition($definition);
 		$namespace = $draft->getNamespace();
@@ -21,17 +22,7 @@ final class ClassGenerator
 		$classType->setFinal();
 
 
-		// GLOBAL STUFF
-
-		// implements
-
-		foreach ($definition->getImplements() as $implement) {
-			$namespace->addUse($implement);
-			$classType->addImplement($implement);
-		}
-
-
-		// fields – always set use statements for defined fields (so that one can refer it in whatever decorator)
+		// fields – always set use statements for defined fields (so that one can refer it in whatever capability)
 
 		foreach ($definition->getFields() as $field) {
 
@@ -53,15 +44,21 @@ final class ClassGenerator
 		}
 
 
-		// decorators
+		// capabilities
 
 		$current = self::findCurrent($definition);
-		foreach ($definition->getDecorators() as $decorator) {
-			$decorator->decorate($definition, $draft, $current);
+		foreach ($definition->getCapabilities() as $capability) {
+			$capability->applyTo($definition, $draft, $current);
 		}
 
 
-		return $namespace;
+		$file = new Code\PhpFile();
+		$file->setStrictTypes();
+		$file->addNamespace($namespace);
+
+		$file->addComment('Do not edit. This is generated file. Modify definition file instead.');
+
+		return $file;
 	}
 
 

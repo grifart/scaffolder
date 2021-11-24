@@ -6,7 +6,6 @@ namespace Grifart\ClassScaffolder\Console;
 
 use Grifart\ClassScaffolder\ClassGenerator;
 use Grifart\ClassScaffolder\Definition\ClassDefinition;
-use Grifart\ClassScaffolder\Definition\ClassDefinitionBuilder;
 use Nette\Utils\Finder;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -21,13 +20,13 @@ final class GenerateClassCommand extends Command
 
 	protected function configure(): void
 	{
-		$this->setName('grifart:scaffolder:generateClass')
-			->setDescription('Generate a class from given definition.')
-			->addArgument('definition', InputArgument::REQUIRED, 'Definition file or directory containing definitions')
+		$this->setName('grifart:scaffold')
+			->setDescription('Generate classes from given definitions.')
+			->addArgument('definition', InputArgument::OPTIONAL, 'Definition file or directory containing definitions', \getcwd())
 			->addOption('search-pattern', NULL, InputArgument::OPTIONAL, '(for directories) Search pattern for your definitions', '*.definition.php')
 			->addOption('dry-run', NULL, InputOption::VALUE_NONE, 'Only print the generated file to output instead of saving it')
 			->addOption('no-readonly', NULL, InputOption::VALUE_NONE, 'Generated files are marked as read only by default (using chmod), using this option turns off this behaviour.')
-			->setAliases(['doklady:scaffolder:generate' /* API used before extracted from doklady.io/invoicing-app */]);
+			->setAliases(['grifart:scaffolder:generateClass']);
 	}
 
 
@@ -78,27 +77,17 @@ final class GenerateClassCommand extends Command
 
 	private function processFile(string $definitionFile, InputInterface $input, OutputInterface $output, bool $readonly): void {
 		foreach($this->loadDefinitions($definitionFile) as $definition) {
+			if (!$definition instanceof ClassDefinition) {
+				throw new \InvalidArgumentException('Definition file must contain class definition.');
+			}
 			$this->doGeneration($definition, $definitionFile, $input, $output, $readonly);
 		}
 	}
 
-	private function doGeneration(ClassDefinition|ClassDefinitionBuilder $definitionOrBuilder, string $definitionFile, InputInterface $input, OutputInterface $output, bool $readonly): void {
-		$definition = $definitionOrBuilder instanceof ClassDefinitionBuilder ? $definitionOrBuilder->build() : $definitionOrBuilder;
+	private function doGeneration(ClassDefinition $definition, string $definitionFile, InputInterface $input, OutputInterface $output, bool $readonly): void {
 		$classGenerator = new ClassGenerator();
-		$generatedClass = $classGenerator->generateClass($definition);
-
-		$code = '<?php declare(strict_types = 1);'
-			. "\n\n"
-			. \sprintf(
-				\implode("\n", [
-					'/**',
-					' * Do not edit. This is generated file. Modify definition "%s" instead.',
-					' */',
-				]),
-				\pathinfo($definitionFile, \PATHINFO_BASENAME)
-			)
-			. "\n\n"
-			. $generatedClass;
+		$generatedFile = $classGenerator->generateClass($definition);
+		$code = (string) $generatedFile;
 
 		$targetPath = Path::join(
 			Path::getDirectory($definitionFile),
@@ -109,7 +98,10 @@ final class GenerateClassCommand extends Command
 			echo $code . "\n\n";
 
 		} else {
-			\chmod($targetPath, 0664); // some users accessing files using group permissions
+			if (\file_exists($targetPath)) {
+				\chmod($targetPath, 0664); // some users accessing files using group permissions
+			}
+
 			\file_put_contents($targetPath, $code);
 			if ($readonly) {
 				\chmod($targetPath, 0444); // read-only -- assumes single user system
@@ -119,7 +111,7 @@ final class GenerateClassCommand extends Command
 
 
 	/**
-	 * @return (ClassDefinition|ClassDefinitionBuilder)[]
+	 * @return ClassDefinition[]
 	 */
 	private function loadDefinitions(string $definitionFile): iterable
 	{
@@ -136,9 +128,9 @@ final class GenerateClassCommand extends Command
 			$definitions = [$definitions];
 		}
 		foreach($definitions as $definition) {
-			if ( ! ($definition instanceof ClassDefinition || $definition instanceof ClassDefinitionBuilder)) {
+			if ( ! ($definition instanceof ClassDefinition)) {
 				throw new \InvalidArgumentException(\sprintf(
-					'<error>Definition file must return instanceof ClassDefinition or ClassDefinitionBuilder, %s received.</error>',
+					'<error>Definition file must return instanceof ClassDefinition, %s received.</error>',
 					\is_object($definition) ? \get_class($definition) : \gettype($definition)
 				));
 			}

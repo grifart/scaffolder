@@ -1,23 +1,20 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace Grifart\ClassScaffolder\Decorators;
 
+use Grifart\ClassScaffolder\Capabilities\PreservedUseStatements;
 use Grifart\ClassScaffolder\ClassInNamespace;
 use Grifart\ClassScaffolder\Definition\ClassDefinition;
 
-
+/**
+ * @deprecated Use {@see PreservedUseStatements} capability instead
+ */
 final class KeepUseStatementsDecorator implements ClassDecorator
 {
-
-	public function decorate(ClassDefinition $definition, ClassInNamespace $draft, ?ClassInNamespace $current): void
+	public function applyTo(ClassDefinition $definition, ClassInNamespace $draft, ?ClassInNamespace $current): void
 	{
-		if ($current === null) {
-			return;
-		}
-
-		foreach ($current->getNamespace()->getUses() as $alias => $use) {
-			$draft->getNamespace()->addUse($use, $alias);
-		}
+		(new PreservedUseStatements())->applyTo($definition, $draft, $current);
 	}
-
 }
