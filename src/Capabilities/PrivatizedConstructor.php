@@ -7,7 +7,7 @@ namespace Grifart\ClassScaffolder\Capabilities;
 use Grifart\ClassScaffolder\ClassInNamespace;
 use Grifart\ClassScaffolder\Definition\ClassDefinition;
 
-final class PrivateConstructor implements Capability
+final class PrivatizedConstructor implements Capability
 {
 	public function applyTo(
 		ClassDefinition $definition,

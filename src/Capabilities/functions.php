@@ -46,8 +46,8 @@ function preservedUseStatements(): PreservedUseStatements {
 	return new PreservedUseStatements();
 }
 
-function privateConstructor(): PrivateConstructor {
-	return new PrivateConstructor();
+function privatizedConstructor(): PrivatizedConstructor {
+	return new PrivatizedConstructor();
 }
 
 function properties(): Properties {
