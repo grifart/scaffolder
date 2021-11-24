@@ -55,6 +55,8 @@ final class ClassGenerator
 		$file->setStrictTypes();
 		$file->addNamespace($namespace);
 
+		$file->addComment('Do not edit. This is generated file. Modify definition file instead.');
+
 		return $file;
 	}
 

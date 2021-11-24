@@ -86,16 +86,6 @@ final class GenerateClassCommand extends Command
 	private function doGeneration(ClassDefinition $definition, string $definitionFile, InputInterface $input, OutputInterface $output, bool $readonly): void {
 		$classGenerator = new ClassGenerator();
 		$generatedFile = $classGenerator->generateClass($definition);
-
-		$generatedFile->addComment(\sprintf(
-			\implode("\n", [
-				'/**',
-				' * Do not edit. This is generated file. Modify definition "%s" instead.',
-				' */',
-			]),
-			\pathinfo($definitionFile, \PATHINFO_BASENAME)
-		));
-
 		$code = (string) $generatedFile;
 
 		$targetPath = Path::join(
