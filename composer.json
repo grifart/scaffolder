@@ -18,7 +18,7 @@
 		}
 	],
 	"scripts": {
-		"verify": ["@validate-syntax", "@test", "@phpstan"],
+		"verify": ["@verify-syntax", "@test", "@phpstan"],
 		"verify-syntax": "vendor/bin/parallel-lint src tests",
 		"test": "tester -c tests/php-unix.ini tests",
 		"phpstan": "phpstan analyze --ansi --no-progress --no-interaction"
