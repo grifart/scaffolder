@@ -49,7 +49,7 @@ composer require grifart/scaffolder
   ```
 
 <details>
-  <summary>Alternative way: Register scaffolder as an Symfony command into you app.</summary>
+  <summary>Alternative way: Register scaffolder as a Symfony command into you app.</summary>
 
   Alternatively, you can register the `Grifart\ClassScaffolder\Console\GenerateClassCommand` into your application's DI container and run scaffolder through *symfony/console*. This makes it easier to access your project's services and environment in definition files. *This is considered advanced usage and is not necessary in most cases.*
   
