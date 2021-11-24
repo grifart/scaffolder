@@ -25,8 +25,7 @@ final class GenerateClassCommand extends Command
 			->addArgument('definition', InputArgument::REQUIRED, 'Definition file or directory containing definitions')
 			->addOption('search-pattern', NULL, InputArgument::OPTIONAL, '(for directories) Search pattern for your definitions', '*.definition.php')
 			->addOption('dry-run', NULL, InputOption::VALUE_NONE, 'Only print the generated file to output instead of saving it')
-			->addOption('no-readonly', NULL, InputOption::VALUE_NONE, 'Generated files are marked as read only by default (using chmod), using this option turns off this behaviour.')
-			->setAliases(['doklady:scaffolder:generate' /* API used before extracted from doklady.io/invoicing-app */]);
+			->addOption('no-readonly', NULL, InputOption::VALUE_NONE, 'Generated files are marked as read only by default (using chmod), using this option turns off this behaviour.');
 	}
 
 
