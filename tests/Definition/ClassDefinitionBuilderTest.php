@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Grifart\ClassScaffolder\Test\Definition;
 
-use Grifart\ClassScaffolder\Capabilities\Decorator;
 use Grifart\ClassScaffolder\Capabilities\ImplementedInterface;
 use Grifart\ClassScaffolder\Decorators\PropertiesDecorator;
 use Grifart\ClassScaffolder\Definition\ClassDefinitionBuilder;
@@ -40,16 +39,7 @@ final class ClassDefinitionBuilderTest extends TestCase
 
 		Assert::count(2, $definition->getCapabilities());
 		Assert::type(ImplementedInterface::class, $definition->getCapabilities()[0]);
-
-		$decorator = $definition->getCapabilities()[1];
-		Assert::type(Decorator::class, $decorator);
-
-		$decoratorProperty = (new \ReflectionClass($decorator))->getProperty('decorator');
-		$decoratorProperty->setAccessible(true);
-		Assert::type(
-			PropertiesDecorator::class,
-			$decoratorProperty->getValue($decorator),
-		);
+		Assert::type(PropertiesDecorator::class, $definition->getCapabilities()[1]);
 	}
 
 	public function testDeprecation(): void

@@ -4,14 +4,17 @@ declare(strict_types=1);
 
 namespace Grifart\ClassScaffolder\Decorators;
 
+use Grifart\ClassScaffolder\Capabilities\Setters;
 use Grifart\ClassScaffolder\ClassInNamespace;
 use Grifart\ClassScaffolder\Definition\ClassDefinition;
-use function Grifart\ClassScaffolder\Capabilities\setters;
 
+/**
+ * @deprecated Use {@see Setters} capability instead
+ */
 final class SettersDecorator implements ClassDecorator
 {
-	public function decorate(ClassDefinition $definition, ClassInNamespace $draft, ?ClassInNamespace $current): void
+	public function applyTo(ClassDefinition $definition, ClassInNamespace $draft, ?ClassInNamespace $current): void
 	{
-		setters()->applyTo($definition, $draft, $current);
+		(new Setters())->applyTo($definition, $draft, $current);
 	}
 }

@@ -4,14 +4,17 @@ declare(strict_types=1);
 
 namespace Grifart\ClassScaffolder\Decorators;
 
+use Grifart\ClassScaffolder\Capabilities\Properties;
 use Grifart\ClassScaffolder\ClassInNamespace;
 use Grifart\ClassScaffolder\Definition\ClassDefinition;
-use function Grifart\ClassScaffolder\Capabilities\properties;
 
+/**
+ * @deprecated Use {@see Properties} capability instead
+ */
 final class PropertiesDecorator implements ClassDecorator
 {
-	public function decorate(ClassDefinition $definition, ClassInNamespace $draft, ?ClassInNamespace $current): void
+	public function applyTo(ClassDefinition $definition, ClassInNamespace $draft, ?ClassInNamespace $current): void
 	{
-		properties()->applyTo($definition, $draft, $current);
+		(new Properties())->applyTo($definition, $draft, $current);
 	}
 }

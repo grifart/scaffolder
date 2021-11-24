@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Grifart\ClassScaffolder\Decorators;
 
+use Grifart\ClassScaffolder\Capabilities\PreservedMethod;
 use Grifart\ClassScaffolder\ClassInNamespace;
 use Grifart\ClassScaffolder\Definition\ClassDefinition;
-use Nette\PhpGenerator\ClassType;
-use Nette\PhpGenerator\Method;
-use function Grifart\ClassScaffolder\Capabilities\preservedMethod;
 
 /**
  * ⚠ Note that for transferring use statements you should use
  * `KeepUseStatementsDecorator` as well. Call it before this one.
+ *
+ * @deprecated Use {@see PreservedMethod} capability instead
  */
 final class KeepMethodDecorator implements ClassDecorator
 {
@@ -20,8 +20,8 @@ final class KeepMethodDecorator implements ClassDecorator
 		private string $methodToBeKept,
 	) {}
 
-	public function decorate(ClassDefinition $definition, ClassInNamespace $draft, ?ClassInNamespace $current): void
+	public function applyTo(ClassDefinition $definition, ClassInNamespace $draft, ?ClassInNamespace $current): void
 	{
-		preservedMethod($this->methodToBeKept)->applyTo($definition, $draft, $current);
+		(new PreservedMethod($this->methodToBeKept))->applyTo($definition, $draft, $current);
 	}
 }

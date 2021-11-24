@@ -4,8 +4,7 @@ declare(strict_types = 1);
 
 namespace Grifart\ClassScaffolder\Definition;
 
-use Grifart\ClassScaffolder\Capabilities\Decorator;
-use Grifart\ClassScaffolder\Decorators\ClassDecorator;
+use Grifart\ClassScaffolder\Capabilities\Capability;
 use Grifart\ClassScaffolder\Definition\Types;
 use Grifart\ClassScaffolder\Definition\Types\Type;
 use function Grifart\ClassScaffolder\Capabilities\implementedInterface;
@@ -23,7 +22,7 @@ final class ClassDefinitionBuilder
 	/** @var Field[] */
 	private array $fields = [];
 
-	/** @var ClassDecorator[] */
+	/** @var Capability[] */
 	private array $decorators = [];
 
 
@@ -62,7 +61,7 @@ final class ClassDefinitionBuilder
 	}
 
 
-	public function decorate(ClassDecorator $decorator): self
+	public function decorate(Capability $decorator): self
 	{
 		$this->decorators[] = $decorator;
 		return $this;
@@ -82,7 +81,7 @@ final class ClassDefinitionBuilder
 		}
 
 		foreach ($this->decorators as $decorator) {
-			$definition = $definition->with(new Decorator($decorator));
+			$definition = $definition->with($decorator);
 		}
 
 		return $definition;
