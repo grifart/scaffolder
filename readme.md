@@ -48,11 +48,15 @@ composer require grifart/scaffolder
   composer run scaffold .definition.php
   ```
 
-  Alternatively, you can register the `Grifart\ClassScaffolder\Console\GenerateClassCommand` into your application's DI container and run scaffolder through *symfony/console*. This makes it easier to access your project's services and environment in definition files. *This is considered advanced usage and is not necessary in most cases.*
+<details>
+  <summary>Alternative way: Register scaffolder as an Symfony command into you app.</summary>
 
+  Alternatively, you can register the `Grifart\ClassScaffolder\Console\GenerateClassCommand` into your application's DI container and run scaffolder through *symfony/console*. This makes it easier to access your project's services and environment in definition files. *This is considered advanced usage and is not necessary in most cases.*
+  
   ```sh
   php bin/console grifart:scaffold .definition.php
   ```
+</details>
 
 4. **Your class is ready.** Scaffolder generates classes from definitions, one class per file, residing in the same directory as the definition file. By default, scaffolder makes the file read-only to prevent you from changing it accidentally.
 
