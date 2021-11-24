@@ -142,6 +142,16 @@ final class TypesTest extends TestCase
 		);
 	}
 
+	public function testTupleType(): void
+	{
+		$this->assertType(
+			Types\tuple('string', Types\nullable('int')),
+			'array',
+			docComment: 'array{string, int|null}',
+			typeClass: Types\TupleType::class,
+		);
+	}
+
 	private function assertType(
 		Types\Type $type,
 		string $typeHint,

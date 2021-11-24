@@ -73,6 +73,10 @@ function arrayShape(array $shape): ArrayShapeType {
 	return new ArrayShapeType(\array_map('\Grifart\ClassScaffolder\Definition\Types\resolve', $shape));
 }
 
+function tuple(Type|ClassDefinition|string ...$types): TupleType {
+	return new TupleType(...\array_map('\Grifart\ClassScaffolder\Definition\Types\resolve', $types));
+}
+
 
 function union(
 	Type|ClassDefinition|string $first,
