@@ -47,7 +47,7 @@ final class ClassType implements Type
 
 	public function getDocCommentType(PhpNamespace $namespace): string
 	{
-		return $namespace->unresolveName($this->typeName);
+		return $namespace->simplifyName($this->typeName);
 	}
 
 
