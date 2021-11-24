@@ -8,7 +8,7 @@ use Grifart\ClassScaffolder\Definition\ClassDefinition;
 use Grifart\ClassScaffolder\Test\Capabilities\CapabilityTestCase;
 use function Grifart\ClassScaffolder\Capabilities\preservedMethod;
 use function Grifart\ClassScaffolder\Capabilities\preservedUseStatements;
-use function Grifart\ClassScaffolder\Definition\define;
+use function Grifart\ClassScaffolder\Definition\definitionOf;
 
 require __DIR__ . '/../../bootstrap.php';
 
@@ -29,7 +29,7 @@ final class PreservedMethodTest extends CapabilityTestCase
 
 	protected function createDefinition(): ClassDefinition
 	{
-		return define(ExistentClass::class);
+		return definitionOf(ExistentClass::class);
 	}
 }
 

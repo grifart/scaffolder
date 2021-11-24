@@ -12,7 +12,7 @@ use Grifart\ClassScaffolder\Definition\Types\NullableType;
 use Grifart\ClassScaffolder\Definition\Types\SimpleType;
 use Tester\Assert;
 use Tester\TestCase;
-use function Grifart\ClassScaffolder\Definition\define;
+use function Grifart\ClassScaffolder\Definition\definitionOf;
 use function Grifart\ClassScaffolder\Definition\Types\nullable;
 use function Grifart\ClassScaffolder\Definition\Types\resolve;
 
@@ -84,13 +84,13 @@ final class ClassDefinitionTest extends TestCase
 		Assert::same([$capability1, $capability2], $definition->getCapabilities());
 	}
 
-	public function testDefineFunction(): void
+	public function testDefinitionOf(): void
 	{
-		$definition = define('ClassName');
+		$definition = definitionOf('ClassName');
 		Assert::same('ClassName', $definition->getFullyQualifiedName());
 		Assert::count(0, $definition->getFields());
 
-		$updatedDefinition = define($definition, withFields: ['field' => resolve('string')]);
+		$updatedDefinition = definitionOf($definition, withFields: ['field' => resolve('string')]);
 		Assert::same('ClassName', $updatedDefinition->getFullyQualifiedName());
 		Assert::count(1, $updatedDefinition->getFields());
 		Assert::count(0, $definition->getFields());

@@ -10,7 +10,7 @@ use Grifart\ClassScaffolder\Definition\ClassDefinition;
 use Grifart\ClassScaffolder\Definition\Types;
 use Tester\Assert;
 use Tester\TestCase;
-use function Grifart\ClassScaffolder\Definition\define;
+use function Grifart\ClassScaffolder\Definition\definitionOf;
 
 abstract class CapabilityTestCase extends TestCase
 {
@@ -21,7 +21,7 @@ abstract class CapabilityTestCase extends TestCase
 
 	protected function createDefinition(): ClassDefinition
 	{
-		return define('RootNamespace\SubNamespace\ClassName')
+		return definitionOf('RootNamespace\SubNamespace\ClassName')
 			->withField('field1', Types\nullable('string'))
 			->withField('field2', Types\collection(\Iterator::class, 'string', Types\listOf('int')));
 	}

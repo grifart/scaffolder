@@ -8,6 +8,7 @@ use Grifart\ClassScaffolder\Definition\Types;
 use Nette\PhpGenerator\PhpNamespace;
 use Tester\Assert;
 use Tester\TestCase;
+use function Grifart\ClassScaffolder\Definition\definitionOf;
 
 require __DIR__ . '/../bootstrap.php';
 
@@ -61,7 +62,7 @@ final class TypesTest extends TestCase
 
 	public function testDefinitionReferenceType(): void
 	{
-		$definition = \Grifart\ClassScaffolder\Definition\define(GeneratedClass::class);
+		$definition = definitionOf(GeneratedClass::class);
 
 		$this->assertType(
 			Types\resolve($definition),

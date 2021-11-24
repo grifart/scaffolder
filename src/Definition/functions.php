@@ -7,7 +7,7 @@ namespace Grifart\ClassScaffolder\Definition;
 /**
  * @param array<string, Types\Type|ClassDefinition|string> $withFields
  */
-function define(
+function definitionOf(
 	ClassDefinition|string $definitionOrClassName,
 	array $withFields = [],
 ): ClassDefinition {

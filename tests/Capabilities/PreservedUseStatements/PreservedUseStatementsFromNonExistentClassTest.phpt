@@ -9,7 +9,7 @@ use Grifart\ClassScaffolder\Definition\Field;
 use Grifart\ClassScaffolder\Test\Capabilities\CapabilityTestCase;
 use function Grifart\ClassScaffolder\Capabilities\preservedUseStatements;
 use function Grifart\ClassScaffolder\Capabilities\properties;
-use function Grifart\ClassScaffolder\Definition\define;
+use function Grifart\ClassScaffolder\Definition\definitionOf;
 
 require __DIR__ . '/../../bootstrap.php';
 
@@ -25,7 +25,7 @@ final class PreservedUseStatementsFromNonExistentClassTest extends CapabilityTes
 
 	protected function createDefinition(): ClassDefinition
 	{
-		return define(NonExistentClass::class)
+		return definitionOf(NonExistentClass::class)
 			->withField('field', Field::class);
 	}
 }
