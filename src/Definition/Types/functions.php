@@ -24,7 +24,7 @@ function resolve(Type|ClassDefinition|string $type): Type {
 	}
 
 	if (\class_exists($type) || \interface_exists($type) || (\PHP_VERSION_ID >= 80100 && \enum_exists($type))) {
-		return new ClassType($type);
+		return new CheckedClassType($type);
 	}
 
 	throw new \InvalidArgumentException(\sprintf(

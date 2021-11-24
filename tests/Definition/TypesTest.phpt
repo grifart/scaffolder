@@ -21,6 +21,7 @@ final class TypesTest extends TestCase
 		$this->assertType(
 			Types\resolve('string'),
 			'string',
+			typeClass: Types\SimpleType::class,
 		);
 	}
 
@@ -30,6 +31,7 @@ final class TypesTest extends TestCase
 			Types\nullable('string'),
 			'string',
 			isNullable: true,
+			typeClass: Types\NullableType::class,
 		);
 	}
 
@@ -38,6 +40,7 @@ final class TypesTest extends TestCase
 		$this->assertType(
 			Types\resolve(\Iterator::class),
 			'Iterator',
+			typeClass: Types\CheckedClassType::class,
 		);
 
 		Assert::throws(
@@ -52,6 +55,7 @@ final class TypesTest extends TestCase
 		$this->assertType(
 			Types\classType(NonExistentClass::class),
 			'Grifart\ClassScaffolder\Test\Definition\NonExistentClass',
+			typeClass: Types\NonCheckedClassType::class,
 		);
 	}
 
@@ -62,6 +66,7 @@ final class TypesTest extends TestCase
 		$this->assertType(
 			Types\resolve($definition),
 			'Grifart\ClassScaffolder\Test\Definition\GeneratedClass',
+			typeClass: Types\NonCheckedClassType::class,
 		);
 	}
 
@@ -71,6 +76,7 @@ final class TypesTest extends TestCase
 			Types\listOf('string'),
 			'array',
 			docComment: 'string[]',
+			typeClass: Types\ListType::class,
 		);
 	}
 
@@ -80,6 +86,7 @@ final class TypesTest extends TestCase
 			Types\collection('iterable', 'int', 'string'),
 			'iterable',
 			docComment: 'iterable<int, string>',
+			typeClass: Types\CollectionType::class,
 		);
 	}
 
@@ -89,6 +96,7 @@ final class TypesTest extends TestCase
 			Types\generic(\Generator::class, 'int', 'string', 'object', 'mixed'),
 			'Generator',
 			docComment: 'Generator<int, string, object, mixed>',
+			typeClass: Types\GenericType::class,
 		);
 	}
 
@@ -97,12 +105,14 @@ final class TypesTest extends TestCase
 		$this->assertType(
 			Types\union('string', 'int'),
 			'string|int',
+			typeClass: Types\UnionType::class,
 		);
 
 		$this->assertType(
 			Types\union(Types\listOf('string'), 'int'),
 			'array|int',
 			docComment: 'string[]|int',
+			typeClass: Types\UnionType::class,
 		);
 	}
 
@@ -111,12 +121,14 @@ final class TypesTest extends TestCase
 		$this->assertType(
 			Types\intersection(\Traversable::class, \Countable::class),
 			'Traversable&Countable',
+			typeClass: Types\IntersectionType::class,
 		);
 
 		$this->assertType(
 			Types\intersection(Types\generic(\Traversable::class, 'string'), \Countable::class),
 			'Traversable&Countable',
 			docComment: 'Traversable<string>&Countable',
+			typeClass: Types\IntersectionType::class,
 		);
 	}
 
@@ -126,6 +138,7 @@ final class TypesTest extends TestCase
 			Types\arrayShape(['key1' => 'string', 'key2' => 'int', 'key3?' => 'bool']),
 			'array',
 			docComment: 'array{key1: string, key2: int, key3?: bool}',
+			typeClass: Types\ArrayShapeType::class,
 		);
 	}
 
@@ -134,8 +147,10 @@ final class TypesTest extends TestCase
 		string $typeHint,
 		bool $isNullable = false,
 		?string $docComment = null,
+		string $typeClass = Types\Type::class,
 	): void
 	{
+		Assert::type($typeClass, $type);
 		Assert::same($typeHint, $type->getTypeHint());
 		Assert::same($isNullable, $type->isNullable());
 		Assert::same($docComment !== null, $type->requiresDocComment());

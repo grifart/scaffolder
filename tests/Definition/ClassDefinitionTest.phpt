@@ -7,7 +7,7 @@ namespace Grifart\ClassScaffolder\Test\Definition;
 use Grifart\ClassScaffolder\Capabilities\Capability;
 use Grifart\ClassScaffolder\ClassInNamespace;
 use Grifart\ClassScaffolder\Definition\ClassDefinition;
-use Grifart\ClassScaffolder\Definition\Types\ClassType;
+use Grifart\ClassScaffolder\Definition\Types\CheckedClassType;
 use Grifart\ClassScaffolder\Definition\Types\NullableType;
 use Grifart\ClassScaffolder\Definition\Types\SimpleType;
 use Tester\Assert;
@@ -55,7 +55,7 @@ final class ClassDefinitionTest extends TestCase
 		Assert::same('field2', $updatedDefinition->getFields()[1]->getName());
 		Assert::type(NullableType::class, $updatedDefinition->getFields()[1]->getType());
 		Assert::same('field3', $updatedDefinition->getFields()[2]->getName());
-		Assert::type(ClassType::class, $updatedDefinition->getFields()[2]->getType());
+		Assert::type(CheckedClassType::class, $updatedDefinition->getFields()[2]->getType());
 
 		Assert::count(2, $definition->getFields());
 		Assert::same('field1', $definition->getFields()[0]->getName());

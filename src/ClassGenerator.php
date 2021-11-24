@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace Grifart\ClassScaffolder;
 
 use Grifart\ClassScaffolder\Definition\ClassDefinition;
+use Grifart\ClassScaffolder\Definition\Types\CheckedClassType;
 use Grifart\ClassScaffolder\Definition\Types\ClassType;
 use Grifart\ClassScaffolder\Definition\Types\CompositeType;
 use Nette\PhpGenerator as Code;

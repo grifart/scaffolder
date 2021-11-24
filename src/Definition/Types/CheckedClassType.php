@@ -8,7 +8,7 @@ namespace Grifart\ClassScaffolder\Definition\Types;
 use Nette\PhpGenerator\PhpNamespace;
 
 
-final class NonCheckedClassType implements Type, ClassType
+final class CheckedClassType implements Type, ClassType
 {
 
 	private string $typeName;
@@ -16,6 +16,13 @@ final class NonCheckedClassType implements Type, ClassType
 
 	public function __construct(string $typeName)
 	{
+		if ( ! \class_exists($typeName) && ! \interface_exists($typeName) && (\PHP_VERSION_ID >= 80100 && ! \enum_exists($typeName))) {
+			throw new \InvalidArgumentException(\sprintf(
+				'Class type %s was not found. Make sure your autoloading setup is correct.',
+				$typeName
+			));
+		}
+
 		$this->typeName = $typeName;
 	}
 

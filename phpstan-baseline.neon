@@ -3,7 +3,7 @@ parameters:
 		-
 			message: "#^Function enum_exists not found\\.$#"
 			count: 1
-			path: src/Definition/Types/ClassType.php
+			path: src/Definition/Types/CheckedClassType.php
 
 		-
 			message: "#^Function enum_exists not found\\.$#"
