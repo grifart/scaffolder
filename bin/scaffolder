@@ -3,6 +3,7 @@
 
 declare(strict_types = 1);
 
+use Grifart\ClassScaffolder\Console\CheckCommand;
 use Grifart\ClassScaffolder\Console\ScaffoldCommand;
 use Symfony\Component\Console\Application;
 
@@ -25,6 +26,7 @@ if ( ! $autoloadFound) {
 }
 
 $application = new Application('grifart/scaffolder');
-$application->add($command = new ScaffoldCommand());
-$application->setDefaultCommand($command->getName(), true);
+$application->add($scaffoldCommand = new ScaffoldCommand());
+$application->add(new CheckCommand());
+$application->setDefaultCommand($scaffoldCommand->getName(), false);
 exit($application->run());

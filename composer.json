@@ -44,7 +44,7 @@
 		"nikic/php-parser": "To able to use KeepMethodDecorator."
 	},
 	"bin": [
-		"bin/scaffold"
+		"bin/scaffolder"
 	],
 	"autoload": {
 		"psr-4": {

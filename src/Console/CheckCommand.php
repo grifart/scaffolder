@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Grifart\ClassScaffolder\Console;
 
@@ -9,19 +9,17 @@ use Grifart\ClassScaffolder\DefinitionFile;
 use Grifart\ClassScaffolder\DefinitionResult;
 use Grifart\ClassScaffolder\FileResult;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-final class ScaffoldCommand extends ScaffolderCommand
+final class CheckCommand extends ScaffolderCommand
 {
 	protected function configure(): void
 	{
 		parent::configure();
 
-		$this->setName('scaffold')
-			->setDescription('Generate classes from given definitions.')
-			->addOption('no-readonly', NULL, InputOption::VALUE_NONE, 'Generated files are marked as read only by default (using chmod). Use this option to turn off this behaviour.')
-			->setAliases(['grifart:scaffolder:scaffold', 'grifart:scaffolder:generateClass']);
+		$this->setName('check')
+			->setDescription('Checks that all generated classes match given definitions.')
+			->setAliases(['grifart:scaffolder:check']);
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int
@@ -33,17 +31,16 @@ final class ScaffoldCommand extends ScaffolderCommand
 			return 1;
 		}
 
-		/** @var FileResult[] */
 		$results = [];
 		$isSuccess = true;
 
 		$processedFiles = 0;
-		$total = count($definitionFiles);
+		$total = \count($definitionFiles);
 
-		$output->writeln(\sprintf('Processing %d definition file%s:%s', $total, $total !== 1 ? 's' : '', \PHP_EOL));
+		$output->writeln(\sprintf('Checking %d definition file%s:%s', $total, $total !== 1 ? 's' : '', \PHP_EOL));
 
 		foreach ($definitionFiles as $definitionFile) {
-			$results[] = $result = $this->processFile($definitionFile, $input);
+			$results[] = $result = $this->checkFile($definitionFile);
 
 			if ($result->isSuccessful()) {
 				$output->write('.');
@@ -64,9 +61,8 @@ final class ScaffoldCommand extends ScaffolderCommand
 		return (int) ! $isSuccess;
 	}
 
-	private function processFile(
+	private function checkFile(
 		DefinitionFile $definitionFile,
-		InputInterface $input,
 	): FileResult
 	{
 		try {
@@ -77,17 +73,16 @@ final class ScaffoldCommand extends ScaffolderCommand
 
 		$result = new FileResult($definitionFile, null);
 		foreach ($definitions as $definition) {
-			$definitionResult = $this->generateClass($definition, $definitionFile, $input);
+			$definitionResult = $this->checkDefinition($definition, $definitionFile);
 			$result->addDefinition($definitionResult);
 		}
 
 		return $result;
 	}
 
-	private function generateClass(
+	private function checkDefinition(
 		ClassDefinition $definition,
 		DefinitionFile $definitionFile,
-		InputInterface $input,
 	): DefinitionResult
 	{
 		try {
@@ -99,16 +94,17 @@ final class ScaffoldCommand extends ScaffolderCommand
 		$code = (string) $generatedFile;
 		$targetPath = $definitionFile->resolveTargetFileFor($definition);
 
-		if (\file_exists($targetPath)) {
-			\chmod($targetPath, 0664); // some users accessing files using group permissions
+		if ( ! \file_exists($targetPath)) {
+			return DefinitionResult::success($definition);
 		}
 
-		if (\file_put_contents($targetPath, $code) === false) {
-			return DefinitionResult::error($definition, new \RuntimeException('Failed to write file.'));
+		$contents = \file_get_contents($targetPath);
+		if ($contents === false) {
+			return DefinitionResult::error($definition, new \RuntimeException('Failed to read file.'));
 		}
 
-		if ( ! $input->getOption('no-readonly')) {
-			\chmod($targetPath, 0444); // read-only -- assumes single user system
+		if ($contents !== $code) {
+			return DefinitionResult::error($definition, new \RuntimeException('The generated file contains changes that will be lost if you generate it again.'));
 		}
 
 		return DefinitionResult::success($definition);
