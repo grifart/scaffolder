@@ -3,7 +3,7 @@
 
 declare(strict_types = 1);
 
-use Grifart\ClassScaffolder\Console\GenerateClassCommand;
+use Grifart\ClassScaffolder\Console\ScaffoldCommand;
 use Symfony\Component\Console\Application;
 
 $autoloadPaths = [
@@ -24,7 +24,7 @@ if ( ! $autoloadFound) {
 	throw new RuntimeException('Unable to find "vendor/autoload.php"');
 }
 
-$application = new Application('class-scaffolder');
-$application->add($command = new GenerateClassCommand());
+$application = new Application('grifart/scaffolder');
+$application->add($command = new ScaffoldCommand());
 $application->setDefaultCommand($command->getName(), true);
 exit($application->run());
