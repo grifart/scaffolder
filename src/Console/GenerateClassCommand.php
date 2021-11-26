@@ -310,6 +310,9 @@ final class GenerateClassCommand extends Command
 	}
 }
 
+/**
+ * @internal
+ */
 final class FileResult
 {
 	/** @var DefinitionResult[] */
@@ -355,6 +358,9 @@ final class FileResult
 	}
 }
 
+/**
+ * @internal
+ */
 final class DefinitionResult
 {
 	private function __construct(
