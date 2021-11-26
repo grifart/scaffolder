@@ -122,6 +122,8 @@ composer require grifart/scaffolder
 
 5. **Use static analysis tool** such as PHPStan or Psalm to make sure that everything still works fine if you've changed any definition file.
 
+6. **Make sure that you haven't accidentally changed any generated file** by adding `composer run scaffolder check .definition.php` to your CI workflow. The command fails if any generated class differs from its definition, and thus running the scaffolder would result in losing your changes.
+
 
 ## Definition files
 
