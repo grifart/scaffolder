@@ -34,7 +34,6 @@ final class GenerateClassCommand extends Command
 			->addArgument('definition', InputArgument::OPTIONAL, 'Definition file or directory containing definitions.', \getcwd())
 			->addOption('search-pattern', NULL, InputArgument::OPTIONAL, 'Search pattern for your definition files.', '*.definition.php')
 			->addOption('no-readonly', NULL, InputOption::VALUE_NONE, 'Generated files are marked as read only by default (using chmod). Use this option to turn off this behaviour.')
-			->addOption('dry-run', NULL, InputOption::VALUE_NONE, 'Only print the generated file to output instead of saving it.')
 			->setAliases(['grifart:scaffolder:generateClass']);
 	}
 
@@ -91,7 +90,7 @@ final class GenerateClassCommand extends Command
 
 		$output->writeln(\PHP_EOL);
 
-		$this->printResults($results, $input, $output);
+		$this->printResults($results, $output);
 
 		return (int) ! $isSuccess;
 	}
@@ -134,10 +133,6 @@ final class GenerateClassCommand extends Command
 			Path::getDirectory($definitionFile),
 			$definition->getClassName() . '.php'
 		);
-
-		if ($input->getOption('dry-run')) {
-			return DefinitionResult::success($definition, $code);
-		}
 
 		if (\file_exists($targetPath)) {
 			\chmod($targetPath, 0664); // some users accessing files using group permissions
@@ -203,13 +198,11 @@ final class GenerateClassCommand extends Command
 	 */
 	private function printResults(
 		array $results,
-		InputInterface $input,
 		OutputInterface $output,
 	): void
 	{
-		$isDryRun = (bool) $input->getOption('dry-run');
 		foreach ($results as $result) {
-			if ( ! $isDryRun && $result->isSuccessful() && ! $output->isVerbose()) {
+			if ($result->isSuccessful() && ! $output->isVerbose()) {
 				continue;
 			}
 
@@ -244,7 +237,7 @@ final class GenerateClassCommand extends Command
 			));
 
 			foreach ($definitions as $definition) {
-				if ( ! $isDryRun && $definition->isSuccessful() && ! $output->isVeryVerbose()) {
+				if ($definition->isSuccessful() && ! $output->isVeryVerbose()) {
 					continue;
 				}
 
@@ -261,13 +254,6 @@ final class GenerateClassCommand extends Command
 
 					$this->printError($error, $output);
 					$output->writeln('');
-
-				} elseif ($isDryRun) {
-					$code = $definition->getCode();
-					\assert($code !== null);
-
-					$output->writeln('');
-					$output->writeln($code . \PHP_EOL);
 				}
 			}
 		}
