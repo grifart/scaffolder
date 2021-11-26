@@ -6,6 +6,8 @@ It was designed to generated classes with none to simple logic. Typical usage is
 - events in event-sourced model,
 - simple value objects (simple logic can be embedded using `#[KeepMethod]` attribute – see below).
 
+It is developed at [gitlab.grifart.cz](https://gitlab.grifart.cz/grifart/scaffolder), automatically mirrored to [GitHub](https://github.com/grifart/scaffolder) and distributed over Composer [packagist:grifart/scaffolder](https://packagist.org/packages/grifart/scaffolder).
+
 ## Installation
 
 We recommend to use Composer:
