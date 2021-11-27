@@ -34,7 +34,7 @@ composer require grifart/scaffolder
           'content' => 'string',
           'tags' => Types\listOf('string'),
       ])
-          ->withField('arhivedAt', Types\nullable(\DateTime::class))
+          ->withField('archivedAt', Types\nullable(\DateTime::class))
           ->with(
               Capabilities\constructorWithPromotedProperties(),
               Capabilities\getters(),
@@ -141,7 +141,7 @@ A definition file must return a list of `ClassDefinition`s. The easiest way to c
             'content' => 'string',
             'tags' => Types\listOf('string'),
         ])
-            ->withField('arhivedAt', Types\nullable(\DateTime::class))
+            ->withField('archivedAt', Types\nullable(\DateTime::class))
             ->with(
                 Capabilities\constructorWithPromotedProperties(),
                 Capabilities\getters(),
