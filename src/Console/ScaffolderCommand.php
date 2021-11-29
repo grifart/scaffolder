@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace Grifart\ClassScaffolder\Console;
 
 use Grifart\ClassScaffolder\ClassGenerator;
+use Grifart\ClassScaffolder\Definition\ClassDefinition;
 use Grifart\ClassScaffolder\DefinitionFile;
+use Grifart\ClassScaffolder\DefinitionFilesLocator;
 use Grifart\ClassScaffolder\DefinitionResult;
+use Grifart\ClassScaffolder\FileProcessor;
 use Grifart\ClassScaffolder\FileResult;
-use Nette\Utils\Finder;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -23,12 +25,16 @@ abstract class ScaffolderCommand extends Command
 	private const OPTION_SEARCH_PATTERN = 'search-pattern';
 
 	protected ClassGenerator $classGenerator;
+	private DefinitionFilesLocator $definitionFilesLocator;
+	private FileProcessor $fileProcessor;
 	protected SymfonyStyle $style;
 
 	public function __construct()
 	{
 		parent::__construct();
 		$this->classGenerator = new ClassGenerator();
+		$this->definitionFilesLocator = new DefinitionFilesLocator();
+		$this->fileProcessor = new FileProcessor();
 	}
 
 	protected function initialize(InputInterface $input, OutputInterface $output): void
@@ -52,21 +58,25 @@ abstract class ScaffolderCommand extends Command
 		$path = $this->getDefinitionPath($input);
 		$searchPattern = $this->getSearchPattern($input);
 
-		$result = [];
-
-		if (\is_dir($path)) {
-			$files = Finder::find($searchPattern)->from($path);
-			foreach ($files as $file) {
-				$result[] = DefinitionFile::from($file->getPathname());
-			}
-		} elseif (\is_file($path)) {
-			$result[] = DefinitionFile::from($path);
-		} else {
-			throw new \RuntimeException('Given path is neither a file nor a directory.');
-		}
-
-		return $result;
+		return $this->definitionFilesLocator->locateDefinitionFiles($path, $searchPattern);
 	}
+
+	protected function processFile(
+		DefinitionFile $definitionFile,
+		InputInterface $input,
+	): FileResult
+	{
+		return $this->fileProcessor->processFile(
+			$definitionFile,
+			fn(ClassDefinition $definition) => $this->processDefinition($definition, $definitionFile, $input),
+		);
+	}
+
+	abstract protected function processDefinition(
+		ClassDefinition $definition,
+		DefinitionFile $definitionFile,
+		InputInterface $input,
+	): DefinitionResult;
 
 	protected function printError(\Throwable $error, OutputInterface $output): void
 	{

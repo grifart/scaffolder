@@ -40,7 +40,7 @@ final class CheckCommand extends ScaffolderCommand
 		$output->writeln(\sprintf('Checking %d definition file%s:%s', $total, $total !== 1 ? 's' : '', \PHP_EOL));
 
 		foreach ($definitionFiles as $definitionFile) {
-			$results[] = $result = $this->checkFile($definitionFile);
+			$results[] = $result = $this->processFile($definitionFile, $input);
 
 			if ($result->isSuccessful()) {
 				$output->write('.');
@@ -61,28 +61,10 @@ final class CheckCommand extends ScaffolderCommand
 		return (int) ! $isSuccess;
 	}
 
-	private function checkFile(
-		DefinitionFile $definitionFile,
-	): FileResult
-	{
-		try {
-			$definitions = $definitionFile->load();
-		} catch (\Throwable $error) {
-			return new FileResult($definitionFile, $error);
-		}
-
-		$result = new FileResult($definitionFile, null);
-		foreach ($definitions as $definition) {
-			$definitionResult = $this->checkDefinition($definition, $definitionFile);
-			$result->addDefinition($definitionResult);
-		}
-
-		return $result;
-	}
-
-	private function checkDefinition(
+	protected function processDefinition(
 		ClassDefinition $definition,
 		DefinitionFile $definitionFile,
+		InputInterface $input,
 	): DefinitionResult
 	{
 		try {

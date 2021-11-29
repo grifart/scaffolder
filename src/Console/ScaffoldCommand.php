@@ -64,27 +64,7 @@ final class ScaffoldCommand extends ScaffolderCommand
 		return (int) ! $isSuccess;
 	}
 
-	private function processFile(
-		DefinitionFile $definitionFile,
-		InputInterface $input,
-	): FileResult
-	{
-		try {
-			$definitions = $definitionFile->load();
-		} catch (\Throwable $error) {
-			return new FileResult($definitionFile, $error);
-		}
-
-		$result = new FileResult($definitionFile, null);
-		foreach ($definitions as $definition) {
-			$definitionResult = $this->generateClass($definition, $definitionFile, $input);
-			$result->addDefinition($definitionResult);
-		}
-
-		return $result;
-	}
-
-	private function generateClass(
+	protected function processDefinition(
 		ClassDefinition $definition,
 		DefinitionFile $definitionFile,
 		InputInterface $input,
