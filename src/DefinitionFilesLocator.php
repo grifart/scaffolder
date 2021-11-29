@@ -19,7 +19,7 @@ final class DefinitionFilesLocator
 		$result = [];
 
 		if (\is_dir($path)) {
-			$files = Finder::find($searchPattern)->from($path);
+			$files = Finder::findFiles($searchPattern)->from($path);
 			foreach ($files as $file) {
 				$result[] = DefinitionFile::from($file->getPathname());
 			}
