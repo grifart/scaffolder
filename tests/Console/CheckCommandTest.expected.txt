@@ -1,0 +1,21 @@
+Checking 1 definition file:
+
+F
+
+
+check/.definition.php: 3 definitions, 2 errors
+----------------------------------------------
+
+FAIL ModifiedClass
+
+ [ERROR] RuntimeException: The generated file contains changes that will be lost
+         if you generate it again.
+
+         in %A%
+
+
+FAIL MissingClass
+
+ [ERROR] RuntimeException: There is no generated file for given definition.
+
+         in %A%
