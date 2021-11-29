@@ -7,7 +7,6 @@ namespace Grifart\ClassScaffolder\Console;
 use Grifart\ClassScaffolder\Definition\ClassDefinition;
 use Grifart\ClassScaffolder\DefinitionFile;
 use Grifart\ClassScaffolder\DefinitionResult;
-use Grifart\ClassScaffolder\FileResult;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -77,7 +76,7 @@ final class CheckCommand extends ScaffolderCommand
 		$targetPath = $definitionFile->resolveTargetFileFor($definition);
 
 		if ( ! \file_exists($targetPath)) {
-			return DefinitionResult::success($definition);
+			return DefinitionResult::error($definition, new \RuntimeException('There is no generated file for given definition.'));
 		}
 
 		$contents = \file_get_contents($targetPath);
