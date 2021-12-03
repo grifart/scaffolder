@@ -8,6 +8,8 @@ It was designed to generated classes with none to simple logic. Typical usage is
 
 It is developed at [gitlab.grifart.cz](https://gitlab.grifart.cz/grifart/scaffolder), automatically mirrored to [GitHub](https://github.com/grifart/scaffolder) and distributed over Composer [packagist:grifart/scaffolder](https://packagist.org/packages/grifart/scaffolder).
 
+> You can also watch introduction (in Czech) on [YouTube](https://www.youtube.com/watch?v=EjCGl_9IkUI).
+
 ## Installation
 
 We recommend to use Composer:
