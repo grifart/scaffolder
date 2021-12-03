@@ -1,0 +1,21 @@
+Processing 3 definition files:
+
+F.F
+
+
+definitions/invalid.definition.php: error loading definitions
+-------------------------------------------------------------
+
+ [ERROR] RuntimeException: Definition file must return an iterable of
+         ClassDefinition, int received.
+
+         in %A%
+
+definitions/failing.definition.php: 2 definitions, 1 error
+----------------------------------------------------------
+
+FAIL FailingClass
+
+ [ERROR] RuntimeException: Oh no, I failed :(
+
+         in %A%

@@ -1,0 +1,7 @@
+Processing 1 definition file:
+
+.
+
+
+definitions/good.definition.php: 2 definitions, OK
+--------------------------------------------------

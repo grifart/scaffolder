@@ -1,0 +1,13 @@
+Processing 1 definition file:
+
+F
+
+
+definitions/failing.definition.php: 2 definitions, 1 error
+----------------------------------------------------------
+
+FAIL FailingClass
+
+ [ERROR] RuntimeException: Oh no, I failed :(
+
+         in %A%
