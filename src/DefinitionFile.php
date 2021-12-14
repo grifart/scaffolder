@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace Grifart\ClassScaffolder;
 
 use Grifart\ClassScaffolder\Definition\ClassDefinition;
-use Webmozart\PathUtil\Path;
+use Symfony\Component\Filesystem\Path;
+
 
 /**
  * @internal
