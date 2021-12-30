@@ -34,13 +34,13 @@ final class NullableType implements CompositeType
 
 	public function isNullable(): bool
 	{
-		return TRUE;
+		return true;
 	}
 
 
 	public function requiresDocComment(): bool
 	{
-		return FALSE;
+		return $this->type->requiresDocComment();
 	}
 
 
