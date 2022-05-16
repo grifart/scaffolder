@@ -27,8 +27,8 @@
 		"php": "^8.0",
 		"ext-tokenizer": "*",
 		"nette/finder": "^2.5",
-		"nette/php-generator": "^3.6.1",
-		"symfony/console": "^5.0",
+		"nette/php-generator": "^4.0.1",
+		"symfony/console": "^6.0",
 		"symfony/filesystem": "^6.0"
 	},
 	"require-dev": {
