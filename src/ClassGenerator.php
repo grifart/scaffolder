@@ -82,7 +82,7 @@ final class ClassGenerator
 		$file = Code\PhpFile::fromCode($classFileContent);
 		$matchedNamespace = null;
 		foreach ($file->getNamespaces() as $namespace) {
-			$doesNamespaceContainDesiredClass = \count(\array_filter($namespace->getClasses(), fn(Code\ClassType $classType): bool => $classType->getName() === $className)) === 1;
+			$doesNamespaceContainDesiredClass = \count(\array_filter($namespace->getClasses(), fn(Code\ClassLike $classType): bool => $classType->getName() === $className)) === 1;
 			if ($doesNamespaceContainDesiredClass) {
 				$matchedNamespace = $namespace;
 				break;
@@ -90,9 +90,12 @@ final class ClassGenerator
 		}
 		\assert($matchedNamespace !== null);
 
+		$classType = Code\ClassType::from($classFqn, withBodies: true);
+		\assert($classType instanceof Code\ClassType);
+
 		return ClassInNamespace::from(
 			$matchedNamespace,
-			Code\ClassType::withBodiesFrom($classFqn),
+			$classType,
 		);
 	}
 

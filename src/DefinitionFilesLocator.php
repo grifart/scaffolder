@@ -21,6 +21,7 @@ final class DefinitionFilesLocator
 		if (\is_dir($path)) {
 			$files = Finder::findFiles($searchPattern)->from($path);
 			foreach ($files as $file) {
+				\assert($file instanceof \SplFileInfo);
 				$result[] = DefinitionFile::from($file->getPathname());
 			}
 		} elseif (\is_file($path)) {
