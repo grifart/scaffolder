@@ -25,11 +25,11 @@ final class PreservedMethod implements Capability
 
 		// method already exists, just transfer it to new class
 		if ($current !== null && $current->getClassType()->hasMethod($this->methodName)) {
-			$keptMethod = $current->getClassType()->getMethod($this->methodName);
+			$preservedMethod = $current->getClassType()->getMethod($this->methodName);
 
 			$classToBeGenerated->setMethods([
 				...\array_values($classToBeGenerated->getMethods()),
-				$keptMethod,
+				$preservedMethod,
 			]);
 			return;
 		}
@@ -42,12 +42,12 @@ final class PreservedMethod implements Capability
 			return $method;
 		};
 
-		$methodToBeKept = $classToBeGenerated->hasMethod($this->methodName)
+		$preservedMethod = $classToBeGenerated->hasMethod($this->methodName)
 			? $classToBeGenerated->getMethod($this->methodName)
 			: $addMethodStub($classToBeGenerated);
-		$methodToBeKept->setComment(
-			'This method is kept while scaffolding.' . "\n" .
-			$methodToBeKept->getComment()
+		$preservedMethod->setComment(
+			'This method is preserved while scaffolding.' . "\n" .
+			$preservedMethod->getComment()
 		);
 	}
 }

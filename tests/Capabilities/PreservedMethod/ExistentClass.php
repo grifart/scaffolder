@@ -9,17 +9,17 @@ use Grifart\ClassScaffolder\Definition\ClassDefinitionBuilder;
 
 final class ExistentClass
 {
-	public function methodToBeKept(): mixed
+	public function preservedMethod(): mixed
 	{
 		return 'whatever';
 	}
 
-	public function methodToBeKeptWithParam(int $whatever): void {}
+	public function preservedMethodWithParam(int $whatever): void {}
 
 	/** @param iterable<int, string[]> $whatever */
-	public function methodToBeKeptWithPhpDocParam(iterable $whatever): void {}
+	public function preservedMethodWithPhpDocParam(iterable $whatever): void {}
 
-	public function methodToBeKeptWithImportedUses(ClassDefinitionBuilder $builder): string {
+	public function preservedMethodWithImportedUses(ClassDefinitionBuilder $builder): string {
 		return ClassDefinition::class;
 	}
 
@@ -28,7 +28,7 @@ final class ExistentClass
 	 * @return void
 	 * @throws \Throwable
 	 */
-	public function methodToBeKeptWithAnnotation(): void {
+	public function preservedMethodWithAnnotation(): void {
 	}
 
 	public function methodToBeRemoved(): void
