@@ -14,7 +14,7 @@ use Grifart\ClassScaffolder\Definition\ClassDefinitionBuilder;
 final class ExistentClass
 {
 	/**
-	 * This method is kept while scaffolding.
+	 * This method is preserved while scaffolding.
 	 */
 	public function newMethod(): void
 	{
