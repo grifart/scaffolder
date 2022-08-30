@@ -4,7 +4,7 @@ It was designed to generated classes with none to simple logic. Typical usage is
 
 - data transfer objects (DTOs),
 - events in event-sourced model,
-- simple value objects (simple logic can be embedded using `#[KeepMethod]` attribute – see below).
+- simple value objects (simple logic can be embedded using `#[Preserve]` attribute – see below).
 
 It is developed at [gitlab.grifart.cz](https://gitlab.grifart.cz/grifart/scaffolder), automatically mirrored to [GitHub](https://github.com/grifart/scaffolder) and distributed over Composer [packagist:grifart/scaffolder](https://packagist.org/packages/grifart/scaffolder).
 
@@ -561,10 +561,10 @@ final class Name
 }
 ```
 
-We want to add a `getFullName()` method and preserve it when scaffolder runs next time. The trick is to mark the method with the `#[KeepMethod]` attribute:
+We want to add a `getFullName()` method and preserve it when scaffolder runs next time. The trick is to mark the method with the `#[Preserve]` attribute:
 
 ```php
-#[\Grifart\ClassScaffolder\KeepMethod]
+#[\Grifart\ClassScaffolder\Preserve]
 public function getFullName(): string
 {
     return $this->firstName . ' ' . $this->lastName;
@@ -577,7 +577,7 @@ and add the `preservedAnnotatedMethods()` capability to the definition:
 $definition->with(Capabilities\preservedAnnotatedMethods())
 ```
 
-The next time you run scaffolder, the `getFullName()` method will be kept intact as long as it has the `#[KeepMethod]` attribute.
+The next time you run scaffolder, the `getFullName()` method will be kept intact as long as it has the `#[Preserve]` attribute.
 
 Alternatively, you can use the `preservedMethod($methodName)` capability that keeps only methods that are explicitly listed in the capability function.
 

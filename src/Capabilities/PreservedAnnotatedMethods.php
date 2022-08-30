@@ -7,6 +7,7 @@ namespace Grifart\ClassScaffolder\Capabilities;
 use Grifart\ClassScaffolder\ClassInNamespace;
 use Grifart\ClassScaffolder\Definition\ClassDefinition;
 use Grifart\ClassScaffolder\KeepMethod;
+use Grifart\ClassScaffolder\Preserve;
 use Nette\PhpGenerator\Method;
 
 /**
@@ -27,17 +28,27 @@ final class PreservedAnnotatedMethods implements Capability
 
 		foreach ($current->getClassType()->getMethods() as $existingMethod) {
 			foreach ($existingMethod->getAttributes() as $attribute) {
-				if ($attribute->getName() === KeepMethod::class) {
+				if ($attribute->getName() === Preserve::class) {
 					self::transferMethod($draft, $existingMethod);
+					break; // continue to next method
+				}
+
+				if ($attribute->getName() === KeepMethod::class) {
+					self::transferMethod($draft, $existingMethod, KeepMethod::class);
 					break; // continue to next method
 				}
 			}
 		}
 	}
 
-	private static function transferMethod(ClassInNamespace $draft, Method $methodToBeTransferred): void
+	/**
+	 * @param string|null $nonStandardPreservedUseStatement temporary, can be removed with end of support for KeepMethod
+	 */
+	private static function transferMethod(ClassInNamespace $draft, Method $methodToBeTransferred, string $nonStandardPreservedUseStatement = null): void
 	{
-		$draft->getNamespace()->addUse(KeepMethod::class);
+		$draft->getNamespace()->addUse($nonStandardPreservedUseStatement !== null ?
+			$nonStandardPreservedUseStatement :
+			Preserve::class);
 
 		$targetClass = $draft->getClassType();
 		$targetClass->setMethods([
