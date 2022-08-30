@@ -15,14 +15,14 @@ use Grifart\ClassScaffolder\Preserve;
 final class ExistentClass
 {
 	#[Preserve]
-	public function methodToBeKept(): mixed
+	public function preservedMethod(): mixed
 	{
 		return 'whatever';
 	}
 
 
 	#[Preserve]
-	public function methodToBeKeptWithParam(int $whatever): void
+	public function preservedMethodWithParam(int $whatever): void
 	{
 	}
 
@@ -31,13 +31,13 @@ final class ExistentClass
 	 * @param iterable<int, string[]> $whatever
 	 */
 	#[Preserve]
-	public function methodToBeKeptWithPhpDocParam(iterable $whatever): void
+	public function preservedMethodWithPhpDocParam(iterable $whatever): void
 	{
 	}
 
 
 	#[Preserve]
-	public function methodToBeKeptWithImportedUses(ClassDefinitionBuilder $builder): string
+	public function preservedMethodWithImportedUses(ClassDefinitionBuilder $builder): string
 	{
 		return ClassDefinition::class;
 	}
@@ -49,7 +49,7 @@ final class ExistentClass
 	 * @throws \Throwable
 	 */
 	#[Preserve]
-	public function methodToBeKeptWithAnnotation(): void
+	public function preservedMethodWithAnnotation(): void
 	{
 	}
 }

@@ -19,11 +19,11 @@ final class PreservedMethodTest extends CapabilityTestCase
 		return [
 			preservedUseStatements(),
 			preservedMethod('newMethod'),
-			preservedMethod('methodToBeKept'),
-			preservedMethod('methodToBeKeptWithParam'),
-			preservedMethod('methodToBeKeptWithPhpDocParam'),
-			preservedMethod('methodToBeKeptWithImportedUses'),
-			preservedMethod('methodToBeKeptWithAnnotation'),
+			preservedMethod('preservedMethod'),
+			preservedMethod('preservedMethodWithParam'),
+			preservedMethod('preservedMethodWithPhpDocParam'),
+			preservedMethod('preservedMethodWithImportedUses'),
+			preservedMethod('preservedMethodWithAnnotation'),
 		];
 	}
 
