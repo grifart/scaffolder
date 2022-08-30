@@ -41,7 +41,7 @@
 	},
 	"suggest": {
 		"tracy/tracy": "For more detailed error messages.",
-		"nikic/php-parser": "To able to use KeepMethodDecorator."
+		"nikic/php-parser": "To be able to use Preserve attribute."
 	},
 	"bin": [
 		"bin/scaffolder"
