@@ -10,18 +10,18 @@ namespace Grifart\ClassScaffolder\Test\Capabilities\PreservedAnnotatedMethods;
 
 use Grifart\ClassScaffolder\Definition\ClassDefinition;
 use Grifart\ClassScaffolder\Definition\ClassDefinitionBuilder;
-use Grifart\ClassScaffolder\KeepMethod;
+use Grifart\ClassScaffolder\Preserve;
 
 final class ExistentClass
 {
-	#[KeepMethod]
+	#[Preserve]
 	public function methodToBeKept(): mixed
 	{
 		return 'whatever';
 	}
 
 
-	#[KeepMethod]
+	#[Preserve]
 	public function methodToBeKeptWithParam(int $whatever): void
 	{
 	}
@@ -30,13 +30,13 @@ final class ExistentClass
 	/**
 	 * @param iterable<int, string[]> $whatever
 	 */
-	#[KeepMethod]
+	#[Preserve]
 	public function methodToBeKeptWithPhpDocParam(iterable $whatever): void
 	{
 	}
 
 
-	#[KeepMethod]
+	#[Preserve]
 	public function methodToBeKeptWithImportedUses(ClassDefinitionBuilder $builder): string
 	{
 		return ClassDefinition::class;
@@ -48,7 +48,7 @@ final class ExistentClass
 	 * @return void
 	 * @throws \Throwable
 	 */
-	#[KeepMethod]
+	#[Preserve]
 	public function methodToBeKeptWithAnnotation(): void
 	{
 	}
