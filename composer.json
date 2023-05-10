@@ -33,19 +33,22 @@
 	},
 	"require-dev": {
 		"nette/tester": "^2.0.0",
+		"nikic/php-parser": "^4.10",
 		"phpstan/phpstan": "^1.0",
 		"php-parallel-lint/php-console-color": "^1.0",
 		"php-parallel-lint/php-parallel-lint": "^1.2",
-		"tracy/tracy": "^2.7.5",
-		"nikic/php-parser": "^4.10"
+		"tracy/tracy": "^2.7.5"
 	},
 	"suggest": {
-		"tracy/tracy": "For more detailed error messages.",
-		"nikic/php-parser": "To be able to use Preserve attribute."
+		"nikic/php-parser": "To be able to use Preserve attribute.",
+		"tracy/tracy": "For more detailed error messages."
 	},
 	"bin": [
 		"bin/scaffolder"
 	],
+	"config": {
+		"sort-packages": true
+	},
 	"autoload": {
 		"psr-4": {
 			"Grifart\\ClassScaffolder\\": "src"
