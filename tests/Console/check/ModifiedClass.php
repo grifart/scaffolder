@@ -8,7 +8,8 @@ declare(strict_types=1);
 
 final class ModifiedClass
 {
-	public function __construct(private int $field)
-	{
+	public function __construct(
+		private int $field,
+	) {
 	}
 }
