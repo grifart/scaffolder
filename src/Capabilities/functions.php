@@ -54,6 +54,10 @@ function properties(): Properties {
 	return new Properties();
 }
 
+function readonlyClass(): ReadonlyClass {
+	return new ReadonlyClass();
+}
+
 function readonlyProperties(): ReadonlyProperties {
 	return new ReadonlyProperties();
 }
