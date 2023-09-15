@@ -26,7 +26,7 @@ composer require grifart/scaffolder
   <?php
 
   use Grifart\ClassScaffolder\Capabilities;
-  use Grifart\ClassScaffolder\Definition\definitionOf;
+  use function Grifart\ClassScaffolder\Definition\definitionOf;
   use Grifart\ClassScaffolder\Definition\Types;
 
   return [
