@@ -8,6 +8,9 @@ function constructorWithPromotedProperties(): ConstructorWithPromotedProperties 
 	return new ConstructorWithPromotedProperties();
 }
 
+/**
+ * @param class-string $replacement
+ */
 function deprecated(string $replacement): Deprecated {
 	return new Deprecated($replacement);
 }
