@@ -8,6 +8,10 @@ function constructorWithPromotedProperties(): ConstructorWithPromotedProperties 
 	return new ConstructorWithPromotedProperties();
 }
 
+function deprecated(string $replacement): Deprecated {
+	return new Deprecated($replacement);
+}
+
 function getters(): Getters {
 	return new Getters();
 }
