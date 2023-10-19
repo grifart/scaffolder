@@ -11,7 +11,7 @@ namespace RootNamespace\SubNamespace;
 use Iterator;
 
 /**
- * @deprecated use @{Grifart\ClassScaffolder\Test\Capabilities\Deprecated\Replacement} instead
+ * @deprecated use {@see Grifart\ClassScaffolder\Test\Capabilities\Deprecated\Replacement} instead
  */
 final class ClassName
 {

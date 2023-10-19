@@ -25,7 +25,7 @@ final class Deprecated implements Capability
 	): void
 	{
 		$draft->getClassType()->addComment(sprintf(
-			"@deprecated use @{%s} instead",
+			"@deprecated use {@see %s} instead",
 			$this->replacement,
 		));
 	}
