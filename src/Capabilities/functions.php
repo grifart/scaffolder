@@ -11,8 +11,11 @@ function constructorWithPromotedProperties(): ConstructorWithPromotedProperties 
 /**
  * @param class-string $replacement
  */
-function deprecated(string $replacement): Deprecated {
-	return new Deprecated($replacement);
+function deprecated(
+	?string $description = null,
+	?string $replacement = null,
+): Deprecated {
+	return new Deprecated($description, $replacement);
 }
 
 function getters(): Getters {

@@ -6,10 +6,6 @@
 
 declare(strict_types=1);
 
-namespace RootNamespace\SubNamespace;
-
-use Iterator;
-
 /**
  * @deprecated use {@see Grifart\ClassScaffolder\Test\Capabilities\Deprecated\Replacement} instead
  */

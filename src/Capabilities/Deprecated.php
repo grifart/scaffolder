@@ -14,7 +14,8 @@ final class Deprecated implements Capability
 	 * @param class-string $replacement
 	 */
 	public function __construct(
-		private string $replacement,
+		private ?string $description = null,
+		private ?string $replacement = null,
 	) {}
 
 
@@ -24,10 +25,17 @@ final class Deprecated implements Capability
 		?ClassInNamespace $current,
 	): void
 	{
-		$draft->getClassType()->addComment(sprintf(
-			"@deprecated use {@see %s} instead",
-			$this->replacement,
-		));
+		$annotation = '@deprecated';
+		if ($this->description !== null) {
+			$annotation .= ' ' . $this->description;
+		}
+
+		if ($this->replacement !== null) {
+			$annotation .= $this->description !== null ? ', ' : ' ';
+			$annotation .= sprintf('use {@see %s} instead', $this->replacement);
+		}
+
+		$draft->getClassType()->addComment($annotation);
 	}
 
 }
