@@ -8,6 +8,16 @@ function constructorWithPromotedProperties(): ConstructorWithPromotedProperties 
 	return new ConstructorWithPromotedProperties();
 }
 
+/**
+ * @param class-string $replacement
+ */
+function deprecated(
+	?string $description = null,
+	?string $replacement = null,
+): Deprecated {
+	return new Deprecated($description, $replacement);
+}
+
 function getters(): Getters {
 	return new Getters();
 }
