@@ -23,8 +23,9 @@ final class ClassInNamespace
 
 	public static function fromDefinition(ClassDefinition $definition): self
 	{
+		$namespace = new PhpNamespace($definition->getNamespaceName() ?? '');
 		return new self(
-			($namespace = new PhpNamespace($definition->getNamespaceName() ?? '')),
+			$namespace,
 			$namespace->addClass($definition->getClassName()),
 		);
 	}

@@ -44,7 +44,7 @@ final class PreservedAnnotatedMethods implements Capability
 	/**
 	 * @param string|null $nonStandardPreservedUseStatement temporary, can be removed with end of support for KeepMethod
 	 */
-	private static function transferMethod(ClassInNamespace $draft, Method $methodToBeTransferred, string $nonStandardPreservedUseStatement = null): void
+	private static function transferMethod(ClassInNamespace $draft, Method $methodToBeTransferred, ?string $nonStandardPreservedUseStatement = null): void
 	{
 		$draft->getNamespace()->addUse($nonStandardPreservedUseStatement !== null ?
 			$nonStandardPreservedUseStatement :

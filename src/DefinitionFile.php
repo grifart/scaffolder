@@ -69,6 +69,7 @@ final class DefinitionFile
 			throw new \RuntimeException('Definition file must return at least one ClassDefinition, empty list received.');
 		}
 
+		/** @var iterable<ClassDefinition> $definitions */
 		return $definitions;
 	}
 

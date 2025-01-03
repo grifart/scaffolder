@@ -15,12 +15,12 @@ function resolve(Type|ClassDefinition|string $type): Type {
 		return new NonCheckedClassType($type->getFullyQualifiedName());
 	}
 
-	if (\is_string($type) && $type[0] === '?') {
+	if ($type[0] === '?') {
 		return nullable(resolve(\substr($type, 1)));
 	}
 
 	if (\in_array($type, ['string', 'int', 'float', 'bool', 'false', 'array', 'iterable', 'callable', 'object', 'mixed', 'null'], TRUE)) {
-		return SimpleType::$type();
+		return SimpleType::$type(); // @phpstan-ignore return.type
 	}
 
 	if (\class_exists($type) || \interface_exists($type) || (\PHP_VERSION_ID >= 80100 && \enum_exists($type))) {
