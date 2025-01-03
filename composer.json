@@ -24,7 +24,7 @@
 		"phpstan": "phpstan analyze --ansi --no-progress --no-interaction"
 	},
 	"require": {
-		"php": "^8.0",
+		"php": "^8.2",
 		"ext-tokenizer": "*",
 		"nette/finder": "^2.5||^3.0",
 		"nette/php-generator": "^4.0.1",

@@ -23,7 +23,7 @@ function resolve(Type|ClassDefinition|string $type): Type {
 		return SimpleType::$type(); // @phpstan-ignore return.type
 	}
 
-	if (\class_exists($type) || \interface_exists($type) || (\PHP_VERSION_ID >= 80100 && \enum_exists($type))) {
+	if (\class_exists($type) || \interface_exists($type) || \enum_exists($type)) {
 		return new CheckedClassType($type);
 	}
 

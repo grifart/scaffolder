@@ -1,5 +1,5 @@
 default:
-  image: grifart/php8.0-with-all-modules-and-various-tools
+  image: grifart/php8.2-with-all-modules-and-various-tools
 
 stages:
   - build
