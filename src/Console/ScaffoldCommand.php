@@ -8,20 +8,22 @@ use Grifart\ClassScaffolder\Definition\ClassDefinition;
 use Grifart\ClassScaffolder\DefinitionFile;
 use Grifart\ClassScaffolder\DefinitionResult;
 use Grifart\ClassScaffolder\FileResult;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[AsCommand(
+	name: 'scaffold',
+	description: 'Generate classes from given definitions.',
+	aliases: ['grifart:scaffolder:scaffold', 'grifart:scaffolder:generateClass'],
+)]
 final class ScaffoldCommand extends ScaffolderCommand
 {
 	protected function configure(): void
 	{
 		parent::configure();
-
-		$this->setName('scaffold')
-			->setDescription('Generate classes from given definitions.')
-			->addOption('no-readonly', NULL, InputOption::VALUE_NONE, 'Generated files are marked as read only by default (using chmod). Use this option to turn off this behaviour.')
-			->setAliases(['grifart:scaffolder:scaffold', 'grifart:scaffolder:generateClass']);
+		$this->addOption('no-readonly', NULL, InputOption::VALUE_NONE, 'Generated files are marked as read only by default (using chmod). Use this option to turn off this behaviour.');
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int

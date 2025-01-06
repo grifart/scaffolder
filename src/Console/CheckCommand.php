@@ -7,20 +7,17 @@ namespace Grifart\ClassScaffolder\Console;
 use Grifart\ClassScaffolder\Definition\ClassDefinition;
 use Grifart\ClassScaffolder\DefinitionFile;
 use Grifart\ClassScaffolder\DefinitionResult;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[AsCommand(
+	name: 'check',
+	description: 'Checks that all generated classes match given definitions.',
+	aliases: ['grifart:scaffolder:check'],
+)]
 final class CheckCommand extends ScaffolderCommand
 {
-	protected function configure(): void
-	{
-		parent::configure();
-
-		$this->setName('check')
-			->setDescription('Checks that all generated classes match given definitions.')
-			->setAliases(['grifart:scaffolder:check']);
-	}
-
 	protected function execute(InputInterface $input, OutputInterface $output): int
 	{
 		try {
