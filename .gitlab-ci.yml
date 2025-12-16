@@ -1,22 +1,37 @@
-default:
-  image: grifart/php8.2-with-all-modules-and-various-tools
-
 stages:
-  - build
+  - install
   - test
 
-build.composer:
-  stage: build
+
+.install:
+  stage: install
+  interruptible: true
   script: composer install --ansi --no-interaction --prefer-dist
   artifacts:
     expire_in: 2 days
     paths:
-      - vendor
+      - vendor/
+
+install.php82:
+  extends: .install
+  image: grifart/php8.2-with-all-modules-and-various-tools
+
+install.php83:
+  extends: .install
+  image: grifart/php8.3-with-all-modules-and-various-tools
+
+install.php84:
+  extends: .install
+  image: grifart/php8.4-with-all-modules-and-various-tools
+
+install.php85:
+  extends: .install
+  image: grifart/php8.5-with-all-modules-and-various-tools
 
 
-test.tests:
+.test:
   stage: test
-  dependencies: [build.composer]
+  interruptible: true
   script: composer run test
   artifacts:
     expire_in: 2 days
@@ -24,13 +39,35 @@ test.tests:
       # contains generated diffs
       - tests
 
-test.phpstan:
+test.php82:
+  extends: .test
+  image: grifart/php8.2-with-all-modules-and-various-tools
+  dependencies: [ install.php82 ]
+
+test.php83:
+  extends: .test
+  image: grifart/php8.3-with-all-modules-and-various-tools
+  dependencies: [ install.php83 ]
+
+test.php84:
+  extends: .test
+  image: grifart/php8.4-with-all-modules-and-various-tools
+  dependencies: [ install.php84 ]
+
+test.php85:
+  extends: .test
+  image: grifart/php8.5-with-all-modules-and-various-tools
+  dependencies: [ install.php85 ]
+
+
+phpstan:
   stage: test
-  dependencies: [build.composer]
+  image: grifart/php8.5-with-all-modules-and-various-tools
+  dependencies: [ install.php85 ]
   script: composer run phpstan
 
-
-test.linter:
+linter:
   stage: test
-  dependencies: [build.composer]
+  image: grifart/php8.5-with-all-modules-and-various-tools
+  dependencies: [ install.php85 ]
   script: composer run verify-syntax
