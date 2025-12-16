@@ -91,7 +91,6 @@ final class ClassGenerator
 		\assert($matchedNamespace !== null);
 
 		$classType = Code\ClassType::from($classFqn, withBodies: true);
-		\assert($classType instanceof Code\ClassType);
 
 		return ClassInNamespace::from(
 			$matchedNamespace,

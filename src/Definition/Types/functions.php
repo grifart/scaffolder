@@ -20,7 +20,7 @@ function resolve(Type|ClassDefinition|string $type): Type {
 	}
 
 	if (\in_array($type, ['string', 'int', 'float', 'bool', 'false', 'array', 'iterable', 'callable', 'object', 'mixed', 'null'], TRUE)) {
-		return SimpleType::$type(); // @phpstan-ignore return.type
+		return SimpleType::$type();
 	}
 
 	if (\class_exists($type) || \interface_exists($type) || \enum_exists($type)) {
